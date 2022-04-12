@@ -55,6 +55,12 @@ public class OfferDTO {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
+
+	@Override
+	public String toString() {
+		return "OfferDTO [name=" + name + ", address=" + address + ", rating=" + rating
+				+ "]";
+	}
 	
 	
 	

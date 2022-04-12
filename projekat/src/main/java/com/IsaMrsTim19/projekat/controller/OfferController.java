@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
+import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.service.OfferService;
 
@@ -32,13 +33,11 @@ public class OfferController {
 	}
 	
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
-	public ResponseEntity<List<OfferDTO>> getAllOffers(@PathVariable int pageNum) {
-		List<Offer> offersByPage = offerService.getAllOfferByPage(pageNum);
-		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
-		for(Offer offer:offersByPage) {
-			dtos.add(offerService.toDTO(offer));
-		}
-		return new ResponseEntity<>(dtos, HttpStatus.OK);
+	public ResponseEntity<OfferListByPageDTO> getAllOffers(@PathVariable int pageNum) {
+		OfferListByPageDTO offersByPage = offerService.getAllOfferByPage(pageNum);
+		System.out.println(offersByPage.getDtos().size());
+		System.out.println(offersByPage);
+		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}
 
