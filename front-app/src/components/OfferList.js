@@ -8,9 +8,10 @@ const OfferList = () => {
     const [offers, setOffers] = useState([]);
     const [numOfPages, setNumOfPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [offerType, setOfferType] = useState('offer');
     const fetchOffers = async () => {
         axios
-            .get('http://localhost:8080/api/offer/' + currentPage)
+            .get(`http://localhost:8080/api/${offerType}/${currentPage}`)
             .then((res) => {
                 console.log(res.data);
                 setOffers(res.data['dtos']);
@@ -24,17 +25,27 @@ const OfferList = () => {
     useEffect(() => {
        fetchOffers()
        
-    },[currentPage])
+    },[currentPage, offerType])
     //change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
   return (
+      <div>
+         <div class="btn-group btn-group-lg btn-group-margin" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-style" autofocus="autofocus">Offers</button>
+            <button  type="button" class="btn btn-style" onClick={() => {setOfferType('accommodation')}}>Accommodations</button>
+            <button type="button" class="btn btn-style">Boats</button>
+            <button type="button" class="btn btn-style">Fishing Tours</button>
+            
+</div>
+
+
     <div className='offerList'>
-        
             {offers.map((offer,index) => (
             <OfferListItem key = {index} offer = {offer} />
             ))}
         
     <Pagination numOfPages={numOfPages} paginate = {paginate}/>
+  </div>
   </div>
   )
 }

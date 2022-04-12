@@ -2,7 +2,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    border-radius: 20px;
+    border-radius: 0 20px 20px 20px;
     gap: 25px;
     
 }
@@ -12,3 +12,17 @@
     flex-direction: column;
     gap: 25px;
 }
+
+
+.btn-group-margin{
+    
+    width: 700px;
+    
+    
+}
+
+.btn-style{
+    background-color: white;
+    
+}
+
