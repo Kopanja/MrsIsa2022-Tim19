@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
-import com.IsaMrsTim19.projekat.model.Accommodation;
-import com.IsaMrsTim19.projekat.repository.AccommodationRepository;
+import com.IsaMrsTim19.projekat.model.Boat;
+import com.IsaMrsTim19.projekat.model.FishingTour;
+import com.IsaMrsTim19.projekat.repository.FishingTourRepository;
 
 @Service
-public class AccommodationService {
-
+public class FishingTourService {
 	
 	@Autowired
-	AccommodationRepository accommRepo;
+	FishingTourRepository fishingTourRepo;
 	
-	public OfferListByPageDTO getAllOfferByPage(int pageNum){
+	public OfferListByPageDTO getAllFishingToursByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
-		List<Accommodation> offersByPage = accommRepo.getAccommodationsByPage(pageNum);
+		List<FishingTour> offersByPage = fishingTourRepo.getFishingToursByPage(pageNum);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
-		for(Accommodation offer:offersByPage) {
+		for(FishingTour offer:offersByPage) {
 			dtos.add(this.toDTO(offer));
 		}
 		offersByPageDTO.setDtos(dtos);
@@ -32,7 +32,7 @@ public class AccommodationService {
 	
 	
 	public int getNumberOfPages() {
-		int numOfOffers = accommRepo.getNumberOfAccommodation();
+		int numOfOffers = fishingTourRepo.getNumberOfFishingTours();
 		int numOfPages = numOfOffers/8;
 		if(numOfOffers%8 != 0) {
 			numOfPages++;
@@ -40,8 +40,9 @@ public class AccommodationService {
 		return numOfPages;
 	}
 	
-	public OfferDTO toDTO(Accommodation offer) {
+	public OfferDTO toDTO(FishingTour offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
+
 }

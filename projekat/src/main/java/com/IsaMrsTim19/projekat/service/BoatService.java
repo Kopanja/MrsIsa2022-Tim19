@@ -8,21 +8,22 @@ import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
-import com.IsaMrsTim19.projekat.model.Accommodation;
-import com.IsaMrsTim19.projekat.repository.AccommodationRepository;
+import com.IsaMrsTim19.projekat.model.Boat;
+import com.IsaMrsTim19.projekat.repository.BoatRepository;
+
 
 @Service
-public class AccommodationService {
-
+public class BoatService {
 	
 	@Autowired
-	AccommodationRepository accommRepo;
+	BoatRepository boatRepo;
 	
-	public OfferListByPageDTO getAllOfferByPage(int pageNum){
+	
+	public OfferListByPageDTO getAllBoatsByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
-		List<Accommodation> offersByPage = accommRepo.getAccommodationsByPage(pageNum);
+		List<Boat> offersByPage = boatRepo.getBoatsByPage(pageNum);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
-		for(Accommodation offer:offersByPage) {
+		for(Boat offer:offersByPage) {
 			dtos.add(this.toDTO(offer));
 		}
 		offersByPageDTO.setDtos(dtos);
@@ -32,7 +33,7 @@ public class AccommodationService {
 	
 	
 	public int getNumberOfPages() {
-		int numOfOffers = accommRepo.getNumberOfAccommodation();
+		int numOfOffers = boatRepo.getNumberOfBoats();
 		int numOfPages = numOfOffers/8;
 		if(numOfOffers%8 != 0) {
 			numOfPages++;
@@ -40,8 +41,9 @@ public class AccommodationService {
 		return numOfPages;
 	}
 	
-	public OfferDTO toDTO(Accommodation offer) {
+	public OfferDTO toDTO(Boat offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
+
 }

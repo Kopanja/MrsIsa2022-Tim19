@@ -23,8 +23,6 @@ public class AccommodationController {
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
 	public ResponseEntity<OfferListByPageDTO> getAllOffers(@PathVariable int pageNum) {
 		OfferListByPageDTO offersByPage = accommService.getAllOfferByPage(pageNum);
-		System.out.println(offersByPage.getDtos().size());
-		System.out.println(offersByPage);
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}

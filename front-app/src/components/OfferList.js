@@ -31,10 +31,10 @@ const OfferList = () => {
   return (
       <div>
          <div class="btn-group btn-group-lg btn-group-margin" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-style" autofocus="autofocus">Offers</button>
-            <button  type="button" class="btn btn-style" onClick={() => {setOfferType('accommodation')}}>Accommodations</button>
-            <button type="button" class="btn btn-style">Boats</button>
-            <button type="button" class="btn btn-style">Fishing Tours</button>
+            <button type="button" class="btn btn-style" onClick={() => {setOfferType('offer'); setCurrentPage(1)}} autofocus="autofocus">All Offers</button>
+            <button  type="button" class="btn btn-style" onClick={() => {setOfferType('accommodation'); setCurrentPage(1)}}>Accommodations</button>
+            <button type="button" class="btn btn-style" onClick={() => {setOfferType('boat'); setCurrentPage(1)}}>Boats</button>
+            <button type="button" class="btn btn-style" onClick={() => {setOfferType('fishingTour'); setCurrentPage(1)}}>Fishing Tours</button>
             
 </div>
 
