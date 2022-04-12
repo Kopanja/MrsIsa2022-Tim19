@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import axios from 'axios';
 import OfferListItem from './OfferListItem';
 import Pagination from './Pagination';
-
+import "../css/offerList.css"
 const OfferList = () => {
     const [offers, setOffers] = useState([]);
     const [numOfPages, setNumOfPages] = useState(0);
@@ -28,12 +28,12 @@ const OfferList = () => {
     //change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
   return (
-    <div>
-        <div>
+    <div className='offerList'>
+        
             {offers.map((offer,index) => (
             <OfferListItem key = {index} offer = {offer} />
             ))}
-        </div>
+        
     <Pagination numOfPages={numOfPages} paginate = {paginate}/>
   </div>
   )

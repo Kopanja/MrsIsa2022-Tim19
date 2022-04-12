@@ -1,0 +1,59 @@
+.offerListItem{
+    display: flex;
+    gap : 20px;
+    border: 1px solid #FAEDF0;
+    border-radius: 20px;
+    
+}
+
+.image-style{
+    height: 200px;
+    width: 250px;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.text-name{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.itemInfo{
+    display: flex;
+    flex-direction: column;
+    flex-basis : 100%
+}
+
+.titleRatingContainer{
+    display: flex;
+    justify-content: space-between ;
+    
+}
+
+.titleAddressContainer{
+    display: flex;
+    flex-direction: column; 
+}
+
+.titleAddressItem{
+    max-height: 1px;
+}
+
+.rating{
+    border: 1px solid #88E0EF;
+}
+
+.viewOfferButton{
+    background-color: #FF5151;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: white;
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+    border: none;
+}

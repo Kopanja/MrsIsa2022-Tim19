@@ -1,8 +1,8 @@
 import HomePage from "./components/HomePage";
+import "./App.css"
 function App() {
   return (
     <div className="App">
-      <h1>Hellsso</h1>
       <HomePage/>
     </div>
   );

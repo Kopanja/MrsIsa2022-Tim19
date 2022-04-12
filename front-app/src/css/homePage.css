@@ -1,0 +1,14 @@
+.homePage{
+    margin-left: 15rem;
+    margin-right: 15rem;
+
+}
+
+.home-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.footer{
+    height: 200px;
+}
