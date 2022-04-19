@@ -43,7 +43,7 @@ public class BoatService {
 	
 	public OfferDTO toDTO(Boat offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
-		return new OfferDTO(offer.getName(),address,offer.getDescription(),offer.getRating());
+		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
 
 }

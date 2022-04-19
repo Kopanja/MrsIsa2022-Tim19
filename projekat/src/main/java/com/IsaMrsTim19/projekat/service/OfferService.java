@@ -1,5 +1,7 @@
 package com.IsaMrsTim19.projekat.service;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,9 @@ public class OfferService {
 	}
 	
 	public OfferListByPageDTO getAllOfferByPage(int pageNum){
+		
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
-		List<Offer> offersByPage = offerRepo.getOffersByPage(pageNum);
+		List<Offer> offersByPage = offerRepo.getOffersByPage(pageNum);	
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
 		for(Offer offer:offersByPage) {
 			dtos.add(this.toDTO(offer));
@@ -45,9 +48,22 @@ public class OfferService {
 		return numOfPages;
 	}
 	
+	public OfferDTO getOfferById(Long id) {
+		Offer offer = offerRepo.findById(id).orElse(null);
+		return this.toDTO(offer);
+	}
+	
+	public Path getOfferThumbnailPath(Long id) {
+		Offer offer = offerRepo.findById(id).orElse(null);
+		String imgPathFolder = offer.getImgFolderPath();
+		String thumbnail = offer.getThumbnail();
+		Path imagePath = Paths.get(".\\src\\main\\resources\\images\\" + imgPathFolder + "\\" + thumbnail);
+		return imagePath;
+	}
+	
 	public OfferDTO toDTO(Offer offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
-		return new OfferDTO(offer.getName(),address,offer.getDescription(),offer.getRating());
+		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
 
 }

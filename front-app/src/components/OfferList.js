@@ -30,18 +30,18 @@ const OfferList = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
   return (
       <div>
-         <div class="btn-group btn-group-lg btn-group-margin" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-style" onClick={() => {setOfferType('offer'); setCurrentPage(1)}} autofocus="autofocus">All Offers</button>
-            <button  type="button" class="btn btn-style" onClick={() => {setOfferType('accommodation'); setCurrentPage(1)}}>Accommodations</button>
-            <button type="button" class="btn btn-style" onClick={() => {setOfferType('boat'); setCurrentPage(1)}}>Boats</button>
-            <button type="button" class="btn btn-style" onClick={() => {setOfferType('fishingTour'); setCurrentPage(1)}}>Fishing Tours</button>
+         <div className="btn-group btn-group-lg btn-group-margin" role="group" aria-label="Basic example">
+            <button type="button" className="btn btn-style" onClick={() => {setOfferType('offer'); setCurrentPage(1)}} autoFocus>All Offers</button>
+            <button  type="button" className="btn btn-style" onClick={() => {setOfferType('accommodation'); setCurrentPage(1)}}>Accommodations</button>
+            <button type="button" className="btn btn-style" onClick={() => {setOfferType('boat'); setCurrentPage(1)}}>Boats</button>
+            <button type="button" className="btn btn-style" onClick={() => {setOfferType('fishingTour'); setCurrentPage(1)}}>Fishing Tours</button>
             
 </div>
 
 
     <div className='offerList'>
-            {offers.map((offer,index) => (
-            <OfferListItem key = {index} offer = {offer} />
+            {offers.map((offer) => (
+            <OfferListItem key = {offer.id} offer = {offer} />
             ))}
         
     <Pagination numOfPages={numOfPages} paginate = {paginate}/>

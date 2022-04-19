@@ -13,7 +13,7 @@ public interface OfferRepository extends Neo4jRepository<Offer, Long> {
 	
 	@Query("MATCH(n:Offer)-[r:IS_IN]->(c:City)\r\n"
 			+ "RETURN c,r,n ORDER BY n.rating DESC SKIP (8*$pageNum - 8) LIMIT (8)")
-	public List<Offer> getOffersByPage(int pageNum);
+	public List<Offer> getOffersByPage(Integer pageNum);
 
 	@Query("MATCH(n:Offer) RETURN COUNT(n)")
 	public int getNumberOfOffers();

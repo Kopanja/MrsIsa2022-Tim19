@@ -1,11 +1,13 @@
-import React from 'react'
+import { useEffect, useState } from "react"
 import image from "../resources/pexels-leung-kwok-tung-ktleung-3054187.jpg";
+import axios from 'axios';
 import "../css/offerListItem.css"
 import StarRatings from 'react-star-ratings'
 const OfferListItem = ({offer}) => {
+  
   return (
     <div className='offerListItem'>
-        <img className='image-style' src = {image}/>
+        <img className='image-style' src = {`http://localhost:8080/api/offer/${offer.id}/thumbnail`}/>
         <div className='itemInfo'>
             <div className='titleRatingContainer'>
                 <div className='titleAddressContainer'>

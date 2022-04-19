@@ -18,6 +18,9 @@ public class Offer {
 	private String description;
 	private double rating;
 	private double price;
+	private String imgFolderPath;
+	private String thumbnail;
+	
 	public Long getId() {
 		return id;
 	}
@@ -59,6 +62,18 @@ public class Offer {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public String getImgFolderPath() {
+		return imgFolderPath;
+	}
+	public void setImgFolderPath(String imgFolderPath) {
+		this.imgFolderPath = imgFolderPath;
+	}
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 	
 	
