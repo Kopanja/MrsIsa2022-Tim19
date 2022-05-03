@@ -19,7 +19,7 @@ const Pagination: FC<Props> = ({ numOfPages, paginate }) => {
           <li key={pageNumber} className="page-item">
             <a
               onClick={() => paginate(pageNumber)}
-              href="!#"
+              href="#"
               className="page-link"
             >
               {pageNumber}

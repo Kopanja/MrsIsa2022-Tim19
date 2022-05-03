@@ -7,6 +7,9 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import closeIcon from "../../resources/close.png"
 import logo from "../../resources/logo.svg";
+import traveler from "../../resources/traveler.png"
+import roomIcon from "../../resources/room-icon.png"
+import locationIcon from "../../resources/location.png"
 const AccommodationPage = () => {
   
   const [accommodation, setAccommodation] = useState<Accommodation>();
@@ -33,7 +36,7 @@ const AccommodationPage = () => {
         
       {viewImages? 
           <div>
-          <img src = {closeIcon} className = "close-image" onClick={() => {setViewImages(false)}}/>
+          <img src = {closeIcon} className = "close-image clickable" onClick={() => {setViewImages(false)}}/>
             <Carousel showArrows = {true} infiniteLoop>
             {accommodation?.contentImages.map((url,index) =>
             <div  key={index}>
@@ -43,17 +46,49 @@ const AccommodationPage = () => {
             </Carousel>
           </div>
       : 
-            <div>
+            <div className='container-column images-container'>
             <img src={logo} className="logo" alt="altImg" />
-            <p>{accommodation?.offerDTO.name}</p>
-            <div className='images-container'>
-              <img className="thumbnail-class" src = {`http://localhost:8080/api/offer/${id}/thumbnail`}  onClick={() => {setViewImages(true)}} alt="altHeee" />
+            <div className='container-row'>
+              <img className="thumbnail-class clickable" src = {`http://localhost:8080/api/offer/${id}/thumbnail`}  onClick={() => {setViewImages(true)}} alt="altHeee" />
               <div className='container'>
                 {accommodation?.contentImages.slice(0, 4).map((url,index) =>
-                  <img className='image-class' key={index} src = {url}  onClick={() => {setViewImages(true)}}/>
+                  <img className='image-class clickable' key={index} src = {url}  onClick={() => {setViewImages(true)}}/>
                 )}
               </div>
+             
              </div>
+             <div className='container-row'>
+                  <div className='container-column m-width'>
+                    <h1 className='home-text'>{accommodation?.offerDTO.name}</h1>
+                    <div className='container-row gap'>
+                    <div className='container-row'>
+                        <img className='traveler-icon' src={traveler}></img>
+                        <p  className='info-text'>{accommodation?.numberOfPeople} Guests</p>
+                      </div>
+                      <div className='container-row gap'>
+                      <img className='traveler-icon' src={roomIcon}></img>
+                      <p className='info-text'>{accommodation?.roomNumber} Rooms</p>
+                    </div>
+                    <div className='container-row gap'>
+                      <img className='traveler-icon' src={locationIcon}></img>
+                      <p className='info-text'>{accommodation?.offerDTO.address}</p>
+                    </div>
+                    
+                    </div>
+                    <p className='about-title'>About</p>
+                    <p className='info-text'>{accommodation?.offerDTO.description}</p>
+                  </div>
+                  
+                  <div className='container-column gap'>
+                    <p>Kontakt</p>
+                    <p>Kontakt</p>
+                    <p>Kontakt</p>
+                    <p>Kontakt</p>
+                    <p>Kontakt</p>
+                    <p>Kontakt</p>
+                    <p>Kontakt</p>
+                  </div>
+              </div>
               </div>
             }
            

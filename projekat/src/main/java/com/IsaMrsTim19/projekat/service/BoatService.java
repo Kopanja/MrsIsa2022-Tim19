@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.IsaMrsTim19.projekat.dto.AccommodationDTO;
+import com.IsaMrsTim19.projekat.dto.BoatDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
+import com.IsaMrsTim19.projekat.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.Boat;
 import com.IsaMrsTim19.projekat.repository.BoatRepository;
 
@@ -18,13 +21,17 @@ public class BoatService {
 	@Autowired
 	BoatRepository boatRepo;
 	
+	@Autowired
+	OfferService offerService;
 	
 	public OfferListByPageDTO getAllBoatsByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
 		List<Boat> offersByPage = boatRepo.getBoatsByPage(pageNum);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
 		for(Boat offer:offersByPage) {
-			dtos.add(this.toDTO(offer));
+			OfferDTO dto = this.toDTO(offer);
+			dto.setOfferType("boat");
+			dtos.add(dto);
 		}
 		offersByPageDTO.setDtos(dtos);
 		offersByPageDTO.setTotalNumberOfPages(this.getNumberOfPages());
@@ -44,6 +51,20 @@ public class BoatService {
 	public OfferDTO toDTO(Boat offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+	}
+	
+	public BoatDTO getDTOById(Long id) {
+		Boat obj = boatRepo.findById(id).orElse(null);
+		BoatDTO boatDTO = new BoatDTO();
+		OfferDTO offerDTO = this.toDTO(obj);
+		boatDTO.setOfferDTO(offerDTO);
+		boatDTO.setCapacity(obj.getCapacity());
+		boatDTO.setLength(obj.getLength());
+		boatDTO.setMaxSpeed(obj.getMaxSpeed());
+		boatDTO.setMotorStrength(obj.getMotorStrength());
+		boatDTO.setNumOfMotors(obj.getNumOfMotors());
+		boatDTO.setContentImages(offerService.createImageURLs(obj));
+		return boatDTO;
 	}
 
 }

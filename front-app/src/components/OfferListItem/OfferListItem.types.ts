@@ -3,6 +3,7 @@ export interface OfferData {
     name: string;
     address: string;
     rating: number;
+    offerType : string;
     description: string;
   }
 

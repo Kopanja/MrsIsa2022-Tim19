@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
+import com.IsaMrsTim19.projekat.model.Accommodation;
+import com.IsaMrsTim19.projekat.model.Boat;
+import com.IsaMrsTim19.projekat.model.FishingTour;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.repository.OfferRepository;
 
@@ -64,7 +67,17 @@ public class OfferService {
 	
 	public OfferDTO toDTO(Offer offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
-		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+		String offerType = null;
+		if(offer instanceof Accommodation) {
+			offerType = "accommodation";
+		}else if (offer instanceof Boat) {
+			offerType = "boat";
+		}else if (offer instanceof FishingTour) {
+			offerType = "fishingTour";
+		}
+		OfferDTO dto = new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+		dto.setOfferType(offerType);
+		return dto;
 	}
 	
 	public List<String> createImageURLs(Offer offer){

@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.IsaMrsTim19.projekat.dto.BoatDTO;
+import com.IsaMrsTim19.projekat.dto.FishingTourDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.model.Boat;
@@ -18,12 +20,17 @@ public class FishingTourService {
 	@Autowired
 	FishingTourRepository fishingTourRepo;
 	
+	@Autowired
+	OfferService offerService;
+	
 	public OfferListByPageDTO getAllFishingToursByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
 		List<FishingTour> offersByPage = fishingTourRepo.getFishingToursByPage(pageNum);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
 		for(FishingTour offer:offersByPage) {
-			dtos.add(this.toDTO(offer));
+			OfferDTO dto = this.toDTO(offer);
+			dto.setOfferType("fishingTour");
+			dtos.add(dto);
 		}
 		offersByPageDTO.setDtos(dtos);
 		offersByPageDTO.setTotalNumberOfPages(this.getNumberOfPages());
@@ -43,6 +50,17 @@ public class FishingTourService {
 	public OfferDTO toDTO(FishingTour offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+	}
+	
+	public FishingTourDTO getDTOById(Long id) {
+		FishingTour obj = fishingTourRepo.findById(id).orElse(null);
+		FishingTourDTO fishingTourDTO = new FishingTourDTO();
+		OfferDTO offerDTO = this.toDTO(obj);
+		fishingTourDTO.setOfferDTO(offerDTO);
+		fishingTourDTO.setMaxNumOfPeople(obj.getMaxNumOfPeople());
+		
+		fishingTourDTO.setContentImages(offerService.createImageURLs(obj));
+		return fishingTourDTO;
 	}
 
 }

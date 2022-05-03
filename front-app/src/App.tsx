@@ -2,6 +2,8 @@ import React from 'react';
 import HomePage from "./components/HomePage";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AccommodationPage from "./components/Accommodation/AccommodationPage"
+import BoatPage from './components/Boat/BoatPage';
+import FishingTourPage from './components/FishingTour/FishingTourPage';
 import './App.css';
 
 function App() {
@@ -13,6 +15,14 @@ function App() {
         <Route path="accommodation">
           <Route index element = {<AccommodationPage/>}/>
           <Route path=":id" element = {<AccommodationPage/>}/>
+        </Route>
+        <Route path="boat">
+          <Route index element = {<BoatPage/>}/>
+          <Route path=":id" element = {<BoatPage/>}/>
+        </Route>
+        <Route path="fishingTour">
+          <Route index element = {<FishingTourPage/>}/>
+          <Route path=":id" element = {<FishingTourPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

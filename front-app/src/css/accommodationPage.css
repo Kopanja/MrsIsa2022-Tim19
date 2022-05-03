@@ -16,7 +16,7 @@
 
 .carousel .slider-wrapper{
     height: 800px;
-    padding-top: 100px;
+   
     
 }
 
@@ -42,6 +42,22 @@
     width: 65%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.info-container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    
+}
+
+.m-width{
+    max-width: 300px;
+}
+.traveler-icon{
+    width: 40px;
+    height: 40px;
 }
 
 .container{
@@ -50,4 +66,44 @@
     gap: 5px;
     max-width: 50%;
     flex-wrap: wrap;
+}
+
+.container-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+}
+
+.container-row{
+    display: flex;
+    flex-direction: row;
+    
+   
+}
+
+.just-fl-start{
+    justify-content: flex-start; 
+}
+
+
+.gap {
+    gap:20px;
+}
+
+
+.justify-down{
+    padding-top: 6%;
+}
+
+.info-text{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.about-title{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
 }

@@ -27,7 +27,9 @@ public class AccommodationService {
 		List<Accommodation> offersByPage = accommRepo.getAccommodationsByPage(pageNum);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
 		for(Accommodation offer:offersByPage) {
-			dtos.add(this.toDTO(offer));
+			OfferDTO dto = this.toDTO(offer);
+			dto.setOfferType("accommodation");
+			dtos.add(dto);
 		}
 		offersByPageDTO.setDtos(dtos);
 		offersByPageDTO.setTotalNumberOfPages(this.getNumberOfPages());

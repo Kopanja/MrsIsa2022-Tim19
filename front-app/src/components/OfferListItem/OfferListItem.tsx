@@ -13,7 +13,7 @@ const OfferListItem: React.FC<Props> = ({ offer }) => {
         <div className="titleRatingContainer">
           <div className="titleAddressContainer">
            
-            <h3 className="text-name titleAddressItem clickable" onClick={()=>navigate(`/accommodation/${offer.id}`)}>{offer.name}</h3>
+            <h3 className="text-name titleAddressItem clickable" onClick={()=>navigate(`/${offer.offerType}/${offer.id}`)}>{offer.name}</h3>
             <p className="text-name titleAddressItem">{offer.address}</p>
           </div>
           <div className="titleRatingContainer">

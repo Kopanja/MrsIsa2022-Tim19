@@ -9,6 +9,7 @@ public class OfferDTO {
 	private String name;
 	private String address;
 	private String description;
+	private String offerType;
 	private double rating;
 	
 	
@@ -35,6 +36,28 @@ public class OfferDTO {
 		this.description = description;
 		this.rating = rating;
 	}
+
+	
+	public OfferDTO(Long id, String name, String address, String description, String offerType, double rating) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.offerType = offerType;
+		this.rating = rating;
+	}
+
+
+	public String getOfferType() {
+		return offerType;
+	}
+
+
+	public void setOfferType(String offerType) {
+		this.offerType = offerType;
+	}
+
 
 	public String getName() {
 		return name;
