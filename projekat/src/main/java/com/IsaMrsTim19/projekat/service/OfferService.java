@@ -1,5 +1,6 @@
 package com.IsaMrsTim19.projekat.service;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -64,6 +65,24 @@ public class OfferService {
 	public OfferDTO toDTO(Offer offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+	}
+	
+	public List<String> createImageURLs(Offer offer){
+		List<String> urls = new ArrayList<String>();
+		File folder = new File( ".\\src\\main\\resources\\images\\" + offer.getImgFolderPath());
+		File[] listOfFiles = folder.listFiles();
+		String baseUrl = "http://localhost:8080/api/offer/image/" + offer.getImgFolderPath() + "/";
+		String fileName = "";
+		for (int i = 0; i < listOfFiles.length; i++) {
+			  if (listOfFiles[i].isFile()) {
+				fileName = listOfFiles[i].getName();
+				if(!fileName.equals(offer.getThumbnail())) {
+					urls.add(baseUrl + fileName);
+				}
+			    
+			  } 
+			}
+		return urls;
 	}
 
 }

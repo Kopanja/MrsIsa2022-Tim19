@@ -1,0 +1,53 @@
+.image-class{
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
+}
+
+.thumbnail-class{
+    height: 500px;
+    width: 550px;
+    object-fit: cover;
+}
+
+.carosel-container{
+    max-height: 100px;
+}
+
+.carousel .slider-wrapper{
+    height: 800px;
+    padding-top: 100px;
+    
+}
+
+.close-image{
+    width : 30px;
+    height: 30px; 
+    float: right;
+}
+
+.carousel {
+    text-align: center;
+}
+.carosel-img{
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+    max-height: 700px;
+}
+.images-container{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    display: flex;
+    flex-direction: row;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    max-width: 50%;
+    flex-wrap: wrap;
+}

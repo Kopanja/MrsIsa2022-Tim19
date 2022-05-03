@@ -50,6 +50,7 @@ public class OfferController {
 	
 	@GetMapping("/{id}/thumbnail")
 	public ResponseEntity<?> getProfileImage(@PathVariable Long id) {
+	
 		try {
 			Path imagePath = offerService.getOfferThumbnailPath(id);
 			if (imagePath != null) {
@@ -68,6 +69,28 @@ public class OfferController {
 
 		}
 		System.out.println("Ovde");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	}
+	
+	@GetMapping("/image/{folder}/{imageName}")
+	public ResponseEntity<?> getImage(@PathVariable String folder, @PathVariable String imageName) {
+		try {
+			Path imagePath = Paths.get(".\\src\\main\\resources\\images\\" + folder + "\\" + imageName);
+			if (imagePath != null) {
+				Resource resource = new ByteArrayResource(Files.readAllBytes(imagePath.normalize()));
+
+				return ResponseEntity.ok().contentLength(imagePath.toFile().length()).contentType(MediaType.IMAGE_JPEG)
+						.body(resource);
+
+			} else {
+
+				return ResponseEntity.status(HttpStatus.OK).build();
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Doslo je do greske");
+
+		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 

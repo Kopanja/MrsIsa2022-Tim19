@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.IsaMrsTim19.projekat.dto.AccommodationDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.model.Accommodation;
@@ -17,6 +18,9 @@ public class AccommodationService {
 	
 	@Autowired
 	AccommodationRepository accommRepo;
+	
+	@Autowired
+	OfferService offerService;
 	
 	public OfferListByPageDTO getAllOfferByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
@@ -44,4 +48,19 @@ public class AccommodationService {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
+	
+	
+	
+	public AccommodationDTO getDTOById(Long id) {
+		Accommodation obj = accommRepo.findById(id).orElse(null);
+		AccommodationDTO accDTO = new AccommodationDTO();
+		OfferDTO offerDTO = this.toDTO(obj);
+		accDTO.setOfferDTO(offerDTO);
+		accDTO.setNumberOfPeople(obj.getNumberOfPeople());
+		accDTO.setRoomNumber(obj.getRoomNumber());
+		accDTO.setContentImages(offerService.createImageURLs(obj));
+		return accDTO;
+	}
+	
+	
 }

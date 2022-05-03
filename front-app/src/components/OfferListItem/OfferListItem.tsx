@@ -3,15 +3,17 @@ import image from "../../resources/pexels-leung-kwok-tung-ktleung-3054187.jpg"
 import "../../css/offerListItem.css";
 import StarRatings from "react-star-ratings";
 import { Props } from "./OfferListItem.types";
-
+import {Link, useNavigate} from 'react-router-dom'
 const OfferListItem: React.FC<Props> = ({ offer }) => {
+  const navigate = useNavigate();
   return (
     <div className="offerListItem">
       <img className="image-style" src = {`http://localhost:8080/api/offer/${offer.id}/thumbnail`} alt="altHeee" />
       <div className="itemInfo">
         <div className="titleRatingContainer">
           <div className="titleAddressContainer">
-            <h3 className="text-name titleAddressItem">{offer.name}</h3>
+           
+            <h3 className="text-name titleAddressItem clickable" onClick={()=>navigate(`/accommodation/${offer.id}`)}>{offer.name}</h3>
             <p className="text-name titleAddressItem">{offer.address}</p>
           </div>
           <div className="titleRatingContainer">

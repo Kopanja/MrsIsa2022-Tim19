@@ -8,6 +8,10 @@
     
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .image-style{
     height: 200px;
     width: 250px;
