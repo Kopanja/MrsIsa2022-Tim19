@@ -12,6 +12,7 @@ import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.Boat;
+import com.IsaMrsTim19.projekat.model.NavigationEquipment;
 import com.IsaMrsTim19.projekat.repository.BoatRepository;
 
 
@@ -53,8 +54,17 @@ public class BoatService {
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
 	
+	private List<String> getNavEquipement(Boat boat){
+		List<String> equipement = new ArrayList<String>();
+		for(NavigationEquipment eq : boat.getNavigationEquipment()) {
+			equipement.add(eq.getName());
+		}
+		
+		return equipement;
+	}
 	public BoatDTO getDTOById(Long id) {
 		Boat obj = boatRepo.findById(id).orElse(null);
+		System.out.println(obj);
 		BoatDTO boatDTO = new BoatDTO();
 		OfferDTO offerDTO = this.toDTO(obj);
 		boatDTO.setOfferDTO(offerDTO);
@@ -64,6 +74,7 @@ public class BoatService {
 		boatDTO.setMotorStrength(obj.getMotorStrength());
 		boatDTO.setNumOfMotors(obj.getNumOfMotors());
 		boatDTO.setContentImages(offerService.createImageURLs(obj));
+		boatDTO.setEquipment(this.getNavEquipement(obj));
 		return boatDTO;
 	}
 

@@ -46,18 +46,21 @@ const AccommodationPage = () => {
             </Carousel>
           </div>
       : 
-            <div className='container-column images-container'>
-            <img src={logo} className="logo" alt="altImg" />
-            <div className='container-row'>
-              <img className="thumbnail-class clickable" src = {`http://localhost:8080/api/offer/${id}/thumbnail`}  onClick={() => {setViewImages(true)}} alt="altHeee" />
-              <div className='container'>
-                {accommodation?.contentImages.slice(0, 4).map((url,index) =>
-                  <img className='image-class clickable' key={index} src = {url}  onClick={() => {setViewImages(true)}}/>
-                )}
+            <div>
+              <img src={logo} className="logo" alt="altImg" />
+              <div className='main-div'>
+              <div className='images-container'>
+                <div className='container-row'>
+                  <img className="thumbnail-class clickable" src = {`http://localhost:8080/api/offer/${id}/thumbnail`}  onClick={() => {setViewImages(true)}} alt="altHeee" />
+                  <div className='container'>
+                    {accommodation?.contentImages.slice(0, 4).map((url,index) =>
+                      <img className='image-class clickable' key={index} src = {url}  onClick={() => {setViewImages(true)}}/>
+                    )}
+                  </div>
+                
+                </div>
               </div>
-             
-             </div>
-             <div className='container-row'>
+             <div className='images-container just-fl-start'>
                   <div className='container-column m-width'>
                     <h1 className='home-text'>{accommodation?.offerDTO.name}</h1>
                     <div className='container-row gap'>
@@ -79,15 +82,17 @@ const AccommodationPage = () => {
                     <p className='info-text'>{accommodation?.offerDTO.description}</p>
                   </div>
                   
-                  <div className='container-column gap'>
-                    <p>Kontakt</p>
-                    <p>Kontakt</p>
-                    <p>Kontakt</p>
-                    <p>Kontakt</p>
-                    <p>Kontakt</p>
-                    <p>Kontakt</p>
-                    <p>Kontakt</p>
+                  <div className='container-column right-info-container'>
+                    <div className='container-column pricing-container'>
+                      <p className='about-title'>Pricing</p>
+                      <div className='container-row space-evenly'>
+                        <p className='info-text'>250$</p>
+                        <p className='info-text'>per night</p>
+                      </div>
+
+                    </div>
                   </div>
+              </div>
               </div>
               </div>
             }

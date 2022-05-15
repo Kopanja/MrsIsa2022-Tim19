@@ -11,6 +11,7 @@ public class BoatDTO {
 	private int maxSpeed;
 	private int capacity;
 	private List<String> contentImages;
+	private List<String> equipment;
 	
 	
 	public BoatDTO() {
@@ -40,6 +41,21 @@ public class BoatDTO {
 		this.maxSpeed = maxSpeed;
 		this.capacity = capacity;
 		this.contentImages = contentImages;
+	}
+
+
+	
+	public BoatDTO(OfferDTO offerDTO, double length, int numOfMotors, int motorStrength, int maxSpeed, int capacity,
+			List<String> contentImages, List<String> equipment) {
+		super();
+		this.offerDTO = offerDTO;
+		this.length = length;
+		this.numOfMotors = numOfMotors;
+		this.motorStrength = motorStrength;
+		this.maxSpeed = maxSpeed;
+		this.capacity = capacity;
+		this.contentImages = contentImages;
+		this.equipment = equipment;
 	}
 
 
@@ -111,6 +127,17 @@ public class BoatDTO {
 
 	public void setContentImages(List<String> contentImages) {
 		this.contentImages = contentImages;
+	}
+
+
+	
+	public List<String> getEquipment() {
+		return equipment;
+	}
+
+
+	public void setEquipment(List<String> equipment) {
+		this.equipment = equipment;
 	}
 
 

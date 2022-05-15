@@ -1,19 +1,34 @@
 package com.IsaMrsTim19.projekat.model;
 
+import java.util.Date;
+
+import org.springframework.data.neo4j.core.convert.ConvertWith;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
+import com.IsaMrsTim19.projekat.util.DateStringConverter;
+
 @Node
 public class Offer {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	private String name;
+	
 	@Relationship(type="IS_IN", direction=Direction.OUTGOING)
 	private City city;
+	
+	@ConvertWith(converter =  DateStringConverter.class)
+	private Date avaliableFrom;
+	
+	@ConvertWith(converter =  DateStringConverter.class)
+	private Date avaliableUntil;
+	
+	
 	private String address;
 	private String description;
 	private double rating;
@@ -74,6 +89,18 @@ public class Offer {
 	}
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+	public Date getAvaliableFrom() {
+		return avaliableFrom;
+	}
+	public void setAvaliableFrom(Date avaliableFrom) {
+		this.avaliableFrom = avaliableFrom;
+	}
+	public Date getAvaliableUntil() {
+		return avaliableUntil;
+	}
+	public void setAvaliableUntil(Date avaliableUntil) {
+		this.avaliableUntil = avaliableUntil;
 	}
 	
 	

@@ -3,11 +3,12 @@ import { OfferData } from "../OfferListItem/OfferListItem.types";
 export interface Boat {
     offerDTO : OfferData;
     length : number;
-    numberOfMotors : number;
+    numOfMotors : number;
     maxSpeed : number;
     motorStrength : number;
     capacity : number;
     contentImages : string[];
+    equipment : string[];
 
   }
 
