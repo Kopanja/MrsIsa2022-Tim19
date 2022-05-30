@@ -7,12 +7,9 @@
 
 }
 
-.hero{
-    width: 100%;
-    min-height: 700px;
-    background-size: cover;
-    
-   
+.search{
+    position: relative;
+    top: -90px;
 }
 
 .home-text {
@@ -20,34 +17,12 @@
     font-weight: 600;
 }
 
-.hooked-text{
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 64px;
-    line-height: 87px;
-    color: #FFFF;
-}
 
-
-.hero-text {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 64px;
-    line-height: 87px;
-    color: #FFFF;
-   
-}
-
-.hero-text-div{
-    margin-top: 7rem;
-    margin-left: 15rem;
-    max-width: 40%;
-}
 
 .footer{
     height: 200px;
 }
 
 .logo{
-    width: 700px;
+    width: 300px;
 }

@@ -1,0 +1,39 @@
+.hooked-text{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 87px;
+    color: #FFFF;
+}
+
+.hero{
+    width: 100%;
+    position: relative;
+    padding-bottom: 150px;
+    background-size: cover;
+    
+   
+}
+
+.ilustration{
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+    width: 50%;
+    
+}
+
+.hero-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 87px;
+    color: #FFFF;
+   
+}
+
+.hero-text-div{
+    margin-top: 7rem;
+    margin-left: 15rem;
+    max-width: 40%;
+}

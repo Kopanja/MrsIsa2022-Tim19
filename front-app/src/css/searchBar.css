@@ -1,0 +1,68 @@
+.searchContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 15rem;
+    margin-right: 15rem;
+}
+
+.vl {
+    border-left: 3px solid #88E0EF;
+    height: 29px;
+  }
+
+
+.noBorder{
+    border: none;
+}
+.searchOfferFilter{
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3%;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+
+
+
+.filterButtons{
+    background: #FAEDF0;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 20px;
+}
+
+.filterButtonText{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+
+
+
+.flex-row-center-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.searchBarItem{
+    width: 100%;
+    
+}
+
+.searchBar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3%;
+    width: 100%;
+    padding: 9px 20px 9px 40px;
+    background: #FFFFFF;
+    box-shadow: 0px 7px 32px rgba(22, 30, 84, 0.2);
+    border-radius: 20px;
+}
