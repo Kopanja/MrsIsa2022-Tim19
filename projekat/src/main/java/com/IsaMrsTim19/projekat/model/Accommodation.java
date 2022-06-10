@@ -47,7 +47,7 @@ public class Accommodation extends Offer {
 	@Override
 	public String toString() {
 		
-		return super.toString() + " Accommodation [roomNumber=" + roomNumber + ", numberOfPeople=" + numberOfPeople + "]";
+		return super.toString() + " Accommodation [roomNumber=" + roomNumber + ", numberOfPeople=" + numberOfPeople + "name" + getName() + "]";
 	}
 
 

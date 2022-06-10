@@ -2,6 +2,7 @@ package com.IsaMrsTim19.projekat.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.IsaMrsTim19.projekat.dto.AccommodationDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.model.Accommodation;
+import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.repository.AccommodationRepository;
 
 @Service
@@ -21,6 +23,9 @@ public class AccommodationService {
 	
 	@Autowired
 	OfferService offerService;
+	
+	@Autowired
+	QueryService queryService;
 	
 	public OfferListByPageDTO getAllOfferByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
@@ -52,6 +57,15 @@ public class AccommodationService {
 	}
 	
 	
+	public List<Accommodation> searchResult(Map<String, String> queryParams){
+		String query = queryService.generateSearchQuery(queryParams);
+		List<Accommodation> accommodations = accommRepo.customQuery(query);
+		for(Offer accomm : accommodations) {
+			System.out.println(accomm.getName());
+			//System.out.println(accomm.getNumberOfPeople());
+		}
+		return accommRepo.customQuery(query);
+	}
 	
 	public AccommodationDTO getDTOById(Long id) {
 		Accommodation obj = accommRepo.findById(id).orElse(null);
