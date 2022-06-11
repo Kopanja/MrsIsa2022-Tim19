@@ -1,9 +1,8 @@
 import React from "react";
-import image from "../../resources/pexels-leung-kwok-tung-ktleung-3054187.jpg"
 import "../../css/offerListItem.css";
 import StarRatings from "react-star-ratings";
 import { Props } from "./OfferListItem.types";
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 const OfferListItem: React.FC<Props> = ({ offer }) => {
   const navigate = useNavigate();
   return (
