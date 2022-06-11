@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.IsaMrsTim19.projekat.dto.AccommodationDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
@@ -45,6 +48,15 @@ public class OfferController {
 		
 		OfferListByPageDTO offersByPage = offerService.getAllOfferByPage(pageNum);
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<AccommodationDTO> getSearchResult(@RequestParam Map<String,String> searchParams) {
+		System.out.println(searchParams);
+		System.out.println(offerService.searchResult(searchParams));
+		//System.out.println(accommService.searchResult("MATCH (n:Accommodation) RETURN n"));
+		return new ResponseEntity<>(null, HttpStatus.OK);
 
 	}
 	

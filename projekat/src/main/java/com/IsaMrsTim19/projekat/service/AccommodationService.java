@@ -57,22 +57,12 @@ public class AccommodationService {
 	}
 	
 	
-	public List<Accommodation> searchResult(Map<String, String> queryParams){
-		String query = queryService.generateSearchQuery(queryParams);
-		List<Accommodation> accommodations = accommRepo.customQuery(query);
-		for(Offer accomm : accommodations) {
-			System.out.println(accomm.getName());
-			//System.out.println(accomm.getNumberOfPeople());
-		}
-		return accommRepo.customQuery(query);
-	}
-	
 	public AccommodationDTO getDTOById(Long id) {
 		Accommodation obj = accommRepo.findById(id).orElse(null);
 		AccommodationDTO accDTO = new AccommodationDTO();
 		OfferDTO offerDTO = this.toDTO(obj);
 		accDTO.setOfferDTO(offerDTO);
-		accDTO.setNumberOfPeople(obj.getNumberOfPeople());
+		accDTO.setNumberOfPeople(obj.getNumOfPeople());
 		accDTO.setRoomNumber(obj.getRoomNumber());
 		accDTO.setContentImages(offerService.createImageURLs(obj));
 		return accDTO;

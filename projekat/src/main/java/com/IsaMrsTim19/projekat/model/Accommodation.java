@@ -9,7 +9,7 @@ public class Accommodation extends Offer {
 
 	
 	private int roomNumber;
-	private int numberOfPeople;
+	
 	
 
 	public Accommodation() {
@@ -17,10 +17,9 @@ public class Accommodation extends Offer {
 	}
 
 
-	public Accommodation(int roomNumber, int numberOfPeople) {
+	public Accommodation(int roomNumber) {
 		super();
 		this.roomNumber = roomNumber;
-		this.numberOfPeople = numberOfPeople;
 	}
 
 
@@ -34,20 +33,11 @@ public class Accommodation extends Offer {
 	}
 
 
-	public int getNumberOfPeople() {
-		return numberOfPeople;
-	}
-
-
-	public void setNumberOfPeople(int numberOfPeople) {
-		this.numberOfPeople = numberOfPeople;
-	}
-
 
 	@Override
 	public String toString() {
 		
-		return super.toString() + " Accommodation [roomNumber=" + roomNumber + ", numberOfPeople=" + numberOfPeople + "name" + getName() + "]";
+		return super.toString() + " Accommodation [roomNumber=" + roomNumber + "]";
 	}
 
 

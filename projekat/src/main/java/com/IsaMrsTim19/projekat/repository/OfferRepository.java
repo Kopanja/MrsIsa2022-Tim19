@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.IsaMrsTim19.projekat.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.Offer;
 
 @Repository
@@ -18,4 +19,6 @@ public interface OfferRepository extends Neo4jRepository<Offer, Long> {
 	@Query("MATCH(n:Offer) RETURN COUNT(n)")
 	public int getNumberOfOffers();
 	
+	@Query("CALL apoc.cypher.run($s, {}) YIELD value RETURN value.n")
+	public List<Offer> customQuery(String s);
 }

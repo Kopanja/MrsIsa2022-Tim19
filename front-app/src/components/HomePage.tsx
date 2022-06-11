@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
       </div>
       
       <div className="homePage">
-      <img src={howItWorksImage}></img>
+      <img className="how-it-works" src={howItWorksImage} alt="How it works?"></img>
 
      
       <h3 className="home-text">

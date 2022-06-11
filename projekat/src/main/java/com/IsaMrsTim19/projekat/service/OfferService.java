@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class OfferService {
 	@Autowired
 	OfferRepository offerRepo;
 	
+	@Autowired
+	QueryService queryService;
 	
 	public List<Offer> getAllOffers(){
 		this.getNumberOfPages();
@@ -42,6 +45,15 @@ public class OfferService {
 		return offersByPageDTO;
 	}
 	
+	public List<Offer> searchResult(Map<String, String> queryParams){
+		String query = queryService.generateSearchQuery(queryParams);
+		List<Offer> offers = offerRepo.customQuery(query);
+		for(Offer offer : offers) {
+			System.out.println(offer.getName());
+			//System.out.println(accomm.getNumberOfPeople());
+		}
+		return offerRepo.customQuery(query);
+	}
 	
 	public int getNumberOfPages() {
 		int numOfOffers = offerRepo.getNumberOfOffers();

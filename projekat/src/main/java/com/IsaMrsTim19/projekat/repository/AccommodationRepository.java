@@ -19,7 +19,6 @@ public interface AccommodationRepository extends Neo4jRepository<Accommodation, 
 	@Query("MATCH(n:Accommodation) RETURN COUNT(n)")
 	public int getNumberOfAccommodation();
 	
-	@Query("CALL apoc.cypher.run($s, {}) YIELD value RETURN value.n")
-	public List<Accommodation> customQuery(String s);
+	
 
 }

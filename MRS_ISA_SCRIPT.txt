@@ -16,63 +16,63 @@ CREATE (rods:FishingEquipment {name : "Rods", icon : "rod.png"})
 CREATE (lures:FishingEquipment {name : "Lures", icon : "lure.png"})
 CREATE (net:FishingEquipment {name : "Fishing Net", icon : "net.png"})
 
-MERGE(v1:Offer:Accommodation {name : "Etno hotel Vrdnička kula", address: "Potes pod kulom bb", description : "Objekat Etno hotel Vrdnička kula nudi smeštaj sa restoranom, besplatnim privatnim parkingom, barom i vrtom u Vrdniku, na manje od 1 km od Banje Vrdnik. Gostima ovog objekta su na raspolaganju porodične sobe i dečije igralište. Ponuda smeštajnog objekta uključuje recepciju koja radi non-stop, prevoz od/do aerodroma, poslugu u sobi i besplatan WiFi.", roomNumber : 4, numberOfPeople : 8, price : 6999, rating: 4.5, imgFolderPath : "Etno hotel Vrdnička kula", thumbnail : "VrdnickaKula.jpg"})
+MERGE(v1:Offer:Accommodation {name : "Etno hotel Vrdnička kula", address: "Potes pod kulom bb", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Objekat Etno hotel Vrdnička kula nudi smeštaj sa restoranom, besplatnim privatnim parkingom, barom i vrtom u Vrdniku, na manje od 1 km od Banje Vrdnik. Gostima ovog objekta su na raspolaganju porodične sobe i dečije igralište. Ponuda smeštajnog objekta uključuje recepciju koja radi non-stop, prevoz od/do aerodroma, poslugu u sobi i besplatan WiFi.", roomNumber : 4, numOfPeople : 8, price : 6999, rating: 4.5, imgFolderPath : "Etno hotel Vrdnička kula", thumbnail : "VrdnickaKula.jpg"})
 MERGE (v1)-[:IS_IN]->(fruskaGora)
 
-MERGE(v2:Offer:Accommodation {name : "Apartmani Žuti Leptir", address: "Martina Klasića br.7", description : "Objekat Apartmani Žuti Leptir nudi klimatizovani smeštaj sa besplatnim WiFi internetom i vrtom u Vrdniku, na 600 metara od Banje Vrdnik. Apartman sa besplatnim privatnim parkingom se nalazi u oblasti pogodnoj za bavljenje aktivnostima poput pešačenja i vožnje bicikla.", roomNumber : 2, numberOfPeople : 6, price : 3999, rating: 4.3, imgFolderPath : "Apartmani Žuti Leptir", thumbnail : "ZutiLeptir.jpg"})
+MERGE(v2:Offer:Accommodation {name : "Apartmani Žuti Leptir", address: "Martina Klasića br.7", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-08-11'), description : "Objekat Apartmani Žuti Leptir nudi klimatizovani smeštaj sa besplatnim WiFi internetom i vrtom u Vrdniku, na 600 metara od Banje Vrdnik. Apartman sa besplatnim privatnim parkingom se nalazi u oblasti pogodnoj za bavljenje aktivnostima poput pešačenja i vožnje bicikla.", roomNumber : 2, numOfPeople : 6, price : 3999, rating: 4.3, imgFolderPath : "Apartmani Žuti Leptir", thumbnail : "ZutiLeptir.jpg"})
 MERGE (v2)-[:IS_IN]->(fruskaGora)
 
-MERGE(v3:Offer:Accommodation {name : "Drvena Kuca RUŽA", address: "neka ulica 3221", description : "Set in Kopaonik in the Central Serbia region, Drvena Kuca RUŽA offers accommodation with free WiFi and free private parking, as well as access to a Turkish bath. The accommodation features a spa bath and a sauna.", roomNumber : 4, numberOfPeople : 8, price : 5999, rating: 3.8, imgFolderPath : "Drvena Kuca RUŽA", thumbnail : "DrvenaKucaRuza.jpg"})
+MERGE(v3:Offer:Accommodation {name : "Drvena Kuca RUŽA", address: "neka ulica 3221", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Set in Kopaonik in the Central Serbia region, Drvena Kuca RUŽA offers accommodation with free WiFi and free private parking, as well as access to a Turkish bath. The accommodation features a spa bath and a sauna.", roomNumber : 4, numOfPeople : 8, price : 5999, rating: 3.8, imgFolderPath : "Drvena Kuca RUŽA", thumbnail : "DrvenaKucaRuza.jpg"})
 MERGE (v3)-[:IS_IN]->(kopaonik)
 
-MERGE(v4:Offer:Accommodation {name : "Pine Valley House", address: "neka ulica 2541", description : "Objekat Pine Valley House nudi smeštaj sa vrtom na Zlatiboru, u centralnoj Srbiji, na 29 km od naselja Zaovine. Gosti mogu da koriste besplatan WiFi i privatni parking u okviru objekta.", roomNumber : 6, numberOfPeople : 12, price : 21999, rating: 4.2, imgFolderPath : "Pine Valley House", thumbnail : "PineValley.jpg"})
+MERGE(v4:Offer:Accommodation {name : "Pine Valley House", address: "neka ulica 2541", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Objekat Pine Valley House nudi smeštaj sa vrtom na Zlatiboru, u centralnoj Srbiji, na 29 km od naselja Zaovine. Gosti mogu da koriste besplatan WiFi i privatni parking u okviru objekta.", roomNumber : 6, numOfPeople : 12, price : 21999, rating: 4.2, imgFolderPath : "Pine Valley House", thumbnail : "PineValley.jpg"})
 MERGE (v4)-[:IS_IN]->(zlatibor)
 
-MERGE(v5:Offer:Accommodation {name : "Vikendica na Sokolini", address: "Sokolina bb", description : "Objekat Vikendica na Sokolini se nalazi u Gornjoj Koprivni, na 14 km od Zaovina. Gostima je na raspolaganju besplatan privatni parking.
+MERGE(v5:Offer:Accommodation {name : "Vikendica na Sokolini", address: "Sokolina bb", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Objekat Vikendica na Sokolini se nalazi u Gornjoj Koprivni, na 14 km od Zaovina. Gostima je na raspolaganju besplatan privatni parking.
 
-Ova vikendica sa 2 spavaće sobe ima flat-screen TV, opremljenu kuhinju sa frižiderom i rernom, kao i 1 kupatilo sa kadom. U smeštaju su obezbeđeni peškiri i posteljina.", roomNumber : 2, numberOfPeople : 4, price : 6999, rating: 4.0, imgFolderPath : "Vikendica na Sokolini", thumbnail : "VikendicaSokolina.jpg"})
+Ova vikendica sa 2 spavaće sobe ima flat-screen TV, opremljenu kuhinju sa frižiderom i rernom, kao i 1 kupatilo sa kadom. U smeštaju su obezbeđeni peškiri i posteljina.", roomNumber : 2, numOfPeople : 4, price : 6999, rating: 4.0, imgFolderPath : "Vikendica na Sokolini", thumbnail : "VikendicaSokolina.jpg"})
 MERGE (v5)-[:IS_IN]->(tara)
 
-MERGE(v6:Offer:Accommodation {name : "Apartman Savić", address: "Kneza Aleksandra Karađorđevića 22", description : "Objekat Apartman Savić se nalazi u Bajinoj Bašti. Smeštaj je udaljen 22 km od Mokre Gore, a gostima su na raspolaganju privatni parking u okviru objekta i besplatan WiFi.", roomNumber : 2, numberOfPeople : 5, price : 7852, rating: 4.9, imgFolderPath : "Apartman Savić", thumbnail : "ApartmanSavic.jpg"})
+MERGE(v6:Offer:Accommodation {name : "Apartman Savić", address: "Kneza Aleksandra Karađorđevića 22", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Objekat Apartman Savić se nalazi u Bajinoj Bašti. Smeštaj je udaljen 22 km od Mokre Gore, a gostima su na raspolaganju privatni parking u okviru objekta i besplatan WiFi.", roomNumber : 2, numOfPeople : 5, price : 7852, rating: 4.9, imgFolderPath : "Apartman Savić", thumbnail : "ApartmanSavic.jpg"})
 MERGE (v6)-[:IS_IN]->(tara)
 
-MERGE(v7:Offer:Accommodation {name : "Ladybird Lodge", address: "Ludvig polje bb", description : "Sve smeštajne jedinice imaju prostor za sedenje sa kaučem, trpezariju i potpuno opremljenu kuhinju sa raznovrsnim kuhinjskim aparatima, uključujući frižider, rernu, mini-bar i ploču za kuvanje. U sklopu svake jedinice se nalazi kupatilo sa tušem, papučama, fenom za kosu i besplatnim toaletnim priborom.", roomNumber : 4, numberOfPeople : 6, price : 8900, rating: 4.7, imgFolderPath : "Ladybird Lodge", thumbnail : "Ladybird.jpg"})
+MERGE(v7:Offer:Accommodation {name : "Ladybird Lodge", address: "Ludvig polje bb", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Sve smeštajne jedinice imaju prostor za sedenje sa kaučem, trpezariju i potpuno opremljenu kuhinju sa raznovrsnim kuhinjskim aparatima, uključujući frižider, rernu, mini-bar i ploču za kuvanje. U sklopu svake jedinice se nalazi kupatilo sa tušem, papučama, fenom za kosu i besplatnim toaletnim priborom.", roomNumber : 4, numOfPeople : 6, price : 8900, rating: 4.7, imgFolderPath : "Ladybird Lodge", thumbnail : "Ladybird.jpg"})
 MERGE (v7)-[:IS_IN]->(belaCrkva)
 
-MERGE(v8:Offer:Accommodation {name : "Magic Apartment", address: "Milovana Glišića 2", description : "Smeštaj Magic Apartment se nalazi u Novom Sadu, na 2,7 km od sportskog centra SPENS i 3,2 km od tržnog centra Promenada. Nudi besplatan WiFi, klima-uređaj i terasu. Novosadski sajam je udaljen 2,6 km, a mesto održavanja Exit festivala 3 km od objekta.", roomNumber : 3, numberOfPeople : 6, price : 9999, rating: 5.0, imgFolderPath : "Magic Apartment", thumbnail : "MagicApartment.jpg"})
+MERGE(v8:Offer:Accommodation {name : "Magic Apartment", address: "Milovana Glišića 2", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Smeštaj Magic Apartment se nalazi u Novom Sadu, na 2,7 km od sportskog centra SPENS i 3,2 km od tržnog centra Promenada. Nudi besplatan WiFi, klima-uređaj i terasu. Novosadski sajam je udaljen 2,6 km, a mesto održavanja Exit festivala 3 km od objekta.", roomNumber : 3, numOfPeople : 6, price : 9999, rating: 5.0, imgFolderPath : "Magic Apartment", thumbnail : "MagicApartment.jpg"})
 MERGE (v8)-[:IS_IN]->(noviSad)
 
 
 //Boats
-MERGE(b1:Offer:Boat {name : "Bayliner Ciera 285", address: "Milovana Glišića 8", description : "This motor yacht can take up to 8 people away from the city pretty fast to enjoy wilderness of the Sava or Danube rivers.", numOfMotors : 3, motorStrength : 87, price : 9999, rating: 3.2, maxSpeed: 40, capacity: 8, imgFolderPath : "Bayliner Ciera 285", thumbnail : "BaylinerCiera285.jpg"})
+MERGE(b1:Offer:Boat {name : "Bayliner Ciera 285", address: "Milovana Glišića 8", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "This motor yacht can take up to 8 people away from the city pretty fast to enjoy wilderness of the Sava or Danube rivers.", numOfMotors : 3, motorStrength : 87, price : 9999, rating: 3.2, maxSpeed: 40, numOfPeople: 8, imgFolderPath : "Bayliner Ciera 285", thumbnail : "BaylinerCiera285.jpg"})
 MERGE (b1)-[:IS_IN]->(noviSad)
 MERGE (b1)-[:HAS_NAV_EQUIP]->(gps)
 MERGE (b1)-[:HAS_NAV_EQUIP]->(radar)
 MERGE (b1)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b1)-[:HAS_NAV_EQUIP]->(fishFinder)
 
-MERGE(b2:Offer:Boat {name : "Nimbus 3100", address: "Ulica Lalala 6", description : "With this well known brand you can travel far away, safe and cozy, or it can simply take you swimming or fishing with friends and family.", numOfMotors : 4, motorStrength : 165, price : 13000, rating: 4.8, maxSpeed: 64, capacity: 6, imgFolderPath : "Nimbus 3100", thumbnail : "Nimbus3100.jpg"})
+MERGE(b2:Offer:Boat {name : "Nimbus 3100", address: "Ulica Lalala 6", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "With this well known brand you can travel far away, safe and cozy, or it can simply take you swimming or fishing with friends and family.", numOfMotors : 4, motorStrength : 165, price : 13000, rating: 4.8, maxSpeed: 64, numOfPeople: 6, imgFolderPath : "Nimbus 3100", thumbnail : "Nimbus3100.jpg"})
 MERGE (b2)-[:IS_IN]->(palic)
 MERGE (b2)-[:HAS_NAV_EQUIP]->(gps)
 MERGE (b2)-[:HAS_NAV_EQUIP]->(radar)
 MERGE (b2)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b2)-[:HAS_NAV_EQUIP]->(fishFinder)
 
-MERGE(b3:Offer:Boat {name : "Sea Ray Bow Rider 185", address: "Mise Dimitrijevica 7", description : "Classic and reliable bow rider speed boat for any cruise, accommodates up to 5 passengers.", numOfMotors : 2, motorStrength : 200, price : 11300, rating: 4.6, maxSpeed: 100, capacity: 5, imgFolderPath : "Sea Ray Bow Rider 185", thumbnail : "SeaRayBowRider185.jpg"})
+MERGE(b3:Offer:Boat {name : "Sea Ray Bow Rider 185", address: "Mise Dimitrijevica 7", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Classic and reliable bow rider speed boat for any cruise, accommodates up to 5 passengers.", numOfMotors : 2, motorStrength : 200, price : 11300, rating: 4.6, maxSpeed: 100, numOfPeople: 5, imgFolderPath : "Sea Ray Bow Rider 185", thumbnail : "SeaRayBowRider185.jpg"})
 MERGE (b3)-[:IS_IN]->(tara)
 MERGE (b3)-[:HAS_NAV_EQUIP]->(gps)
 MERGE (b3)-[:HAS_NAV_EQUIP]->(radar)
 MERGE (b3)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b3)-[:HAS_NAV_EQUIP]->(fishFinder)
 
-MERGE(b4:Offer:Boat {name : "Yacht lux", address: "Kopernikova 52", description : "This 16 m steel yacht has been built to provide maximum comfort either  in the cabins or on the decks.", numOfMotors : 3, motorStrength : 115, price : 24000, rating: 4.3, maxSpeed: 20, capacity: 20, imgFolderPath : "Yacht lux", thumbnail : "Yachtlux.jpg"})
+MERGE(b4:Offer:Boat {name : "Yacht lux", address: "Kopernikova 52", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "This 16 m steel yacht has been built to provide maximum comfort either  in the cabins or on the decks.", numOfMotors : 3, motorStrength : 115, price : 24000, rating: 4.3, maxSpeed: 20, numOfPeople: 20, imgFolderPath : "Yacht lux", thumbnail : "Yachtlux.jpg"})
 MERGE (b4)-[:IS_IN]->(zlatibor)
 MERGE (b4)-[:HAS_NAV_EQUIP]->(gps)
 MERGE (b4)-[:HAS_NAV_EQUIP]->(radar)
 MERGE (b4)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b4)-[:HAS_NAV_EQUIP]->(fishFinder)
 
-MERGE(b5:Offer:Boat {name : "Rinker 290", address: "Kopernikova 5", description : "This beautiful and powerful cabin cruiser is fully equipped for long cruises…or for just one – but perfect day spent cruising by the downtown Belgrade ,tack on rivers night life or just swiming and sun tanning with cold drinks.", numOfMotors : 6, motorStrength : 320, price : 18999, rating: 4.7, maxSpeed: 200, capacity: 6, imgFolderPath : "Rinker 290", thumbnail : "Rinker290.jpg"})
+MERGE(b5:Offer:Boat {name : "Rinker 290", address: "Kopernikova 5", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "This beautiful and powerful cabin cruiser is fully equipped for long cruises…or for just one – but perfect day spent cruising by the downtown Belgrade ,tack on rivers night life or just swiming and sun tanning with cold drinks.", numOfMotors : 6, motorStrength : 320, price : 18999, rating: 4.7, maxSpeed: 200, numOfPeople: 6, imgFolderPath : "Rinker 290", thumbnail : "Rinker290.jpg"})
 MERGE (b5)-[:IS_IN]->(belaCrkva)
 MERGE (b5)-[:HAS_NAV_EQUIP]->(gps)
 MERGE (b5)-[:HAS_NAV_EQUIP]->(radar)
@@ -80,37 +80,37 @@ MERGE (b5)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b5)-[:HAS_NAV_EQUIP]->(fishFinder)
 
 //Fishing Tours
-MERGE(f1:Offer:FishingTour {name : "Fly Fishing", address: "Dimitrija Tucovića 3", description : "U ponudi dajemo mogućnost učesnicima da sami odaberu reke i jezera koja žele da posete, period godine u kojem će tura biti organizovana, kao i vrstu ribolovačke tehnike kojoj žele da se posvete.", price : 14000, rating: 4.4, maxNumOfPeople : 12, imgFolderPath : "Fly Fishing", thumbnail : "FlyFishing1.jpg"})
+MERGE(f1:Offer:FishingTour {name : "Fly Fishing", address: "Dimitrija Tucovića 3", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'),description : "U ponudi dajemo mogućnost učesnicima da sami odaberu reke i jezera koja žele da posete, period godine u kojem će tura biti organizovana, kao i vrstu ribolovačke tehnike kojoj žele da se posvete.", price : 14000, rating: 4.4, numOfPeople : 12, imgFolderPath : "Fly Fishing", thumbnail : "FlyFishing1.jpg"})
 MERGE (f1)-[:IS_IN]->(belaCrkva)
 MERGE (f1)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f1)-[:HAS_FISH_EQUIP]->(lures)
 MERGE (f1)-[:HAS_FISH_EQUIP]->(net)
 
-MERGE(f2:Offer:FishingTour {name : "Fly Fishing 2", address: "Novosadska 1", description: "Posetioci mogu napraviti izbor da sve dane boravka provedu na jednoj reci, ili pak da svaki dan posvete odkrivanju različitih reka.", price : 16000, rating: 4.2, maxNumOfPeople : 18, imgFolderPath : "Fly Fishing 2", thumbnail : "FlyFishing2.jpg"})
+MERGE(f2:Offer:FishingTour {name : "Fly Fishing 2", address: "Novosadska 1", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description: "Posetioci mogu napraviti izbor da sve dane boravka provedu na jednoj reci, ili pak da svaki dan posvete odkrivanju različitih reka.", price : 16000, rating: 4.2, numOfPeople : 18, imgFolderPath : "Fly Fishing 2", thumbnail : "FlyFishing2.jpg"})
 MERGE (f2)-[:IS_IN]->(beograd)
 MERGE (f2)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f2)-[:HAS_FISH_EQUIP]->(lures)
 MERGE (f2)-[:HAS_FISH_EQUIP]->(net)
 
-MERGE(f3:Offer:FishingTour {name : "Spin Jig Fishing", address: "Novosadska 2", description: "U sklopu obilaska, omogućene su i posete nacionalnim parkovima u kojima posetioci mogu uživati u netaknutoj prirodi zaštićenoj UNESCO-m.", price : 12999, rating: 4.8, maxNumOfPeople : 14, imgFolderPath : "Spin Jig Fishing", thumbnail : "SpinJigFishing1.jpg"})
+MERGE(f3:Offer:FishingTour {name : "Spin Jig Fishing", address: "Novosadska 2", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description: "U sklopu obilaska, omogućene su i posete nacionalnim parkovima u kojima posetioci mogu uživati u netaknutoj prirodi zaštićenoj UNESCO-m.", price : 12999, rating: 4.8, numOfPeople : 14, imgFolderPath : "Spin Jig Fishing", thumbnail : "SpinJigFishing1.jpg"})
 MERGE (f3)-[:IS_IN]->(kopaonik)
 MERGE (f3)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f3)-[:HAS_FISH_EQUIP]->(lures)
 MERGE (f3)-[:HAS_FISH_EQUIP]->(net)
 
-MERGE(f4:Offer:FishingTour {name : "Spin Jig Fishing 2", address: "Novosadska 3", description: "U cenu su uključene i potrebne licence za sve dane boravka na vodi. Poslednji dan ture je rezervisan za oproštajno veče, nakon čega Vam nudimo organizovan prevoz na aerodrom.", price : 23000, rating: 3.6, maxNumOfPeople : 22, imgFolderPath : "Spin Jig Fishing 2", thumbnail : "SpinJigFishing2.jpg"})
+MERGE(f4:Offer:FishingTour {name : "Spin Jig Fishing 2", address: "Novosadska 3", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description: "U cenu su uključene i potrebne licence za sve dane boravka na vodi. Poslednji dan ture je rezervisan za oproštajno veče, nakon čega Vam nudimo organizovan prevoz na aerodrom.", price : 23000, rating: 3.6, numOfPeople : 22, imgFolderPath : "Spin Jig Fishing 2", thumbnail : "SpinJigFishing2.jpg"})
 MERGE (f4)-[:IS_IN]->(palic)
 MERGE (f4)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f4)-[:HAS_FISH_EQUIP]->(lures)
 MERGE (f4)-[:HAS_FISH_EQUIP]->(net)
 
-MERGE(f5:Offer:FishingTour {name : "Spin Jig Fishing Extreme 2", address: "Novosadska 4", description: "Dođite da zajedno uživamo u neprocenjivoj lepoti prirode i da razmenjujemo stečena ribolovačka iskustva.", price : 9999, rating: 2.8, maxNumOfPeople : 6, imgFolderPath : "Spin Jig Fishing Extreme 2", thumbnail : "Fishing1.jpg"})
+MERGE(f5:Offer:FishingTour {name : "Spin Jig Fishing Extreme 2", address: "Novosadska 4", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description: "Dođite da zajedno uživamo u neprocenjivoj lepoti prirode i da razmenjujemo stečena ribolovačka iskustva.", price : 9999, rating: 2.8, numOfPeople : 6, imgFolderPath : "Spin Jig Fishing Extreme 2", thumbnail : "Fishing1.jpg"})
 MERGE (f5)-[:IS_IN]->(noviSad)
 MERGE (f5)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f5)-[:HAS_FISH_EQUIP]->(lures)
 MERGE (f5)-[:HAS_FISH_EQUIP]->(net)
 
-MERGE(f6:Offer:FishingTour {name : "Spin Jig Fishing Extreme", address: "Novosadska 5", description: "Naši profesionalni vodiči, na čelu sa Mlađom i Radom, će se postarati da Vaš boravak bude prijatan, a ribolovački doživljaj uspešan.", price : 14600, rating: 4.5, maxNumOfPeople : 10, imgFolderPath : "Spin Jig Fishing Extreme", thumbnail : "Fishing2.jpg"})
+MERGE(f6:Offer:FishingTour {name : "Spin Jig Fishing Extreme", address: "Novosadska 5", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description: "Naši profesionalni vodiči, na čelu sa Mlađom i Radom, će se postarati da Vaš boravak bude prijatan, a ribolovački doživljaj uspešan.", price : 14600, rating: 4.5, numOfPeople : 10, imgFolderPath : "Spin Jig Fishing Extreme", thumbnail : "Fishing2.jpg"})
 MERGE (f6)-[:IS_IN]->(tara)
 MERGE (f6)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f6)-[:HAS_FISH_EQUIP]->(lures)

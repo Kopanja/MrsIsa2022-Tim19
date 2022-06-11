@@ -68,7 +68,7 @@ public class BoatService {
 		BoatDTO boatDTO = new BoatDTO();
 		OfferDTO offerDTO = this.toDTO(obj);
 		boatDTO.setOfferDTO(offerDTO);
-		boatDTO.setCapacity(obj.getCapacity());
+		boatDTO.setCapacity(obj.getNumOfPeople());
 		boatDTO.setLength(obj.getLength());
 		boatDTO.setMaxSpeed(obj.getMaxSpeed());
 		boatDTO.setMotorStrength(obj.getMotorStrength());

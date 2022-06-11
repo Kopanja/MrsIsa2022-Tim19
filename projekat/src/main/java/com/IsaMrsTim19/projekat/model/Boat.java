@@ -16,7 +16,6 @@ public class Boat extends Offer {
 	private int numOfMotors;
 	private int motorStrength;
 	private int maxSpeed;
-	private int capacity;
 	@Relationship(type="HAS_NAV_EQUIP", direction=Direction.OUTGOING)
 	private List<NavigationEquipment> navigationEquipment;
 
@@ -24,14 +23,13 @@ public class Boat extends Offer {
 		super();
 	}
 
-	public Boat(double length, int numOfMotors, int motorStrength, int maxSpeed, int capacity,
+	public Boat(double length, int numOfMotors, int motorStrength, int maxSpeed,
 			List<NavigationEquipment> navigationEquipment) {
 		super();
 		this.length = length;
 		this.numOfMotors = numOfMotors;
 		this.motorStrength = motorStrength;
 		this.maxSpeed = maxSpeed;
-		this.capacity = capacity;
 		this.navigationEquipment = navigationEquipment;
 	}
 
@@ -67,13 +65,6 @@ public class Boat extends Offer {
 		this.maxSpeed = maxSpeed;
 	}
 
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
 
 	public List<NavigationEquipment> getNavigationEquipment() {
 		return navigationEquipment;
@@ -86,7 +77,7 @@ public class Boat extends Offer {
 	@Override
 	public String toString() {
 		return super.toString() + " Boat [length=" + length + ", numOfMotors=" + numOfMotors + ", motorStrength=" + motorStrength
-				+ ", maxSpeed=" + maxSpeed + ", capacity=" + capacity + ", navigationEquipment=" + navigationEquipment
+				+ ", maxSpeed=" + maxSpeed + ", navigationEquipment=" + navigationEquipment
 				+ "]";
 	}
 

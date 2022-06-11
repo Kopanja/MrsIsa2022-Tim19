@@ -27,14 +27,13 @@ public class Offer {
 	
 	@ConvertWith(converter =  DateStringConverter.class)
 	private Date avaliableUntil;
-	
-	
 	private String address;
 	private String description;
 	private double rating;
 	private double price;
 	private String imgFolderPath;
 	private String thumbnail;
+	private int numOfPeople;
 	
 	public Long getId() {
 		return id;
@@ -102,6 +101,13 @@ public class Offer {
 	public void setAvaliableUntil(Date avaliableUntil) {
 		this.avaliableUntil = avaliableUntil;
 	}
+	public int getNumOfPeople() {
+		return numOfPeople;
+	}
+	public void setNumOfPeople(int numOfPeople) {
+		this.numOfPeople = numOfPeople;
+	}
+	
 	
 	
 	

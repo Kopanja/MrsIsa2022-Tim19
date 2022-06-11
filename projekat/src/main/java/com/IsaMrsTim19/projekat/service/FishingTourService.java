@@ -57,7 +57,7 @@ public class FishingTourService {
 		FishingTourDTO fishingTourDTO = new FishingTourDTO();
 		OfferDTO offerDTO = this.toDTO(obj);
 		fishingTourDTO.setOfferDTO(offerDTO);
-		fishingTourDTO.setMaxNumOfPeople(obj.getMaxNumOfPeople());
+		fishingTourDTO.setMaxNumOfPeople(obj.getNumOfPeople());
 		
 		fishingTourDTO.setContentImages(offerService.createImageURLs(obj));
 		return fishingTourDTO;
