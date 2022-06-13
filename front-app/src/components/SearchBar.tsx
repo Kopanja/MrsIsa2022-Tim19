@@ -14,14 +14,16 @@ import dateToIcon from "../resources/date-to-icon.svg";
 import peopleIcon from "../resources/people.svg";
 import searchButton from "../resources/searchButton.svg";
 import moment from 'moment';
+import {useNavigate} from 'react-router-dom'
 export const SearchBar = () => {
-    
+    const navigate = useNavigate();
     const [startDate, setStartDate] = useState<Date|null>();
     const [endDate, setEndDate] = useState<Date|null>();
     const [cities, setCities] = useState<string[]>();
     const [selectedCity, setSelectedCity] = useState<string|null>();
     const [numOfPeople, setNumOfPeople] = useState<string|null>();
-    
+    const [selectedType, setSelectedType] = useState<string|null>();
+    const [query, setQuery] = useState<string|null>();
     useEffect(() => {
         axios
           .get(`http://localhost:8080/api/city`)
@@ -33,11 +35,11 @@ export const SearchBar = () => {
           .catch((err) => {
             console.log(err);
           });
-      },[]);
+      },[query]);
     
     
     const sendQuery = () => {
-        let query = "?";
+        let query = "";
         let firstParamSet = false;
         if(startDate){
             if(firstParamSet){
@@ -69,6 +71,18 @@ export const SearchBar = () => {
             query = query + "city=" + selectedCity;
             firstParamSet = true;
         }
+        if(selectedType){
+            if(firstParamSet){
+                query = query + "&";
+            }
+            query = query + "type=" + selectedType;
+            firstParamSet = true;
+
+        }
+        setQuery(query);
+        navigate(`/search/${query}`);
+        //navigate(`/search/dateFrom=2022-06-13&dateTo=2022-06-15&numOfPeople=6&city=Novi%20Sad`);
+        /*
         axios
         .get(`http://localhost:8080/api/offer/search` + query)
         .then((res) => {
@@ -78,7 +92,7 @@ export const SearchBar = () => {
         .catch((err) => {
           console.log(err);
         });
-
+*/
 
     }
     
@@ -94,6 +108,10 @@ export const SearchBar = () => {
         return options;
     }
     
+    const selectedTypeButtonClick = (type:string|null) => {
+        setSelectedType(type);
+    }
+
     const handler = (event:any) => {
         const value = event.value;
         setSelectedCity(value);
@@ -103,10 +121,10 @@ export const SearchBar = () => {
     <div className='searchContainer'>
         <div className='searchOfferFilter'>
             <p className='filterButtonText' style={{fontSize : 25, color : "#FFF"}}>I'm Searching For: </p>
-            <button className='filterButtons filterButtonText'>All Offers</button>
-            <button className='filterButtons filterButtonText'><img src = {houseIcon} alt = "House Icon"></img> Accommodation</button>
-            <button className='filterButtons filterButtonText'><img src = {boatIcon} alt = "Boat Icon"></img> Boats</button>
-            <button className='filterButtons filterButtonText'><img src = {fishingIcon} alt = "Fishing Icon"></img> Fishing Tours</button>
+            <button className='filterButtons filterButtonText' onClick={() => selectedTypeButtonClick(null)}>All Offers</button>
+            <button className='filterButtons filterButtonText' onClick={() => selectedTypeButtonClick("Accommodation")}><img src = {houseIcon} alt = "House Icon"></img> Accommodation</button>
+            <button className='filterButtons filterButtonText' onClick={() => selectedTypeButtonClick("Boat")}><img src = {boatIcon} alt = "Boat Icon"></img> Boats</button>
+            <button className='filterButtons filterButtonText' onClick={() => selectedTypeButtonClick("FishingTour")}><img src = {fishingIcon} alt = "Fishing Icon"></img> Fishing Tours</button>
         </div>
         <div className = "searchBar">
             <div className='flex-row-center-div searchBarItem'>

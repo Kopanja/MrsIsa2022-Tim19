@@ -52,11 +52,12 @@ public class OfferController {
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<AccommodationDTO> getSearchResult(@RequestParam Map<String,String> searchParams) {
-		System.out.println(searchParams);
-		System.out.println(offerService.searchResult(searchParams));
+	public ResponseEntity<List<OfferDTO>> getSearchResult(@RequestParam Map<String,String> searchParams) {
+		
+		
+		List<OfferDTO> dtos = offerService.searchResult(searchParams);
 		//System.out.println(accommService.searchResult("MATCH (n:Accommodation) RETURN n"));
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 
 	}
 	

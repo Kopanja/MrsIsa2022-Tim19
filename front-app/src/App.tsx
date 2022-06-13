@@ -5,6 +5,7 @@ import AccommodationPage from "./components/Accommodation/AccommodationPage"
 import BoatPage from './components/Boat/BoatPage';
 import FishingTourPage from './components/FishingTour/FishingTourPage';
 import './App.css';
+import SearchResultComponent from './components/SearchResultComponent';
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
         <Route path="fishingTour">
           <Route index element = {<FishingTourPage/>}/>
           <Route path=":id" element = {<FishingTourPage/>}/>
+        </Route>
+        <Route path="search/">
+          <Route index element = {<SearchResultComponent/>}/>
+          <Route path=":query" element = {<SearchResultComponent/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

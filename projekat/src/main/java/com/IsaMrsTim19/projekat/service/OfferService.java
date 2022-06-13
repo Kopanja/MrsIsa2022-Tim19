@@ -45,14 +45,16 @@ public class OfferService {
 		return offersByPageDTO;
 	}
 	
-	public List<Offer> searchResult(Map<String, String> queryParams){
+	public List<OfferDTO> searchResult(Map<String, String> queryParams){
 		String query = queryService.generateSearchQuery(queryParams);
 		List<Offer> offers = offerRepo.customQuery(query);
+		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
 		for(Offer offer : offers) {
-			System.out.println(offer.getName());
+			System.out.println(offer);
+			dtos.add(this.toDTO(offer));
 			//System.out.println(accomm.getNumberOfPeople());
 		}
-		return offerRepo.customQuery(query);
+		return dtos;
 	}
 	
 	public int getNumberOfPages() {

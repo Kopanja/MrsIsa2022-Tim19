@@ -12,13 +12,13 @@ public class QueryService {
 		System.out.println(queryParams);
 		String query = "MATCH (n";
 		String condition = " WHERE ";
-		String ret = " RETURN n";
+		String ret = " RETURN n,r,c";
 		boolean conditionExists = false;
 		
 		if(queryParams.containsKey("type")) {
-			query += ":" + queryParams.get("type") + ") ";
+			query += ":" + queryParams.get("type") + ")-[r:IS_IN]->(c:City) ";
 		}else {
-			query += ") ";
+			query += ")-[r:IS_IN]->(c:City) ";
 		}
 		
 		if(queryParams.containsKey("numOfPeople")) {
@@ -26,6 +26,14 @@ public class QueryService {
 				condition += " AND ";
 			}
 			condition += "n.numOfPeople >= " + queryParams.get("numOfPeople");
+			conditionExists = true;
+		}
+		
+		if(queryParams.containsKey("city")) {
+			if(conditionExists) {
+				condition += " AND ";
+			}
+			condition += "c.name = '" + queryParams.get("city") + "'";
 			conditionExists = true;
 		}
 		

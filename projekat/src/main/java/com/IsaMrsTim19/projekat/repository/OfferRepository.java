@@ -19,6 +19,6 @@ public interface OfferRepository extends Neo4jRepository<Offer, Long> {
 	@Query("MATCH(n:Offer) RETURN COUNT(n)")
 	public int getNumberOfOffers();
 	
-	@Query("CALL apoc.cypher.run($s, {}) YIELD value RETURN value.n")
+	@Query("CALL apoc.cypher.run($s, {}) YIELD value RETURN value.n, value.r, value.c")
 	public List<Offer> customQuery(String s);
 }
