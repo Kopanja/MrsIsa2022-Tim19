@@ -7,9 +7,9 @@ CREATE (tara:City {name : "Tara"})
 CREATE (kopaonik:City {name : "Kopaonik"})
 CREATE (zlatibor:City {name : "Zlatibor"})
 
-CREATE (admin: Role {role : "ADMIN"})
+CREATE (admi: Role {role : "ADMIN"})
 CREATE (client: Role {role : "CLIENT"})
-CREATE (Owner: Role {role : "OWNER"})
+CREATE (owner: Role {role : "OWNER"})
 
 CREATE(gps:NavigationEquipment {name : "GPS", icon : "gps.png"})
 CREATE(radar:NavigationEquipment {name : "Radar", icon : "radar.png"})
