@@ -1,6 +1,7 @@
 package com.IsaMrsTim19.projekat.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.neo4j.core.convert.ConvertWith;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
@@ -22,11 +23,16 @@ public class Offer {
 	@Relationship(type="IS_IN", direction=Direction.OUTGOING)
 	private City city;
 	
+	@Relationship(type="HAS_RESERVATION", direction=Direction.OUTGOING)
+	private List<Reservation> reservations;
+	
 	@ConvertWith(converter =  DateStringConverter.class)
 	private Date avaliableFrom;
 	
 	@ConvertWith(converter =  DateStringConverter.class)
 	private Date avaliableUntil;
+	
+	
 	private String address;
 	private String description;
 	private double rating;
@@ -106,6 +112,12 @@ public class Offer {
 	}
 	public void setNumOfPeople(int numOfPeople) {
 		this.numOfPeople = numOfPeople;
+	}
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 	
 	
