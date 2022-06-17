@@ -35,7 +35,7 @@ public class AuthenticationController {
 
 	
 	@RequestMapping(value = "/confirmation", method = RequestMethod.GET)
-	public void sendEmail(HttpServletResponse response,@RequestParam String token) {
+	public void confirmEmail(HttpServletResponse response,@RequestParam String token) {
 		boolean isConfirmed = authService.confirmRegistration(token);
 		if(isConfirmed) {
 			response.setHeader("Location", "http://localhost:3000/");
@@ -44,16 +44,28 @@ public class AuthenticationController {
 
 	}
 	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public void test() {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
+	}
+	
+	
 	@PostMapping(value = "/register")
 	public ResponseEntity<?> register(@RequestBody NewClientDTO newUserDTO, HttpServletResponse response)
-			throws Exception {
-		System.out.println(newUserDTO);
-		User newUser = authService.register(newUserDTO);
+			{
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		System.out.println("New User:" + newUserDTO);
+		User newUser;
+		try {
+			newUser = authService.register(newUserDTO);
+		} catch (Exception e) {
+			return new ResponseEntity<>("User with email: " + newUserDTO.getClient().getEmail() + " already exists",HttpStatus.BAD_REQUEST);
+		}
 		if (newUser != null) {
 			System.out.println(newUser);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Sorry, something went wrong",HttpStatus.BAD_REQUEST);
 		}
 
 	}

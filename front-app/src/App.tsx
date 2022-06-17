@@ -6,6 +6,7 @@ import BoatPage from './components/Boat/BoatPage';
 import FishingTourPage from './components/FishingTour/FishingTourPage';
 import './App.css';
 import SearchResultComponent from './components/SearchResultComponent';
+import RegistrationPage from './components/RegistrationPage';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         <Route path="search/">
           <Route index element = {<SearchResultComponent/>}/>
           <Route path=":query" element = {<SearchResultComponent/>}/>
+        </Route>
+        <Route path="register">
+          <Route index element = {<RegistrationPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

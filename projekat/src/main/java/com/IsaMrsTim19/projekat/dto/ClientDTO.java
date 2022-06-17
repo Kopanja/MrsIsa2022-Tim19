@@ -119,6 +119,14 @@ public class ClientDTO {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "ClientDTO [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", password="
+				+ password + ", role=" + role + ", address=" + address + ", phoneNumber=" + phoneNumber + "]";
+	}
 	
 	
 

@@ -8,4 +8,5 @@ import com.IsaMrsTim19.projekat.model.User;
 @Repository
 public interface UserRepository extends Neo4jRepository<User, Long> {
 
+	User findByEmail(String email);
 }

@@ -7,9 +7,13 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import closeIcon from "../../resources/close.png"
 import logo from "../../resources/logo.svg";
-import traveler from "../../resources/traveler.png"
-import roomIcon from "../../resources/room-icon.png"
-import locationIcon from "../../resources/location.png"
+import traveler from "../../resources/traveler.png";
+import roomIcon from "../../resources/room-icon.png";
+import locationIcon from "../../resources/location.png";
+import HeroComponent from '../HeroComponent';
+import Navbar from '../Navbar';
+
+
 const AccommodationPage = () => {
   
   const [accommodation, setAccommodation] = useState<Accommodation>();
@@ -33,7 +37,7 @@ const AccommodationPage = () => {
   return (
     <div>
       
-        
+      <Navbar></Navbar>
       {viewImages? 
           <div>
           <img src = {closeIcon} className = "close-image clickable" onClick={() => {setViewImages(false)}}/>
@@ -47,7 +51,6 @@ const AccommodationPage = () => {
           </div>
       : 
             <div>
-              <img src={logo} className="logo" alt="altImg" />
               <div className='main-div'>
               <div className='images-container'>
                 <div className='container-row'>

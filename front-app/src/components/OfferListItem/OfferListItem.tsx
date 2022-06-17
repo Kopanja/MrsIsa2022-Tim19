@@ -2,7 +2,8 @@ import React from "react";
 import "../../css/offerListItem.css";
 import StarRatings from "react-star-ratings";
 import { Props } from "./OfferListItem.types";
-import {useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom';
+
 const OfferListItem: React.FC<Props> = ({ offer }) => {
   const navigate = useNavigate();
   return (

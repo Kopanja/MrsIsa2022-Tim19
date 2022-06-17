@@ -31,7 +31,13 @@ public class AuthenticationService {
 	@Autowired
 	private EmailSenderService emailService;
 	
-	public User register(NewClientDTO newUserDTO) {
+	public User register(NewClientDTO newUserDTO) throws Exception {
+		
+	
+		if(userService.findByEmail(newUserDTO.getClient().getEmail()) != null) {
+			throw new Exception();
+		}
+		
 		
 		String hashedPassword = passwordEncoder.encode(newUserDTO.getPassword());
 		newUserDTO.setPassword(hashedPassword);
