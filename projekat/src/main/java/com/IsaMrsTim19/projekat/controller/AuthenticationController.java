@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.IsaMrsTim19.projekat.dto.LoggedInUserDTO;
+import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.User;
@@ -53,8 +55,6 @@ public class AuthenticationController {
 	@PostMapping(value = "/register")
 	public ResponseEntity<?> register(@RequestBody NewClientDTO newUserDTO, HttpServletResponse response)
 			{
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		System.out.println("New User:" + newUserDTO);
 		User newUser;
 		try {
 			newUser = authService.register(newUserDTO);
@@ -67,6 +67,16 @@ public class AuthenticationController {
 		} else {
 			return new ResponseEntity<>("Sorry, something went wrong",HttpStatus.BAD_REQUEST);
 		}
+
+	}
+	
+	
+	@PostMapping(value = "/login")
+	public ResponseEntity<LoggedInUserDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response)
+			{
+		LoggedInUserDTO dto = authService.login(loginDto);
+		
+		return new ResponseEntity<LoggedInUserDTO>(dto,HttpStatus.OK);
 
 	}
 

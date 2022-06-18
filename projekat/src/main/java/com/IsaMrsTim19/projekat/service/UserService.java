@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
+import com.IsaMrsTim19.projekat.dto.UserDTO;
 import com.IsaMrsTim19.projekat.model.Role;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.repository.RoleRepository;
@@ -17,8 +18,6 @@ public class UserService {
 	
 	@Autowired
 	RoleRepository roleRepo;
-
-	
 	
 	public User createClient(NewClientDTO dto) {
 		
@@ -38,6 +37,10 @@ public class UserService {
 		
 		return user;
 		
+	}
+	
+	public UserDTO toDTO(User user) {
+		return new UserDTO(user.getFirstname(), user.getLastname(), user.getEmail(), user.getPhoneNumber());
 	}
 	
 	public User findByEmail(String email) {
