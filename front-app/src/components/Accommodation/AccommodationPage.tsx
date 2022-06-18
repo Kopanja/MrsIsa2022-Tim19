@@ -12,6 +12,7 @@ import roomIcon from "../../resources/room-icon.png";
 import locationIcon from "../../resources/location.png";
 import HeroComponent from '../HeroComponent';
 import Navbar from '../Navbar';
+import AuthAxios from '../../services/AuthAxios';
 
 
 const AccommodationPage = () => {
@@ -22,8 +23,8 @@ const AccommodationPage = () => {
   
   useEffect(() => {
     if (id) {
-      axios
-      .get(`http://localhost:8080/api/accommodation/id/${id}`)
+      AuthAxios
+      .get(`/accommodation/id/${id}`)
       .then((res) => {
         console.log(res.data);
         setAccommodation(res.data);

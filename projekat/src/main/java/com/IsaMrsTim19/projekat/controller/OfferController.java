@@ -36,8 +36,7 @@ public class OfferController {
 	OfferService offerService;
 	
 	
-	
-	@PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER', 'CLIENT')")
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Offer>> getAllOffers() {
 		List<Offer> allOffers = offerService.getAllOffers();

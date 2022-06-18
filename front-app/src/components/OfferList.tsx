@@ -1,10 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import OfferListItem from "./OfferListItem";
 import Pagination from "./Pagination";
 import "../css/offerList.css";
 import { OfferData } from "./OfferListItem/OfferListItem.types";
+import AuthAxios from '../services/AuthAxios';
 
 type OfferType = "offer" | "accommodation" | "boat" | "fishingTour";
 
@@ -15,8 +15,8 @@ const OfferList = () => {
   const [offerType, setOfferType] = useState<OfferType>("offer");
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/${offerType}/${currentPage}`)
+    AuthAxios
+      .get(`/${offerType}/${currentPage}`)
       .then((res) => {
         console.log(res.data);
         setOffers(res.data["dtos"]);

@@ -12,6 +12,8 @@ import traveler from "../../resources/traveler.png"
 import roomIcon from "../../resources/room-icon.png"
 import locationIcon from "../../resources/location.png"
 import checkMark from "../../resources/check-mark.png"
+import AuthAxios from '../../services/AuthAxios';
+
 const BoatPage = () => {
     const [boat, setBoat] = useState<Boat>();
     const [viewImages, setViewImages ] = useState<boolean>(false);
@@ -19,8 +21,8 @@ const BoatPage = () => {
 
     useEffect(() => {
         if (id) {
-          axios
-          .get(`http://localhost:8080/api/boat/id/${id}`)
+          AuthAxios
+          .get(`/boat/id/${id}`)
           .then((res) => {
             console.log(res.data);
             setBoat(res.data);

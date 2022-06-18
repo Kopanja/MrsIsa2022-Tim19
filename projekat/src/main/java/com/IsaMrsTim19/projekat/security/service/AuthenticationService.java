@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,7 +50,7 @@ public class AuthenticationService {
 	private AuthenticationManager authenticationManager;
 	
 	
-	public LoggedInUserDTO login(LoginDTO loginDTO) {
+	public LoggedInUserDTO login(LoginDTO loginDTO) throws BadCredentialsException {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				loginDTO.getEmail(), loginDTO.getPassword()));
 		

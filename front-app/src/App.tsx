@@ -7,6 +7,7 @@ import FishingTourPage from './components/FishingTour/FishingTourPage';
 import './App.css';
 import SearchResultComponent from './components/SearchResultComponent';
 import RegistrationPage from './components/RegistrationPage';
+import LoginPage from './components/LoginPage';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
         </Route>
         <Route path="register">
           <Route index element = {<RegistrationPage/>}/>
+        </Route>
+        <Route path="login">
+          <Route index element = {<LoginPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

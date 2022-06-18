@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RegistrationData } from './types/RegistrationData.types';
 import { validateLocaleAndSetLanguage } from 'typescript';
 import {useNavigate} from 'react-router-dom';
+import AuthAxios from '../services/AuthAxios';
 const RegistrationPage = () => {
    
     const navigate = useNavigate();
@@ -17,6 +18,8 @@ const RegistrationPage = () => {
     const [passwordError, setPasswordError] = useState<string|undefined>();
     const [phoneNumberError, setPhoneNumberError] = useState<string|undefined>();
     const [responseError, setResponseError] = useState<string|undefined>();
+    
+    
     const validate = () => {
         const emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         const phoneReg = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
@@ -43,7 +46,7 @@ const RegistrationPage = () => {
         setResponseError(undefined);
         if(validate()){
             let registerData = {client : {firstname : firstname, lastname : lastname, email : email, phoneNumber : phoneNumber}, password : password1};
-            axios.post("http://localhost:8080/api/auth/register", registerData).then((response) => {
+            AuthAxios.post("/auth/register", registerData).then((response) => {
                 console.log(response)
                 navigate(`/`);
             }).catch((error) => {

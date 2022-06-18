@@ -7,6 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import closeIcon from "../../resources/close.png"
 import logo from "../../resources/logo.svg";
+import AuthAxios from '../../services/AuthAxios';
 
 const FishingTourPage = () => {
     const [fishingTour, setFishingTour] = useState<FishingTour>();
@@ -15,8 +16,8 @@ const FishingTourPage = () => {
 
     useEffect(() => {
         if (id) {
-          axios
-          .get(`http://localhost:8080/api/fishingTour/id/${id}`)
+          AuthAxios
+          .get(`/fishingTour/id/${id}`)
           .then((res) => {
             console.log(res.data);
             setFishingTour(res.data);

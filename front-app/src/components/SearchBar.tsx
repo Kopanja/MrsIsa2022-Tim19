@@ -15,6 +15,9 @@ import peopleIcon from "../resources/people.svg";
 import searchButton from "../resources/searchButton.svg";
 import moment from 'moment';
 import {useNavigate} from 'react-router-dom'
+import AuthAxios from '../services/AuthAxios';
+
+
 export const SearchBar = () => {
     const navigate = useNavigate();
     const [startDate, setStartDate] = useState<Date|null>();
@@ -25,8 +28,8 @@ export const SearchBar = () => {
     const [selectedType, setSelectedType] = useState<string|null>();
     const [query, setQuery] = useState<string|null>();
     useEffect(() => {
-        axios
-          .get(`http://localhost:8080/api/city`)
+        AuthAxios
+          .get(`/city`)
           .then((res) => {
             console.log(res.data);
             setCities(res.data);

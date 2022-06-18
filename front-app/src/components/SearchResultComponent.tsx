@@ -5,6 +5,7 @@ import axios from "axios";
 import { OfferData } from "./OfferListItem/OfferListItem.types";
 import OfferListItem from "./OfferListItem";
 import Pagination from "./Pagination";
+import AuthAxios from '../services/AuthAxios';
 const SearchResultComponent = () => {
     const { query } = useParams();
     const [offers, setOffers] = useState<OfferData[]>([]);
@@ -12,9 +13,9 @@ const SearchResultComponent = () => {
 
     useEffect(() => {
         if(query) {
-            console.log(`http://localhost:8080/api/offer/search?${query}`);
-            axios
-            .get(`http://localhost:8080/api/offer/search?${query}`)
+            console.log(`/offer/search?${query}`);
+            AuthAxios
+            .get(`/offer/search?${query}`)
             .then((res) => {
             setOffers(res.data);
             console.log(res.data);

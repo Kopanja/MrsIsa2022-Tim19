@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,9 +73,15 @@ public class AuthenticationController {
 	
 	
 	@PostMapping(value = "/login")
-	public ResponseEntity<LoggedInUserDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response)
+	public ResponseEntity<?> login(@RequestBody LoginDTO loginDto, HttpServletResponse response)
 			{
-		LoggedInUserDTO dto = authService.login(loginDto);
+		LoggedInUserDTO dto = null;
+		try {
+			dto = authService.login(loginDto);
+		}catch(BadCredentialsException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
 		
 		return new ResponseEntity<LoggedInUserDTO>(dto,HttpStatus.OK);
 
@@ -82,7 +89,6 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
 	public void handleGet(HttpServletResponse response) {
-		System.out.println("aaaaaaaaaaaaaaaaaaaaa");
 		 response.setHeader("Location", "http://localhost:3000/");
 		 response.setStatus(302);   
 	    //return new ResponseEntity(headers, HttpStatus.FOUND);
