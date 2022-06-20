@@ -8,12 +8,15 @@ import './App.css';
 import SearchResultComponent from './components/SearchResultComponent';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage';
+import ClientRegistrationPage from './components/ClientRegistrationPage';
+import OwnerRegistrationPage from './components/OwnerRegistrationPage';
 
 function App() {
   return (
     <div className="App">
      <BrowserRouter>
       <Routes>
+        
         <Route path="/" element = {<HomePage/>}/>
         <Route path="accommodation">
           <Route index element = {<AccommodationPage/>}/>
@@ -36,6 +39,12 @@ function App() {
         </Route>
         <Route path="login">
           <Route index element = {<LoginPage/>}/>
+        </Route>
+        <Route path="client-registration">
+          <Route index element = {<ClientRegistrationPage/>}/>
+        </Route>
+        <Route path="owner-registration">
+          <Route index element = {<OwnerRegistrationPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

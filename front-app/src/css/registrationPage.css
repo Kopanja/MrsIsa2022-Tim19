@@ -1,0 +1,60 @@
+
+.registration-page{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+}
+
+
+.h1txt{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color:white;
+}
+
+.owner-button{
+    padding: 10px 20px;
+    background: #FF5151;
+    box-shadow: 0px 6px 31px rgba(255, 81, 81, 0.68);
+    border-radius: 20px;
+    border: none;
+}
+
+.client-button{
+    padding: 10px 20px;
+    background: #88E0EF;
+    box-shadow: 0px 6px 31px rgba(136, 224, 239, 0.68);
+    border-radius: 20px;
+    border: none;
+}
+
+
+.ptxt{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: white;
+}
+
+.part {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 50%;
+    min-height: 100%;
+    background-size: cover;  
+}
+
+.inputs-css{
+    padding: 10px;
+    margin-bottom: 2%;
+    min-width: 40%;
+    background: #FFFFFF;
+    opacity: 0.8;
+    border-radius: 20px;
+    border : none;
+}
+

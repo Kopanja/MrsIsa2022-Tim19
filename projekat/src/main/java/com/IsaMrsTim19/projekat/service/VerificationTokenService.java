@@ -24,7 +24,7 @@ public class VerificationTokenService {
 	}
 	
 	public VerificationToken findByToken(String token) {
-		return verTokenRepo.findByToken(token);
+		return verTokenRepo.findByToken(token).orElse(null);
 	}
 	
 	

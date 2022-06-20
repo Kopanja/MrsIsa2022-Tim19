@@ -24,6 +24,7 @@ import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.model.OwnerApplication;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.model.VerificationToken;
+import com.IsaMrsTim19.projekat.repository.UserRepository;
 import com.IsaMrsTim19.projekat.security.util.TokenUtils;
 import com.IsaMrsTim19.projekat.service.EmailSenderService;
 import com.IsaMrsTim19.projekat.service.OwnerApplicationService;
@@ -56,6 +57,7 @@ public class AuthenticationService {
 	
 	@Autowired
 	private OwnerApplicationService ownerAppService;
+	
 
 	
 	public LoggedInUserDTO login(LoginDTO loginDTO) throws BadCredentialsException {
@@ -129,7 +131,8 @@ public class AuthenticationService {
 		if(t.getExpiryDate().before(new Date())) {
 			return false;
 		}
-		User user = t.getUser();
+		User user = userService.findByEmail(t.getUser().getEmail());
+		
 		user.setActive(true);
 		userService.save(user);
 		verTokenService.delete(t);

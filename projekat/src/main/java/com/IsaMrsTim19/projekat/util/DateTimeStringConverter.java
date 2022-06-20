@@ -17,7 +17,6 @@ public class DateTimeStringConverter  implements Neo4jPersistentPropertyConverte
     public Value write(Date source) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(source);
-        System.out.println(strDate);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"); 
         //LocalDateTime date = LocalDateTime.parse(strDate, formatter);
         LocalDateTime dateTime = LocalDateTime.parse(strDate, formatter);
@@ -29,7 +28,6 @@ public class DateTimeStringConverter  implements Neo4jPersistentPropertyConverte
     @Override
     public Date read(Value source) {
         try {
-        	System.out.println(source.toString());
             Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(source.toString());
             //System.out.println("Uspeo da parsiram");
             return date;
