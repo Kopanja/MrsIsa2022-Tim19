@@ -10,7 +10,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
-import com.IsaMrsTim19.projekat.util.DateStringConverter;
+import com.IsaMrsTim19.projekat.util.DateTimeStringConverter;
 
 @Node
 public class Offer {
@@ -26,10 +26,10 @@ public class Offer {
 	@Relationship(type="HAS_RESERVATION", direction=Direction.OUTGOING)
 	private List<Reservation> reservations;
 	
-	@ConvertWith(converter =  DateStringConverter.class)
+	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date avaliableFrom;
 	
-	@ConvertWith(converter =  DateStringConverter.class)
+	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date avaliableUntil;
 	
 	
@@ -119,7 +119,7 @@ public class Offer {
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
-	
+
 	
 	
 	

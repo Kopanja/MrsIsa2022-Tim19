@@ -6,8 +6,7 @@ import org.springframework.data.neo4j.core.convert.ConvertWith;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-
-import com.IsaMrsTim19.projekat.util.DateStringConverter;
+import com.IsaMrsTim19.projekat.util.DateTimeStringConverter;
 
 @Node
 public class Reservation {
@@ -16,10 +15,10 @@ public class Reservation {
 	@GeneratedValue
 	private Long id;
 	
-	@ConvertWith(converter =  DateStringConverter.class)
+	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date dateFrom;
 	
-	@ConvertWith(converter =  DateStringConverter.class)
+	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date dateTo;
 	
 	private double price;

@@ -18,11 +18,16 @@ import org.springframework.stereotype.Service;
 import com.IsaMrsTim19.projekat.dto.LoggedInUserDTO;
 import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
+import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
 import com.IsaMrsTim19.projekat.dto.UserDTO;
+import com.IsaMrsTim19.projekat.model.Owner;
+import com.IsaMrsTim19.projekat.model.OwnerApplication;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.model.VerificationToken;
 import com.IsaMrsTim19.projekat.security.util.TokenUtils;
 import com.IsaMrsTim19.projekat.service.EmailSenderService;
+import com.IsaMrsTim19.projekat.service.OwnerApplicationService;
+import com.IsaMrsTim19.projekat.service.OwnerService;
 import com.IsaMrsTim19.projekat.service.UserService;
 import com.IsaMrsTim19.projekat.service.VerificationTokenService;
 
@@ -49,6 +54,9 @@ public class AuthenticationService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	@Autowired
+	private OwnerApplicationService ownerAppService;
+
 	
 	public LoggedInUserDTO login(LoginDTO loginDTO) throws BadCredentialsException {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -70,7 +78,7 @@ public class AuthenticationService {
 	
 	
 	
-	public User register(NewClientDTO newUserDTO) throws Exception {
+	public User registerClient(NewClientDTO newUserDTO) throws Exception {
 		
 	
 		if(userService.findByEmail(newUserDTO.getClient().getEmail()) != null) {
@@ -91,6 +99,26 @@ public class AuthenticationService {
 			emailService.sendEmail(user.getEmail(), "Confirmation Email", "Confirmation Link: http://localhost:8080/api/auth/confirmation?token=" + t.getToken());
 		}
 		System.out.println(t);
+		return user;
+		
+	}
+	
+	public User registerOwner(NewOwnerDTO newUserDTO) throws Exception {
+		
+		if(userService.findByEmail(newUserDTO.getUserDto().getEmail()) != null) {
+			throw new Exception();
+		}
+		
+		String hashedPassword = passwordEncoder.encode(newUserDTO.getPassword());
+		newUserDTO.setPassword(hashedPassword);
+		User user = userService.createOwner(newUserDTO);
+		if(user != null) {
+			OwnerApplication ownerApp = new OwnerApplication();
+			ownerApp.setOwner((Owner) user);
+			ownerApp.setRequestDescription(newUserDTO.getRequestDescription());
+			ownerAppService.save(ownerApp);
+		}
+		
 		return user;
 		
 	}

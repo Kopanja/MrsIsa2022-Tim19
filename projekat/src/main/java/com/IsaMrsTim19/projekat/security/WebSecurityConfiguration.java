@@ -67,8 +67,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// za cors
 
 				// svim korisnicima dopusti da pristupe putanjama /auth/** i /h2-console/**
-				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/offer/**").permitAll().anyRequest().authenticated().and()
-
+				//.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/offer/**").permitAll().anyRequest().authenticated().and()
+				.authorizeRequests().antMatchers("/**").permitAll().and()
 				// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
 				.cors().and()
 
@@ -91,6 +91,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 		web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/**");
+		web.ignoring().antMatchers(HttpMethod.POST, "/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "/api/offer/**", "/api/city",  "/api/accommodation/**", "/api/fishingTour/**","/api/boat/**");
 		web.ignoring().antMatchers("/ws/**");
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.IsaMrsTim19.projekat.dto.LoggedInUserDTO;
 import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
+import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.model.VerificationToken;
@@ -53,12 +54,12 @@ public class AuthenticationController {
 	}
 	
 	
-	@PostMapping(value = "/register")
-	public ResponseEntity<?> register(@RequestBody NewClientDTO newUserDTO, HttpServletResponse response)
+	@PostMapping(value = "/register-client")
+	public ResponseEntity<?> registerClient(@RequestBody NewClientDTO newUserDTO, HttpServletResponse response)
 			{
 		User newUser;
 		try {
-			newUser = authService.register(newUserDTO);
+			newUser = authService.registerClient(newUserDTO);
 		} catch (Exception e) {
 			return new ResponseEntity<>("User with email: " + newUserDTO.getClient().getEmail() + " already exists",HttpStatus.BAD_REQUEST);
 		}
@@ -70,6 +71,25 @@ public class AuthenticationController {
 		}
 
 	}
+	
+	@PostMapping(value = "/register-owner")
+	public ResponseEntity<?> registerOwner(@RequestBody NewOwnerDTO newUserDTO, HttpServletResponse response)
+			{
+		User newUser;
+		try {
+			newUser = authService.registerOwner(newUserDTO);
+		} catch (Exception e) {
+			return new ResponseEntity<>("User with email: " + newUserDTO.getUserDto().getEmail() + " already exists",HttpStatus.BAD_REQUEST);
+		}
+		if (newUser != null) {
+			System.out.println(newUser);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("Sorry, something went wrong",HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
 	
 	
 	@PostMapping(value = "/login")

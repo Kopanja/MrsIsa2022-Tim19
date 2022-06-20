@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
+import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
 import com.IsaMrsTim19.projekat.dto.UserDTO;
+import com.IsaMrsTim19.projekat.model.Client;
+import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.model.Role;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.repository.RoleRepository;
@@ -19,9 +22,15 @@ public class UserService {
 	@Autowired
 	RoleRepository roleRepo;
 	
+	@Autowired
+	OwnerService ownerService;
+	
+	@Autowired
+	ClientService clientService;
+	
 	public User createClient(NewClientDTO dto) {
 		
-		User user = new User();
+		Client user = new Client();
 		user.setActive(false);
 		user.setEmail(dto.getClient().getEmail());
 		user.setAddress(dto.getClient().getAddress());
@@ -33,10 +42,28 @@ public class UserService {
 		Role role = roleRepo.findByRole("CLIENT");
 		user.setRole(role);
 		
-		user = userRepo.save(user);
+		user = clientService.save(user);
 		
 		return user;
 		
+	}
+	
+	public User createOwner(NewOwnerDTO dto) {
+		Owner user = new Owner();
+		user.setActive(false);
+		user.setEmail(dto.getUserDto().getEmail());
+		//user.setAddress(dto.getUserDto().getAddress());
+		user.setFirstname(dto.getUserDto().getFirstname());
+		user.setLastname(dto.getUserDto().getLastname());
+		user.setPhoneNumber(dto.getUserDto().getPhoneNumber());
+		user.setPassword(dto.getPassword());
+		user.setOwnerType(dto.getOwnerType());
+		Role role = roleRepo.findByRole("OWNER");
+		user.setRole(role);
+		
+		user = ownerService.save(user);
+		
+		return user;
 	}
 	
 	public UserDTO toDTO(User user) {
@@ -50,4 +77,6 @@ public class UserService {
 	public User save(User user) {
 		return userRepo.save(user);
 	}
+
+	
 }

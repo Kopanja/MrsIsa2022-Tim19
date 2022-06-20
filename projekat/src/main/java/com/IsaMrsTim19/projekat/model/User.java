@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Node
 public class User implements UserDetails {
 
+
 	@Id
 	@GeneratedValue
 	private Long id;
