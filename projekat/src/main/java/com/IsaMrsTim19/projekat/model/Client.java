@@ -9,7 +9,7 @@ import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 @Node
 public class Client extends User {
 
-	@Relationship(type="HAS_RESERVATIONS", direction=Direction.OUTGOING)
+	@Relationship(type="MADE_RESERVATION", direction=Direction.OUTGOING)
 	private List<Reservation> reservations;
 
 	public Client() {

@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.IsaMrsTim19.projekat.dto.LoggedInUserDTO;
 import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
+import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.model.VerificationToken;
@@ -50,6 +52,8 @@ public class AuthenticationController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() {
+		Client user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(user);
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
 	}
 	

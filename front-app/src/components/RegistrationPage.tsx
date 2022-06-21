@@ -2,7 +2,6 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom';
 import bg_owner_image from "../resources/owner-reg-bg.jpg";
 import bg_client_image from "../resources/client-reg-bg.jpg";
-
 import "../css/registrationPage.css";
 const RegistrationPage = () => {
     const navigate = useNavigate();

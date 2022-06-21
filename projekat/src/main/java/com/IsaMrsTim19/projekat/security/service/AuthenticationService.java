@@ -65,7 +65,7 @@ public class AuthenticationService {
 				loginDTO.getEmail(), loginDTO.getPassword()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+	
 		User user = (User) authentication.getPrincipal();
 		UserDTO userDTO = userService.toDTO(user);
 		
