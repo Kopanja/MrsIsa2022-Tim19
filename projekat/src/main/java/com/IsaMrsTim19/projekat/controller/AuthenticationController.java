@@ -1,10 +1,8 @@
 package com.IsaMrsTim19.projekat.controller;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,12 +19,9 @@ import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
 import com.IsaMrsTim19.projekat.model.Client;
-import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.User;
-import com.IsaMrsTim19.projekat.model.VerificationToken;
 import com.IsaMrsTim19.projekat.security.service.AuthenticationService;
 import com.IsaMrsTim19.projekat.service.EmailSenderService;
-import com.IsaMrsTim19.projekat.service.VerificationTokenService;
 
 @RestController
 @RequestMapping(value = "api/auth")

@@ -11,10 +11,18 @@ CREATE (admi: Role {role : "ADMIN"})
 CREATE (client: Role {role : "CLIENT"})
 CREATE (owner: Role {role : "OWNER"})
 
+//email pass: password?1
+CREATE (uAccom:User:Owner {email : "accomowner@gmail.com", active : true, firstname : "Nikola", lastname : "Pasic", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+MERGE (uAccom)-[:HAS_ROLE]->(owner)
+
+
+
 CREATE(gps:NavigationEquipment {name : "GPS", icon : "gps.png"})
 CREATE(radar:NavigationEquipment {name : "Radar", icon : "radar.png"})
 CREATE(vhf:NavigationEquipment {name : "VHF Radio", icon : "vhf.png"})
 CREATE(fishFinder:NavigationEquipment {name : "FishFinder", icon : "fishFinder.png"})
+
+
 
 CREATE (rods:FishingEquipment {name : "Rods", icon : "rod.png"})
 CREATE (lures:FishingEquipment {name : "Lures", icon : "lure.png"})
@@ -46,7 +54,14 @@ MERGE (v7)-[:IS_IN]->(belaCrkva)
 MERGE(v8:Offer:Accommodation {name : "Magic Apartment", address: "Milovana Glišića 2", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "Smeštaj Magic Apartment se nalazi u Novom Sadu, na 2,7 km od sportskog centra SPENS i 3,2 km od tržnog centra Promenada. Nudi besplatan WiFi, klima-uređaj i terasu. Novosadski sajam je udaljen 2,6 km, a mesto održavanja Exit festivala 3 km od objekta.", roomNumber : 3, numOfPeople : 6, price : 9999, rating: 5.0, imgFolderPath : "Magic Apartment", thumbnail : "MagicApartment.jpg"})
 MERGE (v8)-[:IS_IN]->(noviSad)
 
-
+MERGE(v1)<-[:HAS_OFFER]-(uAccom)
+MERGE(v2)<-[:HAS_OFFER]-(uAccom)
+MERGE(v3)<-[:HAS_OFFER]-(uAccom)
+MERGE(v4)<-[:HAS_OFFER]-(uAccom)
+MERGE(v5)<-[:HAS_OFFER]-(uAccom)
+MERGE(v6)<-[:HAS_OFFER]-(uAccom)
+MERGE(v7)<-[:HAS_OFFER]-(uAccom)
+MERGE(v8)<-[:HAS_OFFER]-(uAccom)
 //Boats
 MERGE(b1:Offer:Boat {name : "Bayliner Ciera 285", address: "Milovana Glišića 8", avaliableFrom : date('2022-05-11'), avaliableUntil : date('2022-09-11'), description : "This motor yacht can take up to 8 people away from the city pretty fast to enjoy wilderness of the Sava or Danube rivers.", numOfMotors : 3, motorStrength : 87, price : 9999, rating: 3.2, maxSpeed: 40, numOfPeople: 8, imgFolderPath : "Bayliner Ciera 285", thumbnail : "BaylinerCiera285.jpg"})
 MERGE (b1)-[:IS_IN]->(noviSad)

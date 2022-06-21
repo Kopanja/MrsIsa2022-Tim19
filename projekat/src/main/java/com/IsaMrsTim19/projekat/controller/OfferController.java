@@ -1,10 +1,9 @@
 package com.IsaMrsTim19.projekat.controller;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,17 +13,20 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.IsaMrsTim19.projekat.dto.AccommodationDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
+import com.IsaMrsTim19.projekat.dto.ReservationDTO;
+import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.service.OfferService;
 
@@ -61,6 +63,72 @@ public class OfferController {
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public void test() {
+		Client user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(user);
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
+	}
+	@RequestMapping(value = "/{id}/make-reservation", method = RequestMethod.POST)
+	public ResponseEntity<?> makeReservation(@PathVariable Long id,  @RequestBody ReservationDTO reservationDTO) {
+
+		Client user = null;
+		try {
+			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}catch(Exception e) {
+			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
+		}
+		
+		try {
+			if(user != null) {
+				offerService.createReservation(id, user, reservationDTO);
+			}
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>("Parsing error", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>("OK", HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/{id}/subscribe", method = RequestMethod.POST)
+	public ResponseEntity<?> subscribeToOffer(@PathVariable Long id) {
+
+		Client user = null;
+		try {
+			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}catch(Exception e) {
+			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
+		}
+		offerService.subscribe(id, user);
+		
+		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/{id}/unsubscribe", method = RequestMethod.POST)
+	public ResponseEntity<?> unsuscribeFromOffer(@PathVariable Long id) {
+
+		Client user = null;
+		try {
+			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}catch(Exception e) {
+			return new ResponseEntity<>("You have to be logedin", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			offerService.unsubscribe(id, user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>("Unsubscribed", HttpStatus.OK);
+
+	}
+	
+	
 	
 	@GetMapping("/{id}/thumbnail")
 	public ResponseEntity<?> getProfileImage(@PathVariable Long id) {

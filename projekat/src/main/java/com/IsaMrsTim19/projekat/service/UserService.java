@@ -1,6 +1,7 @@
 package com.IsaMrsTim19.projekat.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
@@ -48,6 +49,7 @@ public class UserService {
 		
 	}
 	
+
 	public User createOwner(NewOwnerDTO dto) {
 		Owner user = new Owner();
 		user.setActive(false);
@@ -71,7 +73,7 @@ public class UserService {
 	}
 	
 	public User findByEmail(String email) {
-		return userRepo.findByEmail(email);
+		return userRepo.findByEmail(email).orElse(null);
 	}
 	
 	public User save(User user) {

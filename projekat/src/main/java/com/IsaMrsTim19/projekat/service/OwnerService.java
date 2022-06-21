@@ -20,6 +20,10 @@ public class OwnerService {
 		return ownerRepo.findOwnerByApplicationID(applicationId);
 	}
 	
+	public Owner findOwnerByOfferId(Long offerId) {
+		return ownerRepo.findOwnerByOfferID(offerId);
+	}
+	
 	public void delete(Owner owner) {
 		ownerRepo.delete(owner);
 	}

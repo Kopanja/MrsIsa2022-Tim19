@@ -26,6 +26,9 @@ public class Offer {
 	@Relationship(type="HAS_RESERVATION", direction=Direction.OUTGOING)
 	private List<Reservation> reservations;
 	
+	@Relationship(type="HAS_SUBSCRIBER", direction=Direction.OUTGOING)
+	private List<Client> subscribers;
+	
 	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date avaliableFrom;
 	
@@ -118,6 +121,12 @@ public class Offer {
 	}
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+	public List<Client> getSubscribers() {
+		return subscribers;
+	}
+	public void setSubscribers(List<Client> subscribers) {
+		this.subscribers = subscribers;
 	}
 
 	
