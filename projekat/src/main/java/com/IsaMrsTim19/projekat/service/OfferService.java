@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
+import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
 import com.IsaMrsTim19.projekat.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.Boat;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.FishingTour;
 import com.IsaMrsTim19.projekat.model.Offer;
+import com.IsaMrsTim19.projekat.model.Owner;
+import com.IsaMrsTim19.projekat.model.Promotion;
 import com.IsaMrsTim19.projekat.model.Reservation;
 import com.IsaMrsTim19.projekat.repository.OfferRepository;
 
@@ -42,6 +45,9 @@ public class OfferService {
 
 	@Autowired
 	OwnerService ownerService;
+	
+	@Autowired
+	PromotionService promotionService;
 
 	public List<Offer> getAllOffers() {
 		this.getNumberOfPages();
@@ -165,10 +171,13 @@ public class OfferService {
 
 	}
 	
-	public void subscribe(Long offerId, Client client) {
+	public void subscribe(Long offerId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 
+		if(offer == null) {
+			throw new Exception("Something went wrong");
+		}
 		if (offer.getSubscribers() != null) {
 			offer.getSubscribers().add(client);
 		} else {
@@ -197,9 +206,44 @@ public class OfferService {
 		}
 		offer.getSubscribers().remove(counter);
 		offerRepo.save(offer);
-
+	}
+	
+	public void createPromotion(Long offerId, Owner loggedInUser, PromotionDTO promotionDto) throws Exception {
+		Offer offer = offerRepo.findById(offerId).orElse(null);
+		Owner owner = ownerService.findOwnerByOfferId(offerId);
+		
+		if(offer == null || owner == null) {
+			throw new Exception("Something went wrong");
+		}
+		
+		if(!owner.getEmail().equals(loggedInUser.getEmail())) {
+			throw new Exception("Only the owner can make a promotion");
+		}
+		
+		Promotion promotion = promotionService.toEntity(promotionDto);
+		promotionService.save(promotion);
+		
+		
+		if (offer.getPromotions() != null) {
+			offer.getPromotions().add(promotion);
+		} else {
+			offer.setPromotions(new ArrayList<Promotion>());
+			offer.getPromotions().add(promotion);
+		}
+		
+		
+		offerRepo.save(offer);
+		this.notifySubscribers(offer, promotion);
 	}
 
+	private void notifySubscribers(Offer offer, Promotion promotion) {
+		String subject = "There is a new promotion for: " + offer.getName();
+		String body = "There is a new promotion for: " + offer.getName() + "\n";
+		body += "It start at: " + promotion.getDateFrom() + " and ends: " + promotion.getDateTo();
+		for(Client client : offer.getSubscribers()) {
+			emailService.sendEmail(client.getEmail(), subject, body);
+		}
+	}
 	public List<String> createImageURLs(Offer offer) {
 		List<String> urls = new ArrayList<String>();
 		File folder = new File(".\\src\\main\\resources\\images\\" + offer.getImgFolderPath());

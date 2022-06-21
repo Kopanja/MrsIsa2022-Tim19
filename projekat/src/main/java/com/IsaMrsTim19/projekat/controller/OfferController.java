@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
+import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.Offer;
+import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.service.OfferService;
 
 @RestController
@@ -102,7 +104,30 @@ public class OfferController {
 		}catch(Exception e) {
 			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
 		}
-		offerService.subscribe(id, user);
+		try {
+			offerService.subscribe(id, user);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/{id}/create-promotion", method = RequestMethod.POST)
+	public ResponseEntity<?> createPromotion(@PathVariable Long id,  @RequestBody PromotionDTO promotionDTO) {
+
+		Owner user = null;
+		try {
+			user = (Owner) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}catch(Exception e) {
+			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			offerService.createPromotion(id, user, promotionDTO);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
