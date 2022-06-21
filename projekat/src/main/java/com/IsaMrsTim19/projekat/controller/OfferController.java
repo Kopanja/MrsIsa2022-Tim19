@@ -33,13 +33,11 @@ import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.service.OfferService;
 
 @RestController
-@RequestMapping(value="api/offer")
+@RequestMapping(value = "api/offer")
 public class OfferController {
-	
+
 	@Autowired
 	OfferService offerService;
-	
-	
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Offer>> getAllOffers() {
@@ -47,61 +45,62 @@ public class OfferController {
 		return new ResponseEntity<>(allOffers, HttpStatus.OK);
 
 	}
-	
+
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
 	public ResponseEntity<OfferListByPageDTO> getAllOffers(@PathVariable Integer pageNum) {
-		
+
 		OfferListByPageDTO offersByPage = offerService.getAllOfferByPage(pageNum);
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<List<OfferDTO>> getSearchResult(@RequestParam Map<String,String> searchParams) {
-		
-		
+	public ResponseEntity<List<OfferDTO>> getSearchResult(@RequestParam Map<String, String> searchParams) {
+
 		List<OfferDTO> dtos = offerService.searchResult(searchParams);
-		//System.out.println(accommService.searchResult("MATCH (n:Accommodation) RETURN n"));
+		// System.out.println(accommService.searchResult("MATCH (n:Accommodation) RETURN
+		// n"));
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 
 	}
-	
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() {
 		Client user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println(user);
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
 	}
+
 	@RequestMapping(value = "/{id}/make-reservation", method = RequestMethod.POST)
-	public ResponseEntity<?> makeReservation(@PathVariable Long id,  @RequestBody ReservationDTO reservationDTO) {
+	public ResponseEntity<?> makeReservation(@PathVariable Long id, @RequestBody ReservationDTO reservationDTO) {
 
 		Client user = null;
 		try {
 			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		try {
-			if(user != null) {
+			if (user != null) {
 				offerService.createReservation(id, user, reservationDTO);
 			}
-			
-		} catch (ParseException e) {
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<>("Parsing error", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 
 	}
-	
+
 	@RequestMapping(value = "/{id}/subscribe", method = RequestMethod.POST)
 	public ResponseEntity<?> subscribeToOffer(@PathVariable Long id) {
 
 		Client user = null;
 		try {
 			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
 		}
 		try {
@@ -109,18 +108,18 @@ public class OfferController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
-	
+
 	@RequestMapping(value = "/{id}/create-promotion", method = RequestMethod.POST)
-	public ResponseEntity<?> createPromotion(@PathVariable Long id,  @RequestBody PromotionDTO promotionDTO) {
+	public ResponseEntity<?> createPromotion(@PathVariable Long id, @RequestBody PromotionDTO promotionDTO) {
 
 		Owner user = null;
 		try {
 			user = (Owner) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
 		}
 		try {
@@ -128,18 +127,37 @@ public class OfferController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
 	
+	@RequestMapping(value = "/{offerId}/promotion/{promotionId}/reserve", method = RequestMethod.POST)
+	public ResponseEntity<?> fastReservation(@PathVariable Long offerId, @PathVariable Long promotionId) {
+
+		Client user = null;
+		try {
+			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			offerService.createFastReservation(offerId, promotionId, user);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
+
+	}
+
 	@RequestMapping(value = "/{id}/unsubscribe", method = RequestMethod.POST)
 	public ResponseEntity<?> unsuscribeFromOffer(@PathVariable Long id) {
 
 		Client user = null;
 		try {
 			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>("You have to be logedin", HttpStatus.BAD_REQUEST);
 		}
 		try {
@@ -148,16 +166,14 @@ public class OfferController {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return new ResponseEntity<>("Unsubscribed", HttpStatus.OK);
 
 	}
-	
-	
-	
+
 	@GetMapping("/{id}/thumbnail")
 	public ResponseEntity<?> getProfileImage(@PathVariable Long id) {
-	
+
 		try {
 			Path imagePath = offerService.getOfferThumbnailPath(id);
 			if (imagePath != null) {
@@ -170,7 +186,7 @@ public class OfferController {
 
 				return ResponseEntity.status(HttpStatus.OK).build();
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Doslo je do greske");
 
@@ -178,7 +194,7 @@ public class OfferController {
 		System.out.println("Ovde");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
-	
+
 	@GetMapping("/image/{folder}/{imageName}")
 	public ResponseEntity<?> getImage(@PathVariable String folder, @PathVariable String imageName) {
 		try {
@@ -193,7 +209,7 @@ public class OfferController {
 
 				return ResponseEntity.status(HttpStatus.OK).build();
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Doslo je do greske");
 

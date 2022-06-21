@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
@@ -45,7 +46,7 @@ public class OfferService {
 
 	@Autowired
 	OwnerService ownerService;
-	
+
 	@Autowired
 	PromotionService promotionService;
 
@@ -124,13 +125,20 @@ public class OfferService {
 		return dto;
 	}
 
-	public void createReservation(Long offerId, Client client, ReservationDTO reservationDTO) throws ParseException {
+	@Transactional
+	public void createReservation(Long offerId, Client client, ReservationDTO reservationDTO) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 		Reservation reservation = reservationService.toEntity(reservationDTO);
 
-		if (client.getReservations() != null) {
-			client.getReservations().add(reservation);
+		//Provera zauzetosti vikendice
+		if (offer == null) {
+			throw new Exception("Something went wrong");
+		}
+		List<Reservation> clientReservations = reservationService.getReservationsByClientId(client.getId());
+		if (clientReservations != null) {
+			clientReservations.add(reservation);
+			client.setReservations(clientReservations);
 		} else {
 			client.setReservations(new ArrayList<Reservation>());
 			client.getReservations().add(reservation);
@@ -147,6 +155,7 @@ public class OfferService {
 		reservationService.save(reservation);
 
 		offerRepo.save(offer);
+		System.out.println(client.getReservations());
 		clientService.save(client);
 
 		String clientSubject = "Reservation is successful!";
@@ -170,12 +179,71 @@ public class OfferService {
 		emailService.sendEmail(ownerEmail, ownerSubject, ownerBody);
 
 	}
-	
+
+	public void createFastReservation(Long offerId, Long promotionId, Client client) throws Exception {
+
+		Offer offer = offerRepo.findById(offerId).orElse(null);
+		Promotion promotion = promotionService.findById(promotionId);
+
+		if (offer == null || promotion == null) {
+			throw new Exception("Something went wrong");
+		}
+
+		Reservation reservation = new Reservation();
+		reservation.setDateFrom(promotion.getDateFrom());
+		reservation.setDateTo(promotion.getDateTo());
+
+		List<Reservation> clientReservations = reservationService.getReservationsByClientId(client.getId());
+		if (clientReservations != null) {
+			clientReservations.add(reservation);
+			client.setReservations(clientReservations);
+		} else {
+			client.setReservations(new ArrayList<Reservation>());
+			client.getReservations().add(reservation);
+		}
+
+		if (offer.getReservations() != null) {
+			offer.getReservations().add(reservation);
+		} else {
+			offer.setReservations(new ArrayList<Reservation>());
+			offer.getReservations().add(reservation);
+		}
+
+		// treba racunanje cene
+		reservationService.save(reservation);
+
+		offerRepo.save(offer);
+		clientService.save(client);
+
+		promotionService.delete(promotion);
+
+		String clientSubject = "Reservation is successful!";
+
+		String clientBody = "Reservation details: \n";
+		clientBody += "You have successfuly made a reservation for the '" + offer.getName() + "\n";
+		clientBody += "Reservation start: " + reservation.getDateFrom() + "\n";
+		clientBody += "Reservation end: " + reservation.getDateTo() + "\n";
+
+		String ownerSubject = "Reservation Has Been Made!";
+
+		String ownerBody = "Reservation details: \n";
+		ownerBody += "There was a reservation made for '" + offer.getName();
+		ownerBody += "Reservation start: " + reservation.getDateFrom() + "\n";
+		ownerBody += "Reservation end: " + reservation.getDateTo() + "\n";
+
+		String ownerEmail = ownerService.findOwnerByOfferId(offerId).getEmail();
+		String clientEmail = client.getEmail();
+
+		emailService.sendEmail(clientEmail, clientSubject, clientBody);
+		emailService.sendEmail(ownerEmail, ownerSubject, ownerBody);
+
+	}
+
 	public void subscribe(Long offerId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 
-		if(offer == null) {
+		if (offer == null) {
 			throw new Exception("Something went wrong");
 		}
 		if (offer.getSubscribers() != null) {
@@ -187,51 +255,49 @@ public class OfferService {
 		offerRepo.save(offer);
 
 	}
-	
+
 	public void unsubscribe(Long offerId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
-		if(offer == null || offer.getSubscribers() == null) {
+		if (offer == null || offer.getSubscribers() == null) {
 			throw new Exception("Something went wrong");
 		}
 		int counter = 0;
-		for(Client c : offer.getSubscribers()) {
-			if(c.getEmail().equals(client.getEmail())) {
+		for (Client c : offer.getSubscribers()) {
+			if (c.getEmail().equals(client.getEmail())) {
 				break;
 			}
 			counter++;
 		}
-		if(counter >= offer.getSubscribers().size()) {
+		if (counter >= offer.getSubscribers().size()) {
 			throw new Exception("Something went wrong");
 		}
 		offer.getSubscribers().remove(counter);
 		offerRepo.save(offer);
 	}
-	
+
 	public void createPromotion(Long offerId, Owner loggedInUser, PromotionDTO promotionDto) throws Exception {
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 		Owner owner = ownerService.findOwnerByOfferId(offerId);
-		
-		if(offer == null || owner == null) {
+
+		if (offer == null || owner == null) {
 			throw new Exception("Something went wrong");
 		}
-		
-		if(!owner.getEmail().equals(loggedInUser.getEmail())) {
+
+		if (!owner.getEmail().equals(loggedInUser.getEmail())) {
 			throw new Exception("Only the owner can make a promotion");
 		}
-		
+
 		Promotion promotion = promotionService.toEntity(promotionDto);
 		promotionService.save(promotion);
-		
-		
+
 		if (offer.getPromotions() != null) {
 			offer.getPromotions().add(promotion);
 		} else {
 			offer.setPromotions(new ArrayList<Promotion>());
 			offer.getPromotions().add(promotion);
 		}
-		
-		
+
 		offerRepo.save(offer);
 		this.notifySubscribers(offer, promotion);
 	}
@@ -240,10 +306,11 @@ public class OfferService {
 		String subject = "There is a new promotion for: " + offer.getName();
 		String body = "There is a new promotion for: " + offer.getName() + "\n";
 		body += "It start at: " + promotion.getDateFrom() + " and ends: " + promotion.getDateTo();
-		for(Client client : offer.getSubscribers()) {
+		for (Client client : offer.getSubscribers()) {
 			emailService.sendEmail(client.getEmail(), subject, body);
 		}
 	}
+
 	public List<String> createImageURLs(Offer offer) {
 		List<String> urls = new ArrayList<String>();
 		File folder = new File(".\\src\\main\\resources\\images\\" + offer.getImgFolderPath());

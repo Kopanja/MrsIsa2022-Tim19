@@ -22,9 +22,17 @@ public class PromotionService {
 		return promotionRepo.save(promotion);
 	}
 	
+	public Promotion findById(Long id) {
+		return promotionRepo.findById(id).orElse(null);
+	}
+	
 	public Promotion toEntity(PromotionDTO dto) throws ParseException {
 		Date dateFrom = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getDateFrom());
 		Date dateTo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getDateTo());
 		return new Promotion(dateFrom, dateTo);
+	}
+	
+	public void delete(Promotion promotion) {
+		promotionRepo.delete(promotion);
 	}
 }

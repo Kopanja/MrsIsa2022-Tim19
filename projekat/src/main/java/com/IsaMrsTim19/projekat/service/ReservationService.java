@@ -3,6 +3,7 @@ package com.IsaMrsTim19.projekat.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ public class ReservationService {
 		return reservationRepo.save(reservation);
 	}
 	
+	
+	public List<Reservation> getReservationsByClientId(Long clientId){
+		return reservationRepo.getReservationsByClientId(clientId);
+	}
 	
 	public Reservation toEntity(ReservationDTO dto) throws ParseException {
 		 Date dateFrom = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getDateFrom());
