@@ -10,6 +10,7 @@ import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage';
 import ClientRegistrationPage from './components/ClientRegistrationPage';
 import OwnerRegistrationPage from './components/OwnerRegistrationPage';
+import UserPage from './components/UserPage';
 
 function App() {
   return (
@@ -45,6 +46,10 @@ function App() {
         </Route>
         <Route path="owner-registration">
           <Route index element = {<OwnerRegistrationPage/>}/>
+        </Route>
+        <Route path="user-page">
+          <Route index element = {<UserPage/>}/>
+          <Route path=":email" element = {<UserPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

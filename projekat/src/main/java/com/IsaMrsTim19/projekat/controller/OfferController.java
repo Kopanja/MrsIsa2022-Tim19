@@ -56,6 +56,31 @@ public class OfferController {
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping(value = "/reservation/{reservationId}", method = RequestMethod.GET)
+	public ResponseEntity<?> getOfferByReservation(@PathVariable Long reservationId) {
+		Offer offer = null;
+		try {
+			 offer= offerService.getOfferFromReservationId(reservationId);
+		}catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(offerService.toDTO(offer), HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/reservation/{reservationId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
+		try {
+			 offerService.cancelReservation(reservationId);
+		}catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>("Reservation deleted", HttpStatus.OK);
+
+	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ResponseEntity<?> getSearchResult(@RequestParam Map<String, String> searchParams) {

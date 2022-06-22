@@ -21,6 +21,10 @@ public class Reservation {
 	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date dateTo;
 	
+	private boolean isComplete;
+	
+	private boolean isCanceled;
+	
 	private double price;
 
 	
@@ -33,6 +37,8 @@ public class Reservation {
 
 	public Reservation(Date dateFrom, Date dateTo, double price) {
 		super();
+		this.isComplete = false;
+		this.isCanceled = false;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
 		this.price = price;
@@ -42,6 +48,8 @@ public class Reservation {
 	public Reservation(Long id, Date dateFrom, Date dateTo, double price) {
 		super();
 		this.id = id;
+		this.isComplete = false;
+		this.isCanceled = false;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
 		this.price = price;
@@ -85,6 +93,27 @@ public class Reservation {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+
+	public boolean isComplete() {
+		return isComplete;
+	}
+
+
+	public void setComplete(boolean isComplete) {
+		this.isComplete = isComplete;
+	}
+
+
+	
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+
+
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
 	}
 
 

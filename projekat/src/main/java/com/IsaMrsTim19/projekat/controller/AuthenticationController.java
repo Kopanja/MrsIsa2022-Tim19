@@ -37,7 +37,12 @@ public class AuthenticationController {
 	
 	@RequestMapping(value = "/confirmation", method = RequestMethod.GET)
 	public void confirmEmail(HttpServletResponse response,@RequestParam String token) {
-		boolean isConfirmed = authService.confirmRegistration(token);
+		boolean isConfirmed = false;
+		try {
+			isConfirmed = authService.confirmRegistration(token);
+		} catch (Exception e) {
+			
+		}
 		if(isConfirmed) {
 			response.setHeader("Location", "http://localhost:3000/");
 			response.setStatus(302);  
@@ -97,7 +102,7 @@ public class AuthenticationController {
 		LoggedInUserDTO dto = null;
 		try {
 			dto = authService.login(loginDto);
-		}catch(BadCredentialsException e) {
+		}catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		

@@ -138,7 +138,11 @@ public class OfferService {
 		return offerRepo.findOfferByReviewId(id);
 	}
 	public OfferDTO toDTO(Offer offer) {
-		String address = offer.getAddress() + ", " + offer.getCity().getName();
+		String address = offer.getAddress();
+		if(offer.getCity() != null) {
+			address = offer.getAddress() + ", " + offer.getCity().getName();
+		}
+		
 		String offerType = null;
 		if (offer instanceof Accommodation) {
 			offerType = "accommodation";
@@ -459,6 +463,19 @@ public class OfferService {
 		
 		offerRepo.save(offer);
 		clientService.save(client);
+		
+	}
+	
+	public Offer getOfferFromReservationId(Long id) {
+		return offerRepo.getOfferFromReservationId(id);
+	}
+
+	public List<Offer> getSubscriptionsFromUserEmail(String email) {
+		return offerRepo.getSubscriptionsFromUserEmail(email);
+	}
+
+	public void cancelReservation(Long reservationId) throws Exception {
+		reservationService.cancelReservation(reservationId);
 		
 	}
 

@@ -15,4 +15,7 @@ public interface ReservationRepository  extends Neo4jRepository<Reservation, Lon
 	@Query("MATCH (n:Client)-[:MADE_RESERVATION]->(r:Reservation) WHERE id(n) = $clientId RETURN r")
 	List<Reservation> getReservationsByClientId(Long clientId);
 
+	@Query("MATCH (n:Client)-[:MADE_RESERVATION]->(r:Reservation) WHERE n.email = $email RETURN r")
+	List<Reservation> getReservationsFromEmail(String email);
+
 }

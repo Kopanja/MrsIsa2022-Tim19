@@ -4,7 +4,7 @@ public class LoggedInUserDTO {
 
 	private String accessToken;
 	private UserDTO user;
-	
+	private String role;
 	
 	public LoggedInUserDTO() {
 		super();
@@ -13,6 +13,22 @@ public class LoggedInUserDTO {
 		super();
 		this.accessToken = accessToken;
 		this.user = user;
+	}
+	
+	
+	public LoggedInUserDTO(String accessToken, UserDTO user, String role) {
+		super();
+		this.accessToken = accessToken;
+		this.user = user;
+		this.role = role;
+	}
+	
+	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	public String getAccessToken() {
 		return accessToken;

@@ -71,7 +71,7 @@ public class AuthenticationService {
 		
 		String jwt = tokenUtils.generateToken(user.getUsername(), (List<GrantedAuthority>) user.getAuthorities());
 		
-		LoggedInUserDTO dto = new LoggedInUserDTO(jwt,userDTO);
+		LoggedInUserDTO dto = new LoggedInUserDTO(jwt,userDTO, user.getRole().getRole());
 		
 		return dto;
 		
@@ -126,7 +126,7 @@ public class AuthenticationService {
 	}
 	
 	
-	public boolean confirmRegistration(String token) {
+	public boolean confirmRegistration(String token) throws Exception {
 		VerificationToken t = verTokenService.findByToken(token);
 		if(t.getExpiryDate().before(new Date())) {
 			return false;

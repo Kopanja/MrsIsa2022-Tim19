@@ -1,5 +1,8 @@
 package com.IsaMrsTim19.projekat.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -8,9 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.IsaMrsTim19.projekat.dto.DeletionRequestDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
+import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.UserDTO;
 import com.IsaMrsTim19.projekat.model.Client;
+import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
+import com.IsaMrsTim19.projekat.model.Reservation;
 import com.IsaMrsTim19.projekat.model.Role;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.repository.RoleRepository;
@@ -30,6 +36,12 @@ public class UserService {
 	
 	@Autowired
 	ClientService clientService;
+	
+	@Autowired
+	OfferService offerService;
+	
+	@Autowired
+	ReservationService reservationService;
 
 	public User createClient(NewClientDTO dto) {
 		
@@ -52,6 +64,20 @@ public class UserService {
 	}
 	
 
+	public List<OfferDTO> getSubscriptionsFromUserEmail(String email){
+		List<Offer> subscriptions = offerService.getSubscriptionsFromUserEmail(email);
+		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
+		
+		for (Offer o : subscriptions) {
+			dtos.add(offerService.toDTO(o));
+		}
+		return dtos;
+	}
+	
+	public List<Reservation> getReservationsFromEmail(String email){
+		return reservationService.getReservationsFromEmail(email);
+	}
+	
 	public User createOwner(NewOwnerDTO dto) {
 		Owner user = new Owner();
 		user.setActive(false);
@@ -74,8 +100,12 @@ public class UserService {
 		return new UserDTO(user.getFirstname(), user.getLastname(), user.getEmail(), user.getPhoneNumber());
 	}
 	
-	public User findByEmail(String email) {
-		return userRepo.findByEmail(email).orElse(null);
+	public User findByEmail(String email) throws Exception {
+		User user = userRepo.findByEmail(email).orElse(null);
+		if(user == null) {
+			throw new Exception("User was not found");
+		}
+		return user;
 	}
 	
 	public User save(User user) {

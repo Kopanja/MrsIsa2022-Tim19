@@ -72,6 +72,20 @@ public class ReservationService {
 		return reservationRepo.getReservationsByClientId(clientId);
 	}
 	
+	public void cancelReservation(Long reservationId) throws Exception {
+		Reservation reservation = reservationRepo.findById(reservationId).orElse(null);
+		if(reservation == null) {
+			throw new Exception("Something went wrong");
+		}
+		Calendar nowCalendar = getCalendarWithoutTime(new Date());
+		Calendar startCalendar = getCalendarWithoutTime(reservation.getDateFrom());
+		nowCalendar.add(Calendar.DATE, 3);
+		if(nowCalendar.after(startCalendar)) {
+			throw new Exception("You cant cancel the reservation when its 3 days or less away");
+		}
+		reservationRepo.delete(reservation);
+	}
+	
 	public Reservation toEntity(ReservationDTO dto) throws ParseException {
 		 Date dateFrom = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getDateFrom());
 		 Date dateTo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getDateTo());
@@ -80,5 +94,9 @@ public class ReservationService {
 		 reservation.setDateFrom(dateFrom);
 		 reservation.setDateTo(dateTo);
 		 return reservation;
+	}
+
+	public List<Reservation> getReservationsFromEmail(String email) {
+		return reservationRepo.getReservationsFromEmail(email);
 	}
 }

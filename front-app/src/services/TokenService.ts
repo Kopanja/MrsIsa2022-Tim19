@@ -19,6 +19,14 @@ const TokenService = {
         return null;
     },
 
+    getRole: function(){
+        let userJson = localStorage.getItem("user");
+        if(userJson){
+            const user : any = JSON.parse(userJson);
+            return user.role;
+        }
+        return null;
+    },
     setUser: function(user:any) {
         console.log(JSON.stringify(user));
         localStorage.setItem("user", JSON.stringify(user));
