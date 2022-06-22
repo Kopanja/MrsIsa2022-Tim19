@@ -3,7 +3,9 @@ package com.IsaMrsTim19.projekat.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.IsaMrsTim19.projekat.dto.DeletionRequestDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
 import com.IsaMrsTim19.projekat.dto.UserDTO;
@@ -28,7 +30,7 @@ public class UserService {
 	
 	@Autowired
 	ClientService clientService;
-	
+
 	public User createClient(NewClientDTO dto) {
 		
 		Client user = new Client();
@@ -78,6 +80,12 @@ public class UserService {
 	
 	public User save(User user) {
 		return userRepo.save(user);
+	}
+
+
+	public void delete(User user) {
+		userRepo.delete(user);
+		
 	}
 
 	
