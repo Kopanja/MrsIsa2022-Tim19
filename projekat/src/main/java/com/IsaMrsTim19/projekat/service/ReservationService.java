@@ -2,13 +2,20 @@ package com.IsaMrsTim19.projekat.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
+import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Reservation;
 import com.IsaMrsTim19.projekat.repository.ReservationRepository;
 
@@ -23,6 +30,42 @@ public class ReservationService {
 	public Reservation save(Reservation reservation) {
 		return reservationRepo.save(reservation);
 	}
+	
+	public Long getNumberOfDays(Reservation reservation) {
+		Long diff = reservation.getDateTo().getTime() - reservation.getDateFrom().getTime();
+		return  TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+	}
+	
+	public List<Date> getAllReservationDates(Reservation r){
+		List<Date> resDates = new ArrayList<Date>();
+		Calendar calendar;
+		Calendar endCalendar;
+		Date startDate = r.getDateFrom();
+		Date endDate = r.getDateTo();
+		resDates.add(startDate);
+		resDates.add(endDate);
+		calendar = getCalendarWithoutTime(startDate);
+		endCalendar = getCalendarWithoutTime(endDate);
+		while(calendar.before(endCalendar)) {
+			calendar.add(Calendar.DATE, 1);
+			Date result = calendar.getTime();
+			resDates.add(result);
+		}
+		return resDates;
+	}
+	
+	private static Calendar getCalendarWithoutTime(Date date) {
+		  Calendar calendar = new GregorianCalendar();
+		  calendar.setTime(date);
+		  calendar.set(Calendar.HOUR, 0);
+		  calendar.set(Calendar.HOUR_OF_DAY, 0);
+		  calendar.set(Calendar.MINUTE, 0);
+		  calendar.set(Calendar.SECOND, 0);
+		  calendar.set(Calendar.MILLISECOND, 0);
+		  return calendar;
+		}
+	
+
 	
 	
 	public List<Reservation> getReservationsByClientId(Long clientId){

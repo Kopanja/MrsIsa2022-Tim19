@@ -32,6 +32,9 @@ public class Offer {
 	@Relationship(type="HAS_PROMOTION", direction=Direction.OUTGOING)
 	private List<Promotion> promotions;
 	
+	@Relationship(type="HAS_SERVICE", direction=Direction.OUTGOING)
+	private List<AdditionalService> additionalServices;
+	
 	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date avaliableFrom;
 	
@@ -136,6 +139,12 @@ public class Offer {
 	}
 	public void setPromotions(List<Promotion> promotions) {
 		this.promotions = promotions;
+	}
+	public List<AdditionalService> getAdditionalServices() {
+		return additionalServices;
+	}
+	public void setAdditionalServices(List<AdditionalService> additionalServices) {
+		this.additionalServices = additionalServices;
 	}
 
 	

@@ -49,7 +49,7 @@ export const SearchBar = () => {
                 query = query + "&";
             }
             let formattedDate = (moment(startDate)).format("yyyy-MM-DD")
-            query = query + "dateFrom=" + formattedDate;
+            query = query + "dateFrom=" + formattedDate + "T16:00";
             firstParamSet = true;
         }
         if(endDate){
@@ -57,7 +57,7 @@ export const SearchBar = () => {
                 query = query + "&";
             }
             let formattedDate = (moment(endDate)).format("yyyy-MM-DD")
-            query = query + "dateTo=" + formattedDate;
+            query = query + "dateTo=" + formattedDate + "T12:00";
             firstParamSet = true;
         }
         if(numOfPeople && !isNaN(numOfPeople as any)){

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class QueryService {
 
 	public String generateSearchQuery(Map<String, String> queryParams) {
-		System.out.println(queryParams);
+		//System.out.println(queryParams);
 		String query = "MATCH (n";
 		String condition = " WHERE ";
 		String ret = " RETURN n,r,c";
@@ -41,7 +41,7 @@ public class QueryService {
 			if(conditionExists) {
 				condition += " AND ";
 			}
-			condition += "n.avaliableFrom <= date('" + queryParams.get("dateFrom") + "')";
+			condition += "n.avaliableFrom <= dateTime('" + queryParams.get("dateFrom") + "')";
 			conditionExists = true;
 		}
 		
@@ -49,7 +49,7 @@ public class QueryService {
 			if(conditionExists) {
 				condition += " AND ";
 			}
-			condition += "n.avaliableUntil >= date('"+ queryParams.get("dateTo") + "')";
+			condition += "n.avaliableUntil >= dateTime('"+ queryParams.get("dateTo") + "')";
 			conditionExists = true;
 		}
 		
@@ -59,7 +59,7 @@ public class QueryService {
 		}
 		
 		
-		System.out.println(query + ret);
+		//System.out.println(query + ret);
 		return query + ret;
 	}
 	

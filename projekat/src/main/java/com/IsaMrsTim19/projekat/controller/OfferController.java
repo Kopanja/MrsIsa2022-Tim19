@@ -42,6 +42,7 @@ public class OfferController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Offer>> getAllOffers() {
 		List<Offer> allOffers = offerService.getAllOffers();
+		System.out.println(allOffers);
 		return new ResponseEntity<>(allOffers, HttpStatus.OK);
 
 	}
@@ -49,15 +50,22 @@ public class OfferController {
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
 	public ResponseEntity<OfferListByPageDTO> getAllOffers(@PathVariable Integer pageNum) {
 
+	
 		OfferListByPageDTO offersByPage = offerService.getAllOfferByPage(pageNum);
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<List<OfferDTO>> getSearchResult(@RequestParam Map<String, String> searchParams) {
+	public ResponseEntity<?> getSearchResult(@RequestParam Map<String, String> searchParams) {
 
-		List<OfferDTO> dtos = offerService.searchResult(searchParams);
+		List<OfferDTO> dtos;
+		try {
+			dtos = offerService.searchResult(searchParams);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+		}
 		// System.out.println(accommService.searchResult("MATCH (n:Accommodation) RETURN
 		// n"));
 		return new ResponseEntity<>(dtos, HttpStatus.OK);

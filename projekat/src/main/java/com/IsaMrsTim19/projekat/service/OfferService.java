@@ -4,7 +4,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
 import com.IsaMrsTim19.projekat.model.Accommodation;
+import com.IsaMrsTim19.projekat.model.AdditionalService;
 import com.IsaMrsTim19.projekat.model.Boat;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.FishingTour;
@@ -72,14 +75,30 @@ public class OfferService {
 		return offersByPageDTO;
 	}
 
-	public List<OfferDTO> searchResult(Map<String, String> queryParams) {
+	public List<OfferDTO> searchResult(Map<String, String> queryParams) throws Exception {
 		String query = queryService.generateSearchQuery(queryParams);
 		List<Offer> offers = offerRepo.customQuery(query);
+	
+		List<Offer> availableOffers = new ArrayList<Offer>();
+		if (queryParams.containsKey("dateFrom") && queryParams.containsKey("dateTo")) {
+			Date fromDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(queryParams.get("dateFrom"));
+			Date toDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(queryParams.get("dateFrom"));
+			
+			Reservation reservation = new Reservation();
+			reservation.setDateFrom(fromDate);
+			reservation.setDateTo(toDate);
+			for (Offer o : offers) {
+				if (this.isOfferAvailable(reservation, o)) {
+					availableOffers.add(o);
+				}
+			}
+		} else {
+			availableOffers = offers;
+		}
+
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
-		for (Offer offer : offers) {
-			System.out.println(offer);
+		for (Offer offer : availableOffers) {
 			dtos.add(this.toDTO(offer));
-			// System.out.println(accomm.getNumberOfPeople());
 		}
 		return dtos;
 	}
@@ -125,15 +144,52 @@ public class OfferService {
 		return dto;
 	}
 
+	public List<Date> getUnavailableDates(Offer offer) {
+		List<Reservation> reservations = offer.getReservations();
+		List<Date> unavailableDates = new ArrayList<Date>();
+		List<Date> resDates;
+		for (Reservation r : reservations) {
+			resDates = reservationService.getAllReservationDates(r);
+			for (Date d : resDates) {
+				unavailableDates.add(d);
+			}
+		}
+		return unavailableDates;
+	}
+
+	private boolean isOfferAvailable(Reservation reservation, Offer offer) throws Exception {
+		List<Date> unavailableDates = this.getUnavailableDates(offer);
+
+		List<Date> resDate = reservationService.getAllReservationDates(reservation);
+		System.out.println(unavailableDates);
+		System.out.println(resDate);
+		for (Date unDate : unavailableDates) {
+			for (Date rDate : resDate) {
+				if (unDate.equals(rDate)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	@Transactional
 	public void createReservation(Long offerId, Client client, ReservationDTO reservationDTO) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 		Reservation reservation = reservationService.toEntity(reservationDTO);
 
-		//Provera zauzetosti vikendice
 		if (offer == null) {
 			throw new Exception("Something went wrong");
+		}
+
+		if (!(reservation.getDateFrom().after(offer.getAvaliableFrom())
+				&& reservation.getDateTo().before(offer.getAvaliableUntil()))) {
+			throw new Exception("The offer is not available then");
+		}
+
+		if (!this.isOfferAvailable(reservation, offer)) {
+			throw new Exception("A reservation already exist in that time");
 		}
 		List<Reservation> clientReservations = reservationService.getReservationsByClientId(client.getId());
 		if (clientReservations != null) {
@@ -152,6 +208,20 @@ public class OfferService {
 		}
 
 		// treba racunanje cene
+		double basePrice = offer.getPrice();
+		Long numberOfNights = reservationService.getNumberOfDays(reservation);
+		basePrice = basePrice * numberOfNights;
+
+		for (AdditionalService a : offer.getAdditionalServices()) {
+			for (Long id : reservationDTO.getAdditionalServicesIds()) {
+				if (a.getId().equals(id)) {
+					basePrice += a.getPrice() * numberOfNights;
+				}
+			}
+
+		}
+
+		reservation.setPrice(basePrice);
 		reservationService.save(reservation);
 
 		offerRepo.save(offer);
@@ -193,6 +263,14 @@ public class OfferService {
 		reservation.setDateFrom(promotion.getDateFrom());
 		reservation.setDateTo(promotion.getDateTo());
 
+		if (!(reservation.getDateFrom().after(offer.getAvaliableFrom())
+				&& reservation.getDateTo().before(offer.getAvaliableUntil()))) {
+			throw new Exception("The offer is not available then");
+		}
+
+		if (!this.isOfferAvailable(reservation, offer)) {
+			throw new Exception("A reservation already exist in that time");
+		}
 		List<Reservation> clientReservations = reservationService.getReservationsByClientId(client.getId());
 		if (clientReservations != null) {
 			clientReservations.add(reservation);
@@ -289,6 +367,17 @@ public class OfferService {
 		}
 
 		Promotion promotion = promotionService.toEntity(promotionDto);
+
+		if (!(promotion.getDateFrom().after(offer.getAvaliableFrom())
+				&& promotion.getDateTo().before(offer.getAvaliableUntil()))) {
+			throw new Exception("The offer is not available then");
+		}
+		Reservation reservation = new Reservation();
+		reservation.setDateFrom(promotion.getDateFrom());
+		reservation.setDateTo(promotion.getDateTo());
+		if (!this.isOfferAvailable(reservation, offer)) {
+			throw new Exception("A reservation already exist in that time");
+		}
 		promotionService.save(promotion);
 
 		if (offer.getPromotions() != null) {
