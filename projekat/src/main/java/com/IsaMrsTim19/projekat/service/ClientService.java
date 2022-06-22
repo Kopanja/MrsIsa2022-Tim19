@@ -19,6 +19,11 @@ public class ClientService {
 	public Client save(Client client) {
 		return clientRepo.save(client);
 	}
+
+
+	public Client findClientByReviewId(Long id) {
+		return clientRepo.findClientByReviewId(id);
+	}
 	
 
 

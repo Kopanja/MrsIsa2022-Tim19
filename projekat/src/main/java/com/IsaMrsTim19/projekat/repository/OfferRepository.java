@@ -21,4 +21,7 @@ public interface OfferRepository extends Neo4jRepository<Offer, Long> {
 	
 	@Query("CALL apoc.cypher.run($s, {}) YIELD value RETURN value.n, value.r, value.c")
 	public List<Offer> customQuery(String s);
+
+	@Query("MATCH (n:Offer)-[re:HAS_REVIEW]->(r:Review) WHERE id(r) = $id RETURN n,re,r")
+	public Offer findOfferByReviewId(Long id);
 }

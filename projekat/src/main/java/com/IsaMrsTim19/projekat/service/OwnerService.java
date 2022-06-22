@@ -27,4 +27,8 @@ public class OwnerService {
 	public void delete(Owner owner) {
 		ownerRepo.delete(owner);
 	}
+
+	public Owner findOwnerByReviewId(Long id) {
+		return ownerRepo.findOwnerByReviewId(id);
+	}
 }

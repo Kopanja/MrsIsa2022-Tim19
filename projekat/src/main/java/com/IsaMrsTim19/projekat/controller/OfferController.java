@@ -27,6 +27,7 @@ import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
+import com.IsaMrsTim19.projekat.dto.ReviewDTO;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
@@ -132,6 +133,25 @@ public class OfferController {
 		}
 		try {
 			offerService.createPromotion(id, user, promotionDTO);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/{id}/create-review", method = RequestMethod.POST)
+	public ResponseEntity<?> createReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
+
+		Client user = null;
+		try {
+			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			return new ResponseEntity<>("He is null again", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			offerService.createReview(id, user, reviewDTO);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

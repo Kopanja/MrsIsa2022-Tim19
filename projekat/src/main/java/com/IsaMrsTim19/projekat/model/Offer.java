@@ -35,6 +35,9 @@ public class Offer {
 	@Relationship(type="HAS_SERVICE", direction=Direction.OUTGOING)
 	private List<AdditionalService> additionalServices;
 	
+	@Relationship(type="HAS_REVIEW", direction=Direction.OUTGOING)
+	private List<Review> reviews;
+	
 	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date avaliableFrom;
 	
@@ -146,6 +149,22 @@ public class Offer {
 	public void setAdditionalServices(List<AdditionalService> additionalServices) {
 		this.additionalServices = additionalServices;
 	}
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	@Override
+	public String toString() {
+		return "Offer [id=" + id + ", name=" + name + ", city=" + city + ", reservations=" + reservations
+				+ ", subscribers=" + subscribers + ", promotions=" + promotions + ", additionalServices="
+				+ additionalServices + ", reviews=" + reviews + ", avaliableFrom=" + avaliableFrom + ", avaliableUntil="
+				+ avaliableUntil + ", address=" + address + ", description=" + description + ", rating=" + rating
+				+ ", price=" + price + ", imgFolderPath=" + imgFolderPath + ", thumbnail=" + thumbnail
+				+ ", numOfPeople=" + numOfPeople + "]";
+	}
+	
 
 	
 	

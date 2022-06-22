@@ -15,4 +15,7 @@ public interface OwnerRepository  extends Neo4jRepository<Owner, Long> {
 	
 	@Query("MATCH (n:Owner)-[:HAS_OFFER]->(o:Offer) WHERE id(o) = $offerId RETURN n")
 	Owner findOwnerByOfferID(Long offerId);
+
+	@Query("MATCH (n:Owner)-[:HAS_OFFER]->(:Offer)-[:HAS_REVIEW]->(r:Review) WHERE id(r) = $id RETURN n")
+	Owner findOwnerByReviewId(Long id);
 }

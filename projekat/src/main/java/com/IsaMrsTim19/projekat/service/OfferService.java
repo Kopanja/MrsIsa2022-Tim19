@@ -18,6 +18,7 @@ import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
+import com.IsaMrsTim19.projekat.dto.ReviewDTO;
 import com.IsaMrsTim19.projekat.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.AdditionalService;
 import com.IsaMrsTim19.projekat.model.Boat;
@@ -27,6 +28,7 @@ import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.model.Promotion;
 import com.IsaMrsTim19.projekat.model.Reservation;
+import com.IsaMrsTim19.projekat.model.Review;
 import com.IsaMrsTim19.projekat.repository.OfferRepository;
 
 @Service
@@ -53,6 +55,9 @@ public class OfferService {
 	@Autowired
 	PromotionService promotionService;
 
+	@Autowired
+	ReviewService reviewService;
+
 	public List<Offer> getAllOffers() {
 		this.getNumberOfPages();
 		return offerRepo.findAll();
@@ -78,12 +83,12 @@ public class OfferService {
 	public List<OfferDTO> searchResult(Map<String, String> queryParams) throws Exception {
 		String query = queryService.generateSearchQuery(queryParams);
 		List<Offer> offers = offerRepo.customQuery(query);
-	
+
 		List<Offer> availableOffers = new ArrayList<Offer>();
 		if (queryParams.containsKey("dateFrom") && queryParams.containsKey("dateTo")) {
 			Date fromDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(queryParams.get("dateFrom"));
 			Date toDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(queryParams.get("dateFrom"));
-			
+
 			Reservation reservation = new Reservation();
 			reservation.setDateFrom(fromDate);
 			reservation.setDateTo(toDate);
@@ -129,6 +134,9 @@ public class OfferService {
 		return imagePath;
 	}
 
+	public Offer findOfferByReviewId(Long id) {
+		return offerRepo.findOfferByReviewId(id);
+	}
 	public OfferDTO toDTO(Offer offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		String offerType = null;
@@ -416,6 +424,42 @@ public class OfferService {
 			}
 		}
 		return urls;
+	}
+
+	@Transactional
+	public void createReview(Long offerId, Client client, ReviewDTO reviewDto) throws Exception {
+		Offer offer = offerRepo.findById(offerId).orElse(null);
+		if (offer == null) {
+			throw new Exception("Something went wrong");
+		}
+		Review review = reviewService.toEntity(reviewDto);
+
+		review = reviewService.save(review);
+
+		if (review == null) {
+			throw new Exception("Something went wrong");
+		}
+		
+		List<Review> clientReviews = reviewService.getReviewsByClientId(client.getId());
+		if (clientReviews != null) {
+			clientReviews.add(review);
+			client.setReviews(clientReviews);
+		} else {
+			client.setReviews(new ArrayList<Review>());
+			client.getReviews().add(review);
+		}
+
+		if (offer.getReviews() != null) {
+			offer.getReviews().add(review);
+		} else {
+			offer.setReviews(new ArrayList<Review>());
+			offer.getReviews().add(review);
+		}
+		
+		
+		offerRepo.save(offer);
+		clientService.save(client);
+		
 	}
 
 }

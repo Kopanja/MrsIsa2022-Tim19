@@ -11,6 +11,9 @@ public class Client extends User {
 
 	@Relationship(type="MADE_RESERVATION", direction=Direction.OUTGOING)
 	private List<Reservation> reservations;
+	
+	@Relationship(type="MADE_REVIEW", direction=Direction.OUTGOING)
+	private List<Review> reviews;
 
 	public Client() {
 		super();
@@ -27,6 +30,14 @@ public class Client extends User {
 
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 	
 	
