@@ -40,6 +40,14 @@ CREATE (res3:Reservation {dateFrom : dateTime("2022-06-13T16:00"), dateTo : date
 CREATE (res4:Reservation {dateFrom : dateTime("2022-06-24T16:00"), dateTo : dateTime("2022-06-30T12:00"), price : 18000, isComplete : false})
 CREATE (res5:Reservation {dateFrom : dateTime("2022-06-27T16:00"), dateTo : dateTime("2022-07-01T12:00"), price : 17000, isComplete : false})
 
+CREATE (rev1:Review {rating : 4.0, isAccepted: true, reviewText : "It was awsome"})
+CREATE (rev2:Review {rating : 3.0, isAccepted: false, reviewText : "Not bad"})
+CREATE (rev3:Review {rating : 3.7, isAccepted: true, reviewText : "It was ok"})
+
+
+MERGE (client1)-[:MADE_REVIEW]->(rev1)
+MERGE (client1)-[:MADE_REVIEW]->(rev2)
+MERGE (client1)-[:MADE_REVIEW]->(rev3)
 
 MERGE(v1:Offer:Accommodation {name : "Etno hotel Vrdnička kula", address: "Potes pod kulom bb", avaliableFrom : dateTime("2022-05-11T16:00"), avaliableUntil : dateTime("2022-09-11T12:00"), description : "Objekat Etno hotel Vrdnička kula nudi smeštaj sa restoranom, besplatnim privatnim parkingom, barom i vrtom u Vrdniku, na manje od 1 km od Banje Vrdnik. Gostima ovog objekta su na raspolaganju porodične sobe i dečije igralište. Ponuda smeštajnog objekta uključuje recepciju koja radi non-stop, prevoz od/do aerodroma, poslugu u sobi i besplatan WiFi.", roomNumber : 4, numOfPeople : 8, price : 6999, rating: 4.5, imgFolderPath : "Etno hotel Vrdnička kula", thumbnail : "VrdnickaKula.jpg"})
 MERGE (v1)-[:IS_IN]->(fruskaGora)
@@ -50,6 +58,8 @@ MERGE (v1)-[:HAS_SERVICE]->(wifi)
 MERGE (v1)-[:HAS_SUBSCRIBER]->(client1)
 
 MERGE (v1)-[:HAS_RESERVATION]->(res1)<-[:MADE_RESERVATION]-(client1)
+MERGE (v1)-[:HAS_REVIEW]->(rev1)
+
 
 MERGE(v2:Offer:Accommodation {name : "Apartmani Žuti Leptir", address: "Martina Klasića br.7", avaliableFrom : dateTime("2022-05-11T16:00"), avaliableUntil : dateTime("2022-09-11T12:00"), description : "Objekat Apartmani Žuti Leptir nudi klimatizovani smeštaj sa besplatnim WiFi internetom i vrtom u Vrdniku, na 600 metara od Banje Vrdnik. Apartman sa besplatnim privatnim parkingom se nalazi u oblasti pogodnoj za bavljenje aktivnostima poput pešačenja i vožnje bicikla.", roomNumber : 2, numOfPeople : 6, price : 3999, rating: 4.3, imgFolderPath : "Apartmani Žuti Leptir", thumbnail : "ZutiLeptir.jpg"})
 MERGE (v2)-[:IS_IN]->(fruskaGora)
@@ -125,6 +135,7 @@ MERGE (b1)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b1)-[:HAS_NAV_EQUIP]->(fishFinder)
 MERGE (b1)-[:HAS_SUBSCRIBER]->(client1)
 MERGE (b1)-[:HAS_RESERVATION]->(res2)<-[:MADE_RESERVATION]-(client1)
+MERGE (b1)-[:HAS_REVIEW]->(rev2)
 
 MERGE(b2:Offer:Boat {name : "Nimbus 3100", address: "Ulica Lalala 6", avaliableFrom : dateTime("2022-05-11T16:00"), avaliableUntil : dateTime("2022-09-11T12:00"), description : "With this well known brand you can travel far away, safe and cozy, or it can simply take you swimming or fishing with friends and family.", numOfMotors : 4, motorStrength : 165, price : 13000, rating: 4.8, maxSpeed: 64, numOfPeople: 6, imgFolderPath : "Nimbus 3100", thumbnail : "Nimbus3100.jpg"})
 MERGE (b2)-[:IS_IN]->(palic)
@@ -170,6 +181,7 @@ MERGE (f2)-[:HAS_FISH_EQUIP]->(rods)
 MERGE (f2)-[:HAS_FISH_EQUIP]->(lures)
 MERGE (f2)-[:HAS_FISH_EQUIP]->(net)
 MERGE (f2)-[:HAS_RESERVATION]->(res3)<-[:MADE_RESERVATION]-(client1)
+MERGE (f2)-[:HAS_REVIEW]->(rev3)
 
 MERGE(f3:Offer:FishingTour {name : "Spin Jig Fishing", address: "Novosadska 2", avaliableFrom : dateTime("2022-05-11T16:00"), avaliableUntil : dateTime("2022-09-11T12:00"), description: "U sklopu obilaska, omogućene su i posete nacionalnim parkovima u kojima posetioci mogu uživati u netaknutoj prirodi zaštićenoj UNESCO-m.", price : 12999, rating: 4.8, numOfPeople : 14, imgFolderPath : "Spin Jig Fishing", thumbnail : "SpinJigFishing1.jpg"})
 MERGE (f3)-[:IS_IN]->(kopaonik)

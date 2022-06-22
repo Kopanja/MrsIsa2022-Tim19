@@ -11,6 +11,7 @@ import LoginPage from './components/LoginPage';
 import ClientRegistrationPage from './components/ClientRegistrationPage';
 import OwnerRegistrationPage from './components/OwnerRegistrationPage';
 import UserPage from './components/UserPage';
+import UserEditPage from './components/UserEditPage';
 
 function App() {
   return (
@@ -50,6 +51,10 @@ function App() {
         <Route path="user-page">
           <Route index element = {<UserPage/>}/>
           <Route path=":email" element = {<UserPage/>}/>
+        </Route>
+        <Route path="edit-user-page">
+          <Route index element = {<UserEditPage/>}/>
+          <Route path=":emailPath" element = {<UserEditPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>

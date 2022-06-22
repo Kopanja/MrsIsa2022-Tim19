@@ -63,7 +63,20 @@ public class UserService {
 		
 	}
 	
-
+	
+	public User updateUser(UserDTO dto) {
+		User user = userRepo.findById(dto.getId()).orElse(null);
+		user.setFirstname(dto.getFirstname());
+		user.setLastname(dto.getLastname());
+		user.setEmail(dto.getEmail());
+		user.setPhoneNumber(dto.getPhoneNumber());
+		if(user.getRole() == null) {
+			user.setRole(roleRepo.findByRole("CLIENT"));
+		}
+		user = userRepo.save(user);
+		
+		return user;
+	}
 	public List<OfferDTO> getSubscriptionsFromUserEmail(String email){
 		List<Offer> subscriptions = offerService.getSubscriptionsFromUserEmail(email);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
@@ -97,7 +110,7 @@ public class UserService {
 	}
 	
 	public UserDTO toDTO(User user) {
-		return new UserDTO(user.getFirstname(), user.getLastname(), user.getEmail(), user.getPhoneNumber());
+		return new UserDTO(user.getId(),user.getFirstname(), user.getLastname(), user.getEmail(), user.getPhoneNumber());
 	}
 	
 	public User findByEmail(String email) throws Exception {

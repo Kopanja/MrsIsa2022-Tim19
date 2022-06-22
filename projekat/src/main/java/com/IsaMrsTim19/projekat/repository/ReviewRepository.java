@@ -14,4 +14,7 @@ public interface ReviewRepository extends Neo4jRepository<Review, Long> {
 	@Query("MATCH (n:Client)-[:MADE_REVIEW]->(r:Review) WHERE id(n) = $id RETURN r")
 	List<Review> getReviewsByClientId(Long id);
 
+	@Query("MATCH (n:Client)-[:MADE_REVIEW]->(r:Review) WHERE n.email = $email RETURN r")
+	List<Review> getReviewsByClientEmail(String email);
+
 }

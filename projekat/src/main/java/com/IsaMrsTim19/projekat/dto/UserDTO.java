@@ -2,6 +2,7 @@ package com.IsaMrsTim19.projekat.dto;
 
 public class UserDTO {
 
+	private Long id;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -17,6 +18,17 @@ public class UserDTO {
 
 	public UserDTO(String firstname, String lastname, String email, String phoneNumber) {
 		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+	}
+
+	
+
+	public UserDTO(Long id, String firstname, String lastname, String email, String phoneNumber) {
+		super();
+		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
@@ -73,11 +85,27 @@ public class UserDTO {
 
 
 
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "UserDTO [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phoneNumber="
-				+ phoneNumber + "]";
+		return "UserDTO [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", phoneNumber=" + phoneNumber + "]";
 	}
+
+
+
+
 	
 	
 }

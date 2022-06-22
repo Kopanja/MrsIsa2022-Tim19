@@ -10,8 +10,10 @@ import TokenService from '../services/TokenService';
 import UserSubscriptionList from './UserSubscriptionList';
 import Navbar from './Navbar';
 import UserReservationList from './UserReservationList';
-const UserPage = () => {
+import UserReviewList from './UserReviewList';
 
+const UserPage = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState<ClientData>();
     const { email } = useParams();
 
@@ -30,6 +32,9 @@ const UserPage = () => {
         }
       }, [email]);
     
+      const onEditClick = () => {
+        navigate(`/edit-user-page/${email}`,);
+      }
   return (
     <div>
         <Navbar></Navbar>
@@ -37,18 +42,28 @@ const UserPage = () => {
         <h1>Last Name: {user?.lastname}</h1>
         <h1>Email: {user?.email}</h1>
         <h1>Phone Number: {user?.phoneNumber}</h1>
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email &&
-        <button>Edit Profile Information</button>     
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
+        <button onClick={()=>{onEditClick()}}>Edit Profile Information</button>     
         }
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email &&
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <h1>Saved Subscriptions</h1> 
         }
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email &&
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <UserSubscriptionList email = {email}></UserSubscriptionList>
         }
 
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email &&
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
+            <h1>Reservation History</h1> 
+        }
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <UserReservationList email = {email}></UserReservationList>
+        }
+
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
+            <h1>Review History</h1> 
+        }
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
+            <UserReviewList email = {email}></UserReviewList>
         }
         
         

@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
+import com.IsaMrsTim19.projekat.dto.UserDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Reservation;
 import com.IsaMrsTim19.projekat.model.User;
@@ -29,6 +31,22 @@ public class UserController {
 		User user;
 		try {
 			user = userService.findByEmail(email);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(userService.toDTO(user), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateUser(@RequestBody UserDTO dto) {
+		System.out.println(dto);
+		
+		User user;
+		
+		try {
+			user = userService.updateUser(dto);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);

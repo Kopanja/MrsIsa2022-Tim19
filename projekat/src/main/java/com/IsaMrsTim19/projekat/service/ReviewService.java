@@ -74,4 +74,8 @@ public class ReviewService {
 		reviewRepo.delete(review);
 		
 	}
+
+	public List<Review> getReviewsByClientEmail(String email) {
+		return reviewRepo.getReviewsByClientEmail(email);
+	}
 }
