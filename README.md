@@ -17,6 +17,7 @@ Pokretanje:
 
 
 //front
+
 1.Pozicionirati se u folder front-app
 
 2.kroz komandnu liniju otkucati komandu "npm install"
