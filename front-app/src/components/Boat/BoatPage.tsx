@@ -13,11 +13,19 @@ import roomIcon from "../../resources/room-icon.png"
 import locationIcon from "../../resources/location.png"
 import checkMark from "../../resources/check-mark.png"
 import AuthAxios from '../../services/AuthAxios';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+import dateFromIcon from "../../resources/date-from-icon.svg";
+import dateToIcon from "../../resources/date-to-icon.svg";
+
 
 const BoatPage = () => {
     const [boat, setBoat] = useState<Boat>();
     const [viewImages, setViewImages ] = useState<boolean>(false);
     const { id } = useParams();
+    const [endDate, setEndDate] = useState<Date|null>();
+    const [startDate, setStartDate] = useState<Date|null>();
+    const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
 
     useEffect(() => {
         if (id) {
@@ -30,8 +38,30 @@ const BoatPage = () => {
           .catch((err) => {
             console.log(err);
           });
+
+          AuthAxios
+          .get(`/offer/${id}/unavailable-dates`)
+          .then((res) => {
+            console.log(res.data);
+            setUnavailableDates(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         }
       }, [id])
+
+      const reserveButtonClick = () => {
+        AuthAxios
+          .post(`/offer/${id}/make-reservation`, {dateFrom : startDate, dateTo : endDate, additionalServicesIds : []})
+          .then((res) => {
+            console.log(res.data);
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+          });
+      }
   return (
     <div>
       
@@ -120,6 +150,15 @@ const BoatPage = () => {
                       <p className='info-text'>250$</p>
                       <p className='info-text'>per day</p>
                     </div>
+                    <div className='container-row'>
+                      <img src={dateFromIcon} alt = "date to Icon"></img>
+                      <DatePicker excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
+                      </div>
+                      <div className='container-row'>
+                        <img src={dateToIcon} alt = "date to Icon"></img>
+                        <DatePicker excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
+                      </div>
+                      <button onClick={reserveButtonClick}>Reserve</button>
 
                   </div>
                 </div>

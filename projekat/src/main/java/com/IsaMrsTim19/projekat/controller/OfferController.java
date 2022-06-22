@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,16 @@ public class OfferController {
 	
 		OfferListByPageDTO offersByPage = offerService.getAllOfferByPage(pageNum);
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "/{id}/unavailable-dates", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllOffers(@PathVariable Long id) {
+
+	
+		Offer offer = offerService.findById(id);
+		List<Date> unavailableDates = offerService.getUnavailableDates(offer);
+		return new ResponseEntity<>(unavailableDates, HttpStatus.OK);
 
 	}
 	
