@@ -101,6 +101,7 @@ public class AuthenticationController {
 			{
 		LoggedInUserDTO dto = null;
 		try {
+			
 			dto = authService.login(loginDto);
 		}catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);

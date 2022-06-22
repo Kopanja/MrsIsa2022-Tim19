@@ -63,7 +63,6 @@ public class AuthenticationService {
 	public LoggedInUserDTO login(LoginDTO loginDTO) throws BadCredentialsException {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				loginDTO.getEmail(), loginDTO.getPassword()));
-		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	
 		User user = (User) authentication.getPrincipal();

@@ -62,19 +62,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// komunikacija izmedju klijenta i servera je stateless
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and()
-				// za neautorizovane zahteve posalji 401 gresku
-				// .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-				// za cors
-
-				// svim korisnicima dopusti da pristupe putanjama /auth/** i /h2-console/**
-				//.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/offer/**").permitAll().anyRequest().authenticated().and()
-				.authorizeRequests().antMatchers("/**").permitAll().and()
-				// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
+		
+				.authorizeRequests().antMatchers("/auth/**").permitAll().and()
 				.cors().and()
 
-				// umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT
-				// tokena umesto cistih korisnickog imena i lozinke (koje radi
-				// BasicAuthenticationFilter)
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService),
 						BasicAuthenticationFilter.class);
 		// svaki zahtev mora biti autorizovan
@@ -92,7 +83,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 		//web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/**");
 		web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/api/offer/**", "/api/city",  "/api/accommodation/**", "/api/fishingTour/**","/api/boat/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/offer/**", "/api/city/**",  "/api/accommodation/**", "/api/fishingTour/**","/api/boat/**");
 		//web.ignoring().antMatchers(HttpMethod.GET, "/**");
 		web.ignoring().antMatchers("/ws/**");
 

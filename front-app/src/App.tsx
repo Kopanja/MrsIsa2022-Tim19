@@ -12,6 +12,7 @@ import ClientRegistrationPage from './components/ClientRegistrationPage';
 import OwnerRegistrationPage from './components/OwnerRegistrationPage';
 import UserPage from './components/UserPage';
 import UserEditPage from './components/UserEditPage';
+import AdminPage from './components/AdminPage';
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
         </Route>
         <Route path="owner-registration">
           <Route index element = {<OwnerRegistrationPage/>}/>
+        </Route>
+        <Route path="admin">
+          <Route index element = {<AdminPage/>}/>
         </Route>
         <Route path="user-page">
           <Route index element = {<UserPage/>}/>

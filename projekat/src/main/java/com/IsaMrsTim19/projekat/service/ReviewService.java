@@ -43,12 +43,12 @@ public class ReviewService {
 	public double acceptReview(Long id, Offer offer) throws Exception {
 		System.out.println(offer);
 		Review review = reviewRepo.findById(id).orElse(null);
+		System.out.println(review);
 		if(review == null) {
 			throw new Exception("Something went wrong");
 		}
 		
-		review.setAccepted(true);
-		reviewRepo.save(review);
+		
 		
 		Owner owner = ownerService.findOwnerByReviewId(id);
 		if(owner == null) {
@@ -56,6 +56,8 @@ public class ReviewService {
 		}
 		
 		double newOfferRating = (offer.getRating()*offer.getReviews().size() + review.getRating())/(offer.getReviews().size() + 1);
+		review.setAccepted(true);
+		reviewRepo.save(review);
 		String subject = "You Have A New Review";
 		String body = "Review rating: " + review.getRating() + "\n";
 		body += "Review text: " + review.getReviewText();
@@ -77,5 +79,9 @@ public class ReviewService {
 
 	public List<Review> getReviewsByClientEmail(String email) {
 		return reviewRepo.getReviewsByClientEmail(email);
+	}
+
+	public List<Review> getReviewsThatAreNotAccepted() {
+		return reviewRepo.getReviewsThatAreNotAccepted();
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +69,7 @@ public class OfferController {
 
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLIENT', 'OWNER')")
 	@RequestMapping(value = "/reservation/{reservationId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getOfferByReservation(@PathVariable Long reservationId) {
 		Offer offer = null;
@@ -81,6 +83,7 @@ public class OfferController {
 
 	}
 	
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/reservation/{reservationId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
 		try {
@@ -116,6 +119,7 @@ public class OfferController {
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
 	}
 
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/make-reservation", method = RequestMethod.POST)
 	public ResponseEntity<?> makeReservation(@PathVariable Long id, @RequestBody ReservationDTO reservationDTO) {
 
@@ -139,6 +143,7 @@ public class OfferController {
 
 	}
 
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/subscribe", method = RequestMethod.POST)
 	public ResponseEntity<?> subscribeToOffer(@PathVariable Long id) {
 
@@ -158,6 +163,7 @@ public class OfferController {
 
 	}
 
+	@PreAuthorize("hasAnyAuthority('OWNER')")
 	@RequestMapping(value = "/{id}/create-promotion", method = RequestMethod.POST)
 	public ResponseEntity<?> createPromotion(@PathVariable Long id, @RequestBody PromotionDTO promotionDTO) {
 
@@ -177,6 +183,7 @@ public class OfferController {
 
 	}
 	
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/create-review", method = RequestMethod.POST)
 	public ResponseEntity<?> createReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
 
@@ -196,6 +203,7 @@ public class OfferController {
 
 	}
 	
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{offerId}/promotion/{promotionId}/reserve", method = RequestMethod.POST)
 	public ResponseEntity<?> fastReservation(@PathVariable Long offerId, @PathVariable Long promotionId) {
 
@@ -215,6 +223,7 @@ public class OfferController {
 
 	}
 
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/unsubscribe", method = RequestMethod.POST)
 	public ResponseEntity<?> unsuscribeFromOffer(@PathVariable Long id) {
 

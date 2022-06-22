@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+
 	@RequestMapping(value = "/{email}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
 		User user;
@@ -39,6 +41,7 @@ public class UserController {
 		return new ResponseEntity<>(userService.toDTO(user), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@RequestBody UserDTO dto) {
 		System.out.println(dto);
@@ -55,7 +58,7 @@ public class UserController {
 		return new ResponseEntity<>(userService.toDTO(user), HttpStatus.OK);
 	}
 	
-	
+	@PreAuthorize("hasAnyAuthority('CLIENT', 'ADMIN')")
 	@RequestMapping(value = "/{email}/subscriptions", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserSubscriptions(@PathVariable String email) {
 		List<OfferDTO> subscriptions;
@@ -69,7 +72,7 @@ public class UserController {
 		
 		return new ResponseEntity<>(subscriptions, HttpStatus.OK);
 	}
-	
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLIENT')")
 	@RequestMapping(value = "/{email}/reservations", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserReservations(@PathVariable String email) {
 		List<Reservation> reservations;

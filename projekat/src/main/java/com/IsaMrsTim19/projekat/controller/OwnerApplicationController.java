@@ -3,6 +3,7 @@ package com.IsaMrsTim19.projekat.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class OwnerApplicationController {
 	@Autowired
 	OwnerApplicationService ownerAppService;
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "/{id}/decline", method = RequestMethod.POST)
 	public ResponseEntity<?> declineApplication(@PathVariable Long id, @RequestBody RejectionDTO rejection) {
 		
@@ -27,6 +29,7 @@ public class OwnerApplicationController {
 
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "/{id}/accept", method = RequestMethod.GET)
 	public ResponseEntity<?> acceptApplication(@PathVariable Long id) {
 		
@@ -35,7 +38,7 @@ public class OwnerApplicationController {
 
 	}
 	
-	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> getAll() {
 		

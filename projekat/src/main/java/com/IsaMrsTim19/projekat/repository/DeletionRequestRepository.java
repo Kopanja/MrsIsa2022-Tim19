@@ -1,5 +1,6 @@
 package com.IsaMrsTim19.projekat.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -12,4 +13,7 @@ public interface DeletionRequestRepository extends Neo4jRepository<DeletionReque
 
 	@Query("MATCH (n:DeletionRequest)-[r:FROM_USER]->(u:User) WHERE id(n) = $id RETURN n,r,u")
 	public Optional<DeletionRequest> findById(Long id);
+	
+	@Query("MATCH (n:DeletionRequest) RETURN n")
+	public List<DeletionRequest> findAll();
 }

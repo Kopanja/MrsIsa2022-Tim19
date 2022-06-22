@@ -12,11 +12,19 @@ CREATE (client: Role {role : "CLIENT"})
 CREATE (owner: Role {role : "OWNER"})
 
 //email pass: password?1
-CREATE (uAccom:User:Owner {email : "accomowner@gmail.com", active : true, firstname : "Nikola", lastname : "Pasic", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+CREATE (uAccom:User:Owner {email : "accomowner@gmail.com", active : true, firstname : "Nikola", lastname : "Pasic", phoneNumber : "+3816432123", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (uAccom)-[:HAS_ROLE]->(owner)
 
-CREATE (client1:User:Client {email : "handtclient1@gmail.com", active : true, firstname : "Jelena", lastname : "Tucic", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+CREATE (client1:User:Client {email : "handtclient1@gmail.com", active : true, firstname : "Jelena", lastname : "Tucic", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (client1)-[:HAS_ROLE]->(client)
+
+
+
+CREATE (boatOwner:User:Owner {email : "handtclient2@gmail.com", active : true, firstname : "Boat", lastname : "Owner", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+MERGE (boatOwner)-[:HAS_ROLE]->(owner)
+
+CREATE (ad:User {email : "kopanja023@gmail.com", active : true, firstname : "Marko", lastname : "Kopanja", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+MERGE (ad)-[:HAS_ROLE]->(admi)
 
 CREATE (bike:AdditionalService {name : "Bycicle", type : "Accommodation", price : 20})
 CREATE (spa:AdditionalService {name : "Spa", type : "Accommodation", price : 25})
@@ -165,6 +173,14 @@ MERGE (b5)-[:HAS_NAV_EQUIP]->(gps)
 MERGE (b5)-[:HAS_NAV_EQUIP]->(radar)
 MERGE (b5)-[:HAS_NAV_EQUIP]->(vhf)
 MERGE (b5)-[:HAS_NAV_EQUIP]->(fishFinder)
+
+
+MERGE(b1)<-[:HAS_OFFER]-(boatOwner)
+MERGE(b2)<-[:HAS_OFFER]-(boatOwner)
+MERGE(b3)<-[:HAS_OFFER]-(boatOwner)
+MERGE(b4)<-[:HAS_OFFER]-(boatOwner)
+MERGE(b5)<-[:HAS_OFFER]-(boatOwner)
+
 
 //Fishing Tours
 MERGE(f1:Offer:FishingTour {name : "Fly Fishing", address: "Dimitrija Tucovića 3", avaliableFrom : dateTime("2022-05-11T16:00"), avaliableUntil : dateTime("2022-09-11T12:00"),description : "U ponudi dajemo mogućnost učesnicima da sami odaberu reke i jezera koja žele da posete, period godine u kojem će tura biti organizovana, kao i vrstu ribolovačke tehnike kojoj žele da se posvete.", price : 14000, rating: 4.4, numOfPeople : 12, imgFolderPath : "Fly Fishing", thumbnail : "FlyFishing1.jpg"})
