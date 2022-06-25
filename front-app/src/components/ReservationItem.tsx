@@ -18,10 +18,10 @@ const ReservationItem: React.FC<{reservation:ReservationData}> = ({ reservation 
             setOffer(res.data);
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err.response.data);
           });
         }
-      }, [reservation]);
+      }, []);
 
     const cancelReservation = () => {
         AuthAxios

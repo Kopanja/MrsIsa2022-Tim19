@@ -3,6 +3,7 @@ package com.IsaMrsTim19.projekat.model;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Property;
 
 @Node
 public class Review {
@@ -23,7 +24,6 @@ public class Review {
 
 	public Review(double rating, String reviewText) {
 		super();
-		this.isAccepted = false;
 		this.rating = rating;
 		this.reviewText = reviewText;
 	}
@@ -70,8 +70,11 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [id=" + id + ", rating=" + rating + ", reviewText=" + reviewText + "]";
+		return "Review [id=" + id + ", rating=" + rating + ", isAccepted=" + isAccepted + ", reviewText=" + reviewText
+				+ "]";
 	}
+
+	
 	
 	
 	

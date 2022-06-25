@@ -187,6 +187,7 @@ public class OfferController {
 	@RequestMapping(value = "/{id}/create-review", method = RequestMethod.POST)
 	public ResponseEntity<?> createReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
 
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
 		Client user = null;
 		try {
 			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -195,6 +196,7 @@ public class OfferController {
 		}
 		try {
 			offerService.createReview(id, user, reviewDTO);
+			System.out.println("Created");
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

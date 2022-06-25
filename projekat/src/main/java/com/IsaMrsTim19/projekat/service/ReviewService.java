@@ -1,5 +1,6 @@
 package com.IsaMrsTim19.projekat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class ReviewService {
 	EmailSenderService emailService;
 	
 	public Review toEntity(ReviewDTO dto) {
-		return new Review(dto.getRating(), dto.getReviewText());
+		Review review = new Review(dto.getRating(), dto.getReviewText());
+		
+		return review;
 	}
 	
 	public Review save(Review review) {
@@ -55,9 +58,13 @@ public class ReviewService {
 			throw new Exception("Something went wrong");
 		}
 		
-		double newOfferRating = (offer.getRating()*offer.getReviews().size() + review.getRating())/(offer.getReviews().size() + 1);
 		review.setAccepted(true);
-		reviewRepo.save(review);
+		Review newReview = reviewRepo.save(review);
+		System.out.println(newReview);
+		double newOfferRating = (offer.getRating()*(offer.getReviews().size() -1) + review.getRating())/(offer.getReviews().size());
+		
+		
+		
 		String subject = "You Have A New Review";
 		String body = "Review rating: " + review.getRating() + "\n";
 		body += "Review text: " + review.getReviewText();
@@ -83,5 +90,13 @@ public class ReviewService {
 
 	public List<Review> getReviewsThatAreNotAccepted() {
 		return reviewRepo.getReviewsThatAreNotAccepted();
+	}
+
+	public List<Review> getReviewsByOfferId(Long id) {
+		List<Review> reviews = reviewRepo.getReviewsByOfferId(id);
+		if(reviews == null) {
+			reviews = new ArrayList<Review>();
+		}
+		return reviews;
 	}
 }

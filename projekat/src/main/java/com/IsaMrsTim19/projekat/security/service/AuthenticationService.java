@@ -67,7 +67,7 @@ public class AuthenticationService {
 	
 		User user = (User) authentication.getPrincipal();
 		UserDTO userDTO = userService.toDTO(user);
-		
+		System.out.println(user);
 		String jwt = tokenUtils.generateToken(user.getUsername(), (List<GrantedAuthority>) user.getAuthorities());
 		
 		LoggedInUserDTO dto = new LoggedInUserDTO(jwt,userDTO, user.getRole().getRole());

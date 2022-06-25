@@ -12,7 +12,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import dateFromIcon from "../../resources/date-from-icon.svg";
 import dateToIcon from "../../resources/date-to-icon.svg";
-
+import OfferReviewlist from '../OfferReviewlist';
 
 const FishingTourPage = () => {
     const [fishingTour, setFishingTour] = useState<FishingTour>();
@@ -103,6 +103,7 @@ const FishingTourPage = () => {
 
                   </div>
                 </div>
+                <OfferReviewlist id ={Number(id)}></OfferReviewlist>
             </div>
           }
          

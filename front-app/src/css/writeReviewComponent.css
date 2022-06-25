@@ -1,0 +1,15 @@
+.review-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+   
+}
+
+.review-input{
+    max-width: 70%;
+    min-height: 100px;
+}
+
+.review-submit{
+    max-width: 20%;
+}

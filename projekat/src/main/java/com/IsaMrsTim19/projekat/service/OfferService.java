@@ -135,7 +135,9 @@ public class OfferService {
 	}
 
 	public Offer findOfferByReviewId(Long id) {
-		return offerRepo.findOfferByReviewId(id);
+		Offer offer = offerRepo.findOfferByReviewId(id);
+		offer = offerRepo.findById(offer.getId()).orElse(null);
+		return offer;
 	}
 	public OfferDTO toDTO(Offer offer) {
 		String address = offer.getAddress();
@@ -476,6 +478,13 @@ public class OfferService {
 
 	public void cancelReservation(Long reservationId) throws Exception {
 		reservationService.cancelReservation(reservationId);
+		
+	}
+
+	public void updateRating(Offer offer, double newRating) {
+		offer = this.findById(offer.getId());
+		offer.setRating(newRating);
+		offerRepo.save(offer);
 		
 	}
 

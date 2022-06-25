@@ -137,12 +137,12 @@ export const SearchBar = () => {
             <div className='vl'></div>
             <div className='flex-row-center-div searchBarItem'>
                 <img src={dateFromIcon} alt = "date from Icon"></img>
-                <DatePicker className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)}  placeholderText= "Date From" />
+                <DatePicker minDate={new Date()} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)}  placeholderText= "Date From" />
             </div>
             <div className='vl'></div>
             <div className='flex-row-center-div searchBarItem'>
                 <img src={dateToIcon} alt = "date to Icon"></img>
-                <DatePicker className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
+                <DatePicker minDate={new Date()} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
             </div>
             <div className='vl'></div>
             <div className='flex-row-center-div searchBarItem'>

@@ -14,8 +14,13 @@ const LoginPage = () => {
  
     AuthAxios.post("/auth/login", {email : email, password : password}).then((response) => {
             console.log(response)
-            TokenService.setUser(response.data);      
-            navigate(`/`);
+            TokenService.setUser(response.data);    
+            if(TokenService.getRole() === "ADMIN"){
+                navigate(`/admin`);
+            }  else{
+                navigate(`/`);
+            }
+            
         }).catch((error) => {
             console.log(error.response.data);
             setErrorMessage(error.response.data);

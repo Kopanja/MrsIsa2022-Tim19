@@ -35,8 +35,7 @@ public class ReviewController {
 			Offer offer = offerService.findOfferByReviewId(id);
 			System.out.println("b");
 			double newRating = reviewService.acceptReview(id, offer);
-			offer.setRating(newRating);
-			offerService.save(offer);
+			offerService.updateRating(offer,newRating);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -59,6 +58,21 @@ public class ReviewController {
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getReviewsByOfferId(@PathVariable Long id) {
+		List<Review> reviews = null;
+		try {
+			reviews = reviewService.getReviewsByOfferId(id);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(reviews, HttpStatus.OK);
+
+	}
+	
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "/not-accepted", method = RequestMethod.GET)

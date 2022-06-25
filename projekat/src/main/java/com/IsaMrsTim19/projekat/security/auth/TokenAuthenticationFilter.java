@@ -47,7 +47,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 				
 				// 2. Citanje korisnickog imena iz tokena
 				username = tokenUtils.getUsernameFromToken(authToken);
-				
 				if (username != null) {
 					
 					// 3. Preuzimanje korisnika na osnovu username-a

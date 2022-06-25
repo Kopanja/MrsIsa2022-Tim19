@@ -24,4 +24,9 @@ public interface ReviewRepository extends Neo4jRepository<Review, Long> {
 	@Query("MATCH (n:Client)-[:MADE_REVIEW]->(r:Review {isAccepted : false}) RETURN r")
 	List<Review> getReviewsThatAreNotAccepted();
 
+	@Query("MATCH (n:Offer)-[:HAS_REVIEW]->(r:Review {isAccepted : true}) WHERE id(n) = $id RETURN r")
+	List<Review> getReviewsByOfferId(Long id);
+	
+
+
 }

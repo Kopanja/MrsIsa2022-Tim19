@@ -17,6 +17,8 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import dateFromIcon from "../../resources/date-from-icon.svg";
 import dateToIcon from "../../resources/date-to-icon.svg";
+import WriteReviewComponent from '../WriteReviewComponent';
+import OfferReviewlist from '../OfferReviewlist';
 
 const AccommodationPage = () => {
   
@@ -123,17 +125,20 @@ const AccommodationPage = () => {
                       </div>
                       <div className='container-row'>
                       <img src={dateFromIcon} alt = "date to Icon"></img>
-                      <DatePicker excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
+                      <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
                       </div>
                       <div className='container-row'>
                         <img src={dateToIcon} alt = "date to Icon"></img>
-                        <DatePicker excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
+                        <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
                       </div>
                       <button onClick={reserveButtonClick}>Reserve</button>
                     </div>
                   </div>
               </div>
+              <OfferReviewlist id ={Number(id)}></OfferReviewlist>
+              <WriteReviewComponent id ={Number(id)}></WriteReviewComponent>
               </div>
+              
               </div>
             }
            
