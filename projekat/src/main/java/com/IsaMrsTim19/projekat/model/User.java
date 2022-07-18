@@ -35,6 +35,7 @@ public class User implements UserDetails {
 	@Relationship(type = "IS_IN", direction = Direction.OUTGOING)
 	private City city;
 
+	
 	private String address;
 
 	private String phoneNumber;
