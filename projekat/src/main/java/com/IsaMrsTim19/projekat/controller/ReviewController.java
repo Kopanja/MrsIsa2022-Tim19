@@ -1,6 +1,7 @@
 package com.IsaMrsTim19.projekat.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.IsaMrsTim19.projekat.dto.ReviewDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
-import com.IsaMrsTim19.projekat.model.Review;
+import com.IsaMrsTim19.projekat.sql.model.Review;
 import com.IsaMrsTim19.projekat.service.OfferService;
 import com.IsaMrsTim19.projekat.service.ReviewService;
 
@@ -26,6 +28,7 @@ public class ReviewController {
 	@Autowired
 	OfferService offerService;
 	
+	/*
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "/{id}/accept", method = RequestMethod.PUT)
 	public ResponseEntity<?> acceptReview(@PathVariable Long id) {
@@ -44,6 +47,9 @@ public class ReviewController {
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
+	*/
+	
+	/*
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLIENT')")
 	@RequestMapping(value = "/client/{email}", method = RequestMethod.GET)
 	public ResponseEntity<?> getReviewsByClientEmail(@PathVariable String email) {
@@ -58,10 +64,11 @@ public class ReviewController {
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 
 	}
+	*/
 	
 	@RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getReviewsByOfferId(@PathVariable Long id) {
-		List<Review> reviews = null;
+		List<ReviewDTO> reviews = null;
 		try {
 			reviews = reviewService.getReviewsByOfferId(id);
 			
@@ -73,7 +80,7 @@ public class ReviewController {
 
 	}
 	
-	
+	/*
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "/not-accepted", method = RequestMethod.GET)
 	public ResponseEntity<?> getReviewsThatAreNotAccepted() {
@@ -88,6 +95,7 @@ public class ReviewController {
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 
 	}
+	*/
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "/{id}/decline", method = RequestMethod.DELETE)

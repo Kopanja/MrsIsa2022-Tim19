@@ -25,6 +25,7 @@ public class AccommodationController {
 	AccommodationService accommService;
 	
 	
+	/*
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
 	public ResponseEntity<OfferListByPageDTO> getAccommodationsByPage(@PathVariable String pageNum) {
 		int pageNumInt = Integer.parseInt(pageNum);
@@ -32,6 +33,7 @@ public class AccommodationController {
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}
+	*/
 	
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
 	public ResponseEntity<AccommodationDTO> getAccommodationById(@PathVariable String id) {

@@ -52,6 +52,7 @@ public class FishingTourService {
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
 	
+	/*
 	public FishingTourDTO getDTOById(Long id) {
 		FishingTour obj = fishingTourRepo.findById(id).orElse(null);
 		FishingTourDTO fishingTourDTO = new FishingTourDTO();
@@ -62,5 +63,5 @@ public class FishingTourService {
 		fishingTourDTO.setContentImages(offerService.createImageURLs(obj));
 		return fishingTourDTO;
 	}
-
+*/
 }

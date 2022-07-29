@@ -19,6 +19,9 @@ import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Reservation;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.service.UserService;
+import com.IsaMrsTim19.projekat.sql.model.Client;
+import com.IsaMrsTim19.projekat.sql.repository.Client2Repository;
+import com.IsaMrsTim19.projekat.sql.repository.UserSQLRepository;
 
 @RestController
 @RequestMapping(value="api/user")
@@ -27,7 +30,12 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	UserSQLRepository sqlUserRepo;
 
+	
+	@Autowired
+	Client2Repository sqlClientRepo;
 	@RequestMapping(value = "/{email}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
 		User user;
@@ -40,6 +48,18 @@ public class UserController {
 		
 		return new ResponseEntity<>(userService.toDTO(user), HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/testing", method = RequestMethod.GET)
+	public ResponseEntity<?> getTest() {
+		
+		Client client = new Client();
+		client.setActive(false);
+		client.setEmail("alkdjssakldjsaklj");
+		sqlClientRepo.save(client);
+		return new ResponseEntity<>(sqlClientRepo.findAll(), HttpStatus.OK);
+	}
+	
 	
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "", method = RequestMethod.PUT)
@@ -58,6 +78,7 @@ public class UserController {
 		return new ResponseEntity<>(userService.toDTO(user), HttpStatus.OK);
 	}
 	
+	/*
 	@PreAuthorize("hasAnyAuthority('CLIENT', 'ADMIN')")
 	@RequestMapping(value = "/{email}/subscriptions", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserSubscriptions(@PathVariable String email) {
@@ -72,6 +93,9 @@ public class UserController {
 		
 		return new ResponseEntity<>(subscriptions, HttpStatus.OK);
 	}
+	*/
+	
+	/*
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLIENT')")
 	@RequestMapping(value = "/{email}/reservations", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserReservations(@PathVariable String email) {
@@ -84,5 +108,5 @@ public class UserController {
 		
 		return new ResponseEntity<>(reservations, HttpStatus.OK);
 	}
-
+*/
 }

@@ -27,7 +27,7 @@ public class BoatController {
 		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
 
 	}
-	
+	/*
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
 	public ResponseEntity<BoatDTO> getAccommodationById(@PathVariable String id) {
 		Long idL = Long.parseLong(id);
@@ -35,5 +35,5 @@ public class BoatController {
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 
 	}
-
+*/
 }

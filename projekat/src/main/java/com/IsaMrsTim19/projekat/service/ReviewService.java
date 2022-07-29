@@ -2,6 +2,7 @@ package com.IsaMrsTim19.projekat.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,14 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.IsaMrsTim19.projekat.dto.ReviewDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
-import com.IsaMrsTim19.projekat.model.Review;
+import com.IsaMrsTim19.projekat.sql.model.Review;
 import com.IsaMrsTim19.projekat.repository.ReviewRepository;
+import com.IsaMrsTim19.projekat.sql.repository.ReviewSQLRepository;
 
 @Service
 public class ReviewService {
 
 	@Autowired
-	ReviewRepository reviewRepo;
+	ReviewSQLRepository reviewRepo;
 	
 	@Autowired
 	ClientService clientService;
@@ -34,14 +36,22 @@ public class ReviewService {
 		return review;
 	}
 	
+	public ReviewDTO toDTO(Review review) {
+		ReviewDTO dto = new ReviewDTO(review.getRating(), review.getReviewText());
+		
+		return dto;
+	}
+	
+	
 	public Review save(Review review) {
 		return reviewRepo.save(review);
 	}
 
+	/*
 	public List<Review> getReviewsByClientId(Long id) {
 		return reviewRepo.getReviewsByClientId(id);
 	}
-	
+	*/
 	@Transactional
 	public double acceptReview(Long id, Offer offer) throws Exception {
 		System.out.println(offer);
@@ -83,20 +93,32 @@ public class ReviewService {
 		reviewRepo.delete(review);
 		
 	}
-
+/*
 	public List<Review> getReviewsByClientEmail(String email) {
 		return reviewRepo.getReviewsByClientEmail(email);
 	}
-
+*/
+	/*
 	public List<Review> getReviewsThatAreNotAccepted() {
 		return reviewRepo.getReviewsThatAreNotAccepted();
 	}
-
+*/
+	/*
 	public List<Review> getReviewsByOfferId(Long id) {
 		List<Review> reviews = reviewRepo.getReviewsByOfferId(id);
 		if(reviews == null) {
 			reviews = new ArrayList<Review>();
 		}
 		return reviews;
+	}
+	*/
+
+	public List<ReviewDTO> getReviewsByOfferId(Long id) {
+		List<ReviewDTO> dtos = new ArrayList<ReviewDTO>();
+		System.out.println(reviewRepo.findReviewByOfferId(id));
+		for (Review review : reviewRepo.findReviewByOfferId(id)) {
+			dtos.add(this.toDTO(review));
+		}
+		return dtos;
 	}
 }

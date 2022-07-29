@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,23 +20,24 @@ import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
 import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
 import com.IsaMrsTim19.projekat.dto.ReviewDTO;
-import com.IsaMrsTim19.projekat.model.Accommodation;
+import com.IsaMrsTim19.projekat.sql.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.AdditionalService;
-import com.IsaMrsTim19.projekat.model.Boat;
+import com.IsaMrsTim19.projekat.sql.model.Boat;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.FishingTour;
-import com.IsaMrsTim19.projekat.model.Offer;
+import com.IsaMrsTim19.projekat.sql.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.model.Promotion;
-import com.IsaMrsTim19.projekat.model.Reservation;
+import com.IsaMrsTim19.projekat.sql.model.Reservation;
 import com.IsaMrsTim19.projekat.model.Review;
 import com.IsaMrsTim19.projekat.repository.OfferRepository;
+import com.IsaMrsTim19.projekat.sql.repository.OfferSQLRepository;
 
 @Service
 public class OfferService {
 
-	@Autowired
-	OfferRepository offerRepo;
+	//@Autowired
+	//OfferRepository offerRepo;
 
 	@Autowired
 	QueryService queryService;
@@ -58,15 +60,54 @@ public class OfferService {
 	@Autowired
 	ReviewService reviewService;
 
+	@Autowired
+	OfferSQLRepository offerRepo;
+	
+	
+	
+	/*
 	public List<Offer> getAllOffers() {
 		this.getNumberOfPages();
 		return offerRepo.findAll();
 	}
-
+*/
 	public Offer save(Offer offer) {
 		return offerRepo.save(offer);
 	}
+	
+	//------------------------------NOVO-------------------------------------------------------------------------
 
+	@Transactional(readOnly = true)
+	public OfferListByPageDTO getAllOfferByPage2(int pageNum) {
+
+		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
+		List<com.IsaMrsTim19.projekat.sql.model.Offer> offersByPage = offerRepo.findAll();
+		
+		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
+		for (com.IsaMrsTim19.projekat.sql.model.Offer offer : offersByPage) {
+			dtos.add(this.toSQLDTO(offer));
+		}
+		offersByPageDTO.setDtos(dtos);
+		offersByPageDTO.setTotalNumberOfPages(1);
+		return offersByPageDTO;
+	}
+	
+	public OfferDTO toSQLDTO(com.IsaMrsTim19.projekat.sql.model.Offer offer) {
+		String address = offer.getAddress();
+		if(offer.getCity() != null) {
+			address = offer.getAddress() + ", " + offer.getCity().getName();
+		}
+		
+		
+		OfferDTO dto = new OfferDTO(offer.getId(), offer.getName(), address, offer.getDescription(), offer.getRating());
+		dto.setOfferType("Accommodation");
+		return dto;
+	}
+	
+	
+	//----------------------------------------------------------------------------------------------------------------------------
+
+	/*
 	public OfferListByPageDTO getAllOfferByPage(int pageNum) {
 
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
@@ -79,7 +120,8 @@ public class OfferService {
 		offersByPageDTO.setTotalNumberOfPages(this.getNumberOfPages());
 		return offersByPageDTO;
 	}
-
+*/
+	/*
 	public List<OfferDTO> searchResult(Map<String, String> queryParams) throws Exception {
 		String query = queryService.generateSearchQuery(queryParams);
 		List<Offer> offers = offerRepo.customQuery(query);
@@ -108,6 +150,9 @@ public class OfferService {
 		return dtos;
 	}
 
+	*/
+	
+	/*
 	public int getNumberOfPages() {
 		int numOfOffers = offerRepo.getNumberOfOffers();
 		int numOfPages = numOfOffers / 8;
@@ -116,6 +161,7 @@ public class OfferService {
 		}
 		return numOfPages;
 	}
+	*/
 
 	public OfferDTO getOfferById(Long id) {
 		Offer offer = offerRepo.findById(id).orElse(null);
@@ -134,11 +180,14 @@ public class OfferService {
 		return imagePath;
 	}
 
+	/*
 	public Offer findOfferByReviewId(Long id) {
 		Offer offer = offerRepo.findOfferByReviewId(id);
 		offer = offerRepo.findById(offer.getId()).orElse(null);
 		return offer;
 	}
+	*/
+	
 	public OfferDTO toDTO(Offer offer) {
 		String address = offer.getAddress();
 		if(offer.getCity() != null) {
@@ -150,16 +199,19 @@ public class OfferService {
 			offerType = "accommodation";
 		} else if (offer instanceof Boat) {
 			offerType = "boat";
-		} else if (offer instanceof FishingTour) {
-			offerType = "fishingTour";
-		}
+		} //else if (offer instanceof FishingTour) {
+		//	offerType = "fishingTour";
+		//}
 		OfferDTO dto = new OfferDTO(offer.getId(), offer.getName(), address, offer.getDescription(), offer.getRating());
 		dto.setOfferType(offerType);
 		return dto;
 	}
+	
+
+	
 
 	public List<Date> getUnavailableDates(Offer offer) {
-		List<Reservation> reservations = offer.getReservations();
+		Set<com.IsaMrsTim19.projekat.sql.model.Reservation> reservations = offer.getReservations();
 		List<Date> unavailableDates = new ArrayList<Date>();
 		List<Date> resDates;
 		for (Reservation r : reservations) {
@@ -170,6 +222,9 @@ public class OfferService {
 		}
 		return unavailableDates;
 	}
+	
+	
+	/*
 
 	private boolean isOfferAvailable(Reservation reservation, Offer offer) throws Exception {
 		List<Date> unavailableDates = this.getUnavailableDates(offer);
@@ -186,7 +241,8 @@ public class OfferService {
 		}
 		return true;
 	}
-
+	*/
+/*
 	@Transactional
 	public void createReservation(Long offerId, Client client, ReservationDTO reservationDTO) throws Exception {
 
@@ -263,7 +319,10 @@ public class OfferService {
 		emailService.sendEmail(ownerEmail, ownerSubject, ownerBody);
 
 	}
+	
+	*/
 
+	/*
 	public void createFastReservation(Long offerId, Long promotionId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
@@ -330,7 +389,10 @@ public class OfferService {
 		emailService.sendEmail(ownerEmail, ownerSubject, ownerBody);
 
 	}
-
+*/
+	
+	
+	/*
 	public void subscribe(Long offerId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
@@ -347,7 +409,9 @@ public class OfferService {
 		offerRepo.save(offer);
 
 	}
-
+*/
+	
+	/*
 	public void unsubscribe(Long offerId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
@@ -367,7 +431,10 @@ public class OfferService {
 		offer.getSubscribers().remove(counter);
 		offerRepo.save(offer);
 	}
-
+*/
+	
+	
+	/*
 	public void createPromotion(Long offerId, Owner loggedInUser, PromotionDTO promotionDto) throws Exception {
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 		Owner owner = ownerService.findOwnerByOfferId(offerId);
@@ -404,7 +471,9 @@ public class OfferService {
 		offerRepo.save(offer);
 		this.notifySubscribers(offer, promotion);
 	}
-
+*/
+	
+	/*
 	private void notifySubscribers(Offer offer, Promotion promotion) {
 		String subject = "There is a new promotion for: " + offer.getName();
 		String body = "There is a new promotion for: " + offer.getName() + "\n";
@@ -413,7 +482,7 @@ public class OfferService {
 			emailService.sendEmail(client.getEmail(), subject, body);
 		}
 	}
-
+*/
 	public List<String> createImageURLs(Offer offer) {
 		List<String> urls = new ArrayList<String>();
 		File folder = new File(".\\src\\main\\resources\\images\\" + offer.getImgFolderPath());
@@ -432,6 +501,7 @@ public class OfferService {
 		return urls;
 	}
 
+	/*
 	@Transactional
 	public void createReview(Long offerId, Client client, ReviewDTO reviewDto) throws Exception {
 		Offer offer = offerRepo.findById(offerId).orElse(null);
@@ -468,14 +538,18 @@ public class OfferService {
 		
 	}
 	
+	*/
+	
+	/*
 	public Offer getOfferFromReservationId(Long id) {
 		return offerRepo.getOfferFromReservationId(id);
 	}
-
+*/
+	/*
 	public List<Offer> getSubscriptionsFromUserEmail(String email) {
 		return offerRepo.getSubscriptionsFromUserEmail(email);
 	}
-
+*/
 	public void cancelReservation(Long reservationId) throws Exception {
 		reservationService.cancelReservation(reservationId);
 		

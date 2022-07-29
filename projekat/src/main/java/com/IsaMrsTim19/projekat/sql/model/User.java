@@ -1,5 +1,8 @@
 package com.IsaMrsTim19.projekat.sql.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,17 +11,24 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name="User")
-public class User {
-	
+@Inheritance(strategy=InheritanceType.JOINED)
+@Table(name = "User")
+public class User implements UserDetails {
+
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String firstname;
 
 	private String lastname;
@@ -26,13 +36,17 @@ public class User {
 	private String email;
 
 	private String password;
-	
+
 	private String phoneNumber;
 
 	private boolean active;
-	
 
-	
+	@OneToOne(mappedBy = "user")
+	private DeletionRequest deletionRequest;
+
+	@ManyToOne
+	private Role role;
+
 	@ManyToOne
 	private City city;
 
@@ -98,6 +112,67 @@ public class User {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public DeletionRequest getDeletionRequest() {
+		return deletionRequest;
+	}
+
+	public void setDeletionRequest(DeletionRequest deletionRequest) {
+		this.deletionRequest = deletionRequest;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", password=" + password + ", phoneNumber=" + phoneNumber + ", active=" + active
+				+ ", deletionRequest=" + deletionRequest + ", role=" + role + ", city=" + city + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authority = new ArrayList<GrantedAuthority>();
+		SimpleGrantedAuthority auth = new SimpleGrantedAuthority(role.getRole());
+		authority.add(auth);
+		return authority;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return active;
 	}
 
 	

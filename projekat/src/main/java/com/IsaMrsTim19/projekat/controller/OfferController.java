@@ -31,9 +31,10 @@ import com.IsaMrsTim19.projekat.dto.PromotionDTO;
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
 import com.IsaMrsTim19.projekat.dto.ReviewDTO;
 import com.IsaMrsTim19.projekat.model.Client;
-import com.IsaMrsTim19.projekat.model.Offer;
+import com.IsaMrsTim19.projekat.sql.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
 import com.IsaMrsTim19.projekat.service.OfferService;
+import com.IsaMrsTim19.projekat.sql.repository.OfferSQLRepository;
 
 @RestController
 @RequestMapping(value = "api/offer")
@@ -41,7 +42,11 @@ public class OfferController {
 
 	@Autowired
 	OfferService offerService;
+	
+	@Autowired
+	OfferSQLRepository offerRepo;
 
+	/*
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Offer>> getAllOffers() {
 		List<Offer> allOffers = offerService.getAllOffers();
@@ -49,15 +54,17 @@ public class OfferController {
 		return new ResponseEntity<>(allOffers, HttpStatus.OK);
 
 	}
+	*/
 
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
-	public ResponseEntity<OfferListByPageDTO> getAllOffers(@PathVariable Integer pageNum) {
+	public ResponseEntity<?> getAllOffers(@PathVariable Integer pageNum) {
 
-	
-		OfferListByPageDTO offersByPage = offerService.getAllOfferByPage(pageNum);
-		return new ResponseEntity<>(offersByPage, HttpStatus.OK);
+		OfferListByPageDTO offers = offerService.getAllOfferByPage2(pageNum);
+		return new ResponseEntity<>(offers, HttpStatus.OK);
 
 	}
+	
+	
 	
 	@RequestMapping(value = "/{id}/unavailable-dates", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllOffers(@PathVariable Long id) {
@@ -68,6 +75,9 @@ public class OfferController {
 		return new ResponseEntity<>(unavailableDates, HttpStatus.OK);
 
 	}
+	
+	
+	/*
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLIENT', 'OWNER')")
 	@RequestMapping(value = "/reservation/{reservationId}", method = RequestMethod.GET)
@@ -82,7 +92,7 @@ public class OfferController {
 		return new ResponseEntity<>(offerService.toDTO(offer), HttpStatus.OK);
 
 	}
-	
+	*/
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/reservation/{reservationId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
@@ -96,6 +106,8 @@ public class OfferController {
 
 	}
 
+	
+	/*
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ResponseEntity<?> getSearchResult(@RequestParam Map<String, String> searchParams) {
 
@@ -111,7 +123,7 @@ public class OfferController {
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 
 	}
-
+*/
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() {
 		Client user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -119,6 +131,8 @@ public class OfferController {
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
 	}
 
+	
+	/*
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/make-reservation", method = RequestMethod.POST)
 	public ResponseEntity<?> makeReservation(@PathVariable Long id, @RequestBody ReservationDTO reservationDTO) {
@@ -143,6 +157,10 @@ public class OfferController {
 
 	}
 
+*/
+	
+	
+	/*
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/subscribe", method = RequestMethod.POST)
 	public ResponseEntity<?> subscribeToOffer(@PathVariable Long id) {
@@ -162,7 +180,9 @@ public class OfferController {
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
-
+*/
+	
+	/*
 	@PreAuthorize("hasAnyAuthority('OWNER')")
 	@RequestMapping(value = "/{id}/create-promotion", method = RequestMethod.POST)
 	public ResponseEntity<?> createPromotion(@PathVariable Long id, @RequestBody PromotionDTO promotionDTO) {
@@ -182,7 +202,9 @@ public class OfferController {
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
+	*/
 	
+	/*
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/create-review", method = RequestMethod.POST)
 	public ResponseEntity<?> createReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
@@ -204,7 +226,9 @@ public class OfferController {
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
+	*/
 	
+	/*
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{offerId}/promotion/{promotionId}/reserve", method = RequestMethod.POST)
 	public ResponseEntity<?> fastReservation(@PathVariable Long offerId, @PathVariable Long promotionId) {
@@ -224,7 +248,9 @@ public class OfferController {
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
 
 	}
-
+*/
+	
+	/*
 	@PreAuthorize("hasAnyAuthority('CLIENT')")
 	@RequestMapping(value = "/{id}/unsubscribe", method = RequestMethod.POST)
 	public ResponseEntity<?> unsuscribeFromOffer(@PathVariable Long id) {
@@ -245,7 +271,7 @@ public class OfferController {
 		return new ResponseEntity<>("Unsubscribed", HttpStatus.OK);
 
 	}
-
+*/
 	@GetMapping("/{id}/thumbnail")
 	public ResponseEntity<?> getProfileImage(@PathVariable Long id) {
 

@@ -1,5 +1,6 @@
 package com.IsaMrsTim19.projekat.sql.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,29 +8,36 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="City")
-public class City {
+@Table(name="Role")
+public class Role {
 
-	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
 	private Long id;
 	
-	private String name;
+	private String role;
 
-	public City() {
+	
+	
+	public Role() {
 		super();
 	}
 
-	public City(String name) {
+	
+	
+	public Role(String role) {
 		super();
-		this.name = name;
+		this.role = role;
 	}
 
-	public City(Long id, String name) {
+
+
+	public Role(Long id, String role) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.role = role;
 	}
 
 	public Long getId() {
@@ -40,12 +48,12 @@ public class City {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getRole() {
+		return role;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

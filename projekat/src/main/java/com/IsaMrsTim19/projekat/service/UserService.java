@@ -77,6 +77,8 @@ public class UserService {
 		
 		return user;
 	}
+	
+	/*
 	public List<OfferDTO> getSubscriptionsFromUserEmail(String email){
 		List<Offer> subscriptions = offerService.getSubscriptionsFromUserEmail(email);
 		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
@@ -87,10 +89,13 @@ public class UserService {
 		return dtos;
 	}
 	
+	*/
+	
+	/*
 	public List<Reservation> getReservationsFromEmail(String email){
 		return reservationService.getReservationsFromEmail(email);
 	}
-	
+	*/
 	public User createOwner(NewOwnerDTO dto) {
 		Owner user = new Owner();
 		user.setActive(false);

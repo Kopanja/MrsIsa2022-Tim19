@@ -16,15 +16,16 @@ import org.springframework.stereotype.Service;
 
 import com.IsaMrsTim19.projekat.dto.ReservationDTO;
 import com.IsaMrsTim19.projekat.model.Offer;
-import com.IsaMrsTim19.projekat.model.Reservation;
+import com.IsaMrsTim19.projekat.sql.model.Reservation;
 import com.IsaMrsTim19.projekat.repository.ReservationRepository;
+import com.IsaMrsTim19.projekat.sql.repository.ReservationSQLRepository;
 
 @Service
 public class ReservationService {
 
 	
 	@Autowired
-	ReservationRepository reservationRepo;
+	ReservationSQLRepository reservationRepo;
 	
 	
 	public Reservation save(Reservation reservation) {
@@ -68,10 +69,11 @@ public class ReservationService {
 
 	
 	
+	/*
 	public List<Reservation> getReservationsByClientId(Long clientId){
 		return reservationRepo.getReservationsByClientId(clientId);
 	}
-	
+	*/
 	public void cancelReservation(Long reservationId) throws Exception {
 		Reservation reservation = reservationRepo.findById(reservationId).orElse(null);
 		if(reservation == null) {
@@ -95,8 +97,9 @@ public class ReservationService {
 		 reservation.setDateTo(dateTo);
 		 return reservation;
 	}
-
+/*
 	public List<Reservation> getReservationsFromEmail(String email) {
 		return reservationRepo.getReservationsFromEmail(email);
 	}
+	*/
 }

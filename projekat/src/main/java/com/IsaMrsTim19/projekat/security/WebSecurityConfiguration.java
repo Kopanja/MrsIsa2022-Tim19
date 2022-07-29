@@ -63,7 +63,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and()
 		
-				.authorizeRequests().antMatchers("/auth/**").permitAll().and()
+				.authorizeRequests().antMatchers("/**").permitAll().and()
 				.cors().and()
 
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService),

@@ -11,6 +11,7 @@ const OfferReviewlist: React.FC<{id:number}> = ({id}) => {
         AuthAxios
           .get(`/review/offer/${id}`)
           .then((res) => {
+            console.log(res.data);
             setReviews(res.data);
           })
           .catch((err) => {

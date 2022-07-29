@@ -62,6 +62,7 @@ public class BoatService {
 		
 		return equipement;
 	}
+	/*
 	public BoatDTO getDTOById(Long id) {
 		Boat obj = boatRepo.findById(id).orElse(null);
 		System.out.println(obj);
@@ -77,5 +78,5 @@ public class BoatService {
 		boatDTO.setEquipment(this.getNavEquipement(obj));
 		return boatDTO;
 	}
-
+*/
 }

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Review {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO) 
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
@@ -29,6 +29,18 @@ public class Review {
 	private boolean isAccepted;
 	
 	private String reviewText;
+
+	
+
+	public Review(double rating, String reviewText) {
+		super();
+		this.rating = rating;
+		this.reviewText = reviewText;
+	}
+
+	public Review() {
+		super();
+	}
 
 	public Long getId() {
 		return id;
@@ -76,6 +88,12 @@ public class Review {
 
 	public void setReviewText(String reviewText) {
 		this.reviewText = reviewText;
+	}
+
+	@Override
+	public String toString() {
+		return "Review [id=" + id + ", offer=" + offer + ", client=" + client + ", rating=" + rating + ", isAccepted="
+				+ isAccepted + ", reviewText=" + reviewText + "]";
 	}
 	
 	

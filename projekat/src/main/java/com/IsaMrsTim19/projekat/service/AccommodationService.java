@@ -10,16 +10,20 @@ import org.springframework.stereotype.Service;
 import com.IsaMrsTim19.projekat.dto.AccommodationDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.OfferListByPageDTO;
-import com.IsaMrsTim19.projekat.model.Accommodation;
+import com.IsaMrsTim19.projekat.sql.model.Accommodation;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.repository.AccommodationRepository;
+import com.IsaMrsTim19.projekat.sql.repository.AccommodationSQLRepository;
 
 @Service
 public class AccommodationService {
 
 	
+	//@Autowired
+	//AccommodationRepository accommRepo;
+	
 	@Autowired
-	AccommodationRepository accommRepo;
+	AccommodationSQLRepository accommRepo;
 	
 	@Autowired
 	OfferService offerService;
@@ -27,6 +31,8 @@ public class AccommodationService {
 	@Autowired
 	QueryService queryService;
 	
+	
+	/*
 	public OfferListByPageDTO getAllOfferByPage(int pageNum){
 		OfferListByPageDTO offersByPageDTO = new OfferListByPageDTO();
 		List<Accommodation> offersByPage = accommRepo.getAccommodationsByPage(pageNum);
@@ -50,11 +56,12 @@ public class AccommodationService {
 		}
 		return numOfPages;
 	}
-	
+	*/
 	public OfferDTO toDTO(Accommodation offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
 		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
 	}
+	
 	
 	
 	public AccommodationDTO getDTOById(Long id) {
