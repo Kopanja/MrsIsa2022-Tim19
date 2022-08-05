@@ -53,18 +53,19 @@ public class AccommodationService {
 	
 	public OfferDTO toDTO(Accommodation offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
-		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating(), offer.getPrice());
 	}
 	
 	
 	public AccommodationDTO getDTOById(Long id) {
 		Accommodation obj = accommRepo.findById(id).orElse(null);
 		AccommodationDTO accDTO = new AccommodationDTO();
-		OfferDTO offerDTO = this.toDTO(obj);
+		OfferDTO offerDTO = offerService.toDTO(obj);
 		accDTO.setOfferDTO(offerDTO);
 		accDTO.setNumberOfPeople(obj.getNumOfPeople());
 		accDTO.setRoomNumber(obj.getRoomNumber());
 		accDTO.setContentImages(offerService.createImageURLs(obj));
+		accDTO.setAdditionalServices(obj.getAdditionalServices());
 		return accDTO;
 	}
 	

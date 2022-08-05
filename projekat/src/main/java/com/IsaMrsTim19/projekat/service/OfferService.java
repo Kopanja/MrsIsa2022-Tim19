@@ -155,6 +155,8 @@ public class OfferService {
 		}
 		OfferDTO dto = new OfferDTO(offer.getId(), offer.getName(), address, offer.getDescription(), offer.getRating());
 		dto.setOfferType(offerType);
+		dto.setAdditionalServices(offer.getAdditionalServices());
+		dto.setPrice(offer.getPrice());
 		return dto;
 	}
 
@@ -228,6 +230,7 @@ public class OfferService {
 		// treba racunanje cene
 		double basePrice = offer.getPrice();
 		Long numberOfNights = reservationService.getNumberOfDays(reservation);
+		System.out.println("Number of Nights: " + numberOfNights);
 		basePrice = basePrice * numberOfNights;
 
 		for (AdditionalService a : offer.getAdditionalServices()) {
@@ -241,9 +244,9 @@ public class OfferService {
 
 		reservation.setPrice(basePrice);
 		reservationService.save(reservation);
-
+		System.out.println(reservation);
 		offerRepo.save(offer);
-		System.out.println(client.getReservations());
+		//System.out.println(client.getReservations());
 		clientService.save(client);
 
 		String clientSubject = "Reservation is successful!";
@@ -485,6 +488,7 @@ public class OfferService {
 		
 	}
 
+	
 	public void updateRating(Offer offer, double newRating) {
 		offer = this.findById(offer.getId());
 		offer.setRating(newRating);

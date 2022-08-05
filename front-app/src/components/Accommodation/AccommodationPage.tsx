@@ -19,15 +19,17 @@ import dateFromIcon from "../../resources/date-from-icon.svg";
 import dateToIcon from "../../resources/date-to-icon.svg";
 import WriteReviewComponent from '../WriteReviewComponent';
 import OfferReviewlist from '../OfferReviewlist';
-
+import {useNavigate} from 'react-router-dom';
+import checkMark from "../../resources/check-mark.png"
 const AccommodationPage = () => {
-  
+  const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState<Accommodation>();
   const [viewImages, setViewImages ] = useState<boolean>(false);
   const { id } = useParams();
   const [endDate, setEndDate] = useState<Date|null>();
   const [startDate, setStartDate] = useState<Date|null>();
   const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
+  const [selectedAditionalServices, setSelectedAditionalServices] = useState<number[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -44,7 +46,6 @@ const AccommodationPage = () => {
     AuthAxios
       .get(`/offer/${id}/unavailable-dates`)
       .then((res) => {
-        console.log(res.data);
         setUnavailableDates(res.data);
       })
       .catch((err) => {
@@ -54,9 +55,51 @@ const AccommodationPage = () => {
     
   }, [id])
 
+  const additionalServiceChecked = (as : any) => {
+    if(selectedAditionalServices.includes(as.id)){
+      let newState = [...selectedAditionalServices];
+      var index = newState.indexOf(as.id);
+      newState.splice(index, 1);
+      setSelectedAditionalServices(newState);
+    }else{
+      let newState = [...selectedAditionalServices];
+      newState.push(as.id);
+      setSelectedAditionalServices(newState);
+    }
+    
+    console.log(selectedAditionalServices);
+  };
+
+
+  const calculatePrice = () => {
+    let totalPrice = 0;
+      if(startDate !== null && endDate !== null && startDate !== undefined && endDate !== undefined){
+        if(startDate < endDate && accommodation?.offerDTO?.price){
+          console.log(endDate.getDate() - startDate.getDate());
+          let diff = Math.abs(startDate.getTime() - endDate.getTime());
+          let numOfNights = Math.ceil(diff / (1000 * 3600 * 24)); 
+        
+          totalPrice = numOfNights*accommodation?.offerDTO?.price;
+          
+          accommodation.offerDTO.additionalServices.map((as,index) => {
+            if(selectedAditionalServices.includes(as.id)){
+              totalPrice = totalPrice + as.price*numOfNights;
+            }
+          })
+
+          return totalPrice;
+
+
+        }
+      }
+      return totalPrice;
+  }
+
   const reserveButtonClick = () => {
+    console.log(startDate);
+    console.log(endDate);
     AuthAxios
-      .post(`/offer/${id}/make-reservation`, {dateFrom : startDate, dateTo : endDate, additionalServicesIds : []})
+      .post(`/offer/${id}/make-reservation`, {dateFrom : startDate?.toLocaleDateString(), dateTo : endDate?.toLocaleDateString(), additionalServicesIds : selectedAditionalServices})
       .then((res) => {
         console.log(res.data);
         
@@ -114,13 +157,46 @@ const AccommodationPage = () => {
                     </div>
                     <p className='about-title'>About</p>
                     <p className='info-text'>{accommodation?.offerDTO.description}</p>
+                    
+                    <div className='container-row'>
+                      <div className='container-column navigation-container'>
+                      <p className='about-title'>Free Ameneties</p>
+                      {accommodation?.additionalServices.map((as, index) => (
+                          <div className='container-row' key={index}>
+                            {as.price == 0 && 
+                            <div className='container-row'>
+                            <img className='checkmark-icon' src={checkMark}></img>
+                            <p className='info-text'>{as.name}</p>
+                            
+                            </div>
+                          }
+                          </div>
+                        ))}
+                      
+                    </div>
+                    <div className='container-column navigation-container'>
+                      <p className='about-title'>Additional Services</p>
+                      {accommodation?.additionalServices.map((as, index) => (
+                          <div className='container-row' key={index}>
+                            {as.price > 0 && 
+                            <div className='container-row'>
+                            <p className='info-text'>{as.name}______</p>
+                            <p className='info-text'>{as.price}$/day</p>
+                            </div>
+                          }
+                          </div>
+                        ))}
+                      
+                    </div>
                   </div>
+                  </div>
+              
                   
                   <div className='container-column right-info-container'>
                     <div className='container-column pricing-container'>
                       <p className='about-title'>Pricing</p>
                       <div className='container-row space-evenly'>
-                        <p className='info-text'>250$</p>
+                        <p className='info-text'>{accommodation?.offerDTO?.price}</p>
                         <p className='info-text'>per night</p>
                       </div>
                       <div className='container-row'>
@@ -131,11 +207,24 @@ const AccommodationPage = () => {
                         <img src={dateToIcon} alt = "date to Icon"></img>
                         <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
                       </div>
+                      {accommodation?.additionalServices.map((as, index) => (
+                          <div className='container-row' key={index}>
+                            {as.price > 0 && 
+                            <div className='container-row'>
+                            <p className='info-text'>{as.name}</p>
+                       
+                            <input type="checkbox" onClick={() => additionalServiceChecked(as)}></input>
+                            </div>
+                          }
+                          </div>
+                        ))}
+                      <p>Total price: {calculatePrice()}</p>
                       <button onClick={reserveButtonClick}>Reserve</button>
+         
                     </div>
                   </div>
               </div>
-              <OfferReviewlist id ={Number(id)}></OfferReviewlist>
+              <OfferReviewlist id = {Number(id)}></OfferReviewlist>
               <WriteReviewComponent id ={Number(id)}></WriteReviewComponent>
               </div>
               

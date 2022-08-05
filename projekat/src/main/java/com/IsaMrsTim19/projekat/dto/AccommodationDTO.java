@@ -2,6 +2,8 @@ package com.IsaMrsTim19.projekat.dto;
 
 import java.util.List;
 
+import com.IsaMrsTim19.projekat.model.AdditionalService;
+
 public class AccommodationDTO {
 
 	
@@ -9,6 +11,7 @@ public class AccommodationDTO {
 	private int roomNumber;
 	private int numberOfPeople;
 	private List<String> contentImages;
+	private List<AdditionalService> additionalServices;
 	
 	
 	public AccommodationDTO() {
@@ -24,6 +27,7 @@ public class AccommodationDTO {
 	}
 
 	
+
 
 	public AccommodationDTO(OfferDTO offerDTO, int roomNumber, int numberOfPeople, List<String> contentImages) {
 		super();
@@ -72,6 +76,18 @@ public class AccommodationDTO {
 
 	public void setContentImages(List<String> contentImages) {
 		this.contentImages = contentImages;
+	}
+
+
+
+
+	public List<AdditionalService> getAdditionalServices() {
+		return additionalServices;
+	}
+
+
+	public void setAdditionalServices(List<AdditionalService> additionalServices) {
+		this.additionalServices = additionalServices;
 	}
 
 

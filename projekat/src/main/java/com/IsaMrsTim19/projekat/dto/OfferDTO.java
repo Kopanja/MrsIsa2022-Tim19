@@ -1,6 +1,9 @@
 package com.IsaMrsTim19.projekat.dto;
 
 
+import java.util.List;
+
+import com.IsaMrsTim19.projekat.model.AdditionalService;
 import com.IsaMrsTim19.projekat.model.City;
 
 public class OfferDTO {
@@ -11,6 +14,8 @@ public class OfferDTO {
 	private String description;
 	private String offerType;
 	private double rating;
+	private double price;
+	private List<AdditionalService> additionalServices;
 	
 	
 	
@@ -26,6 +31,19 @@ public class OfferDTO {
 		this.address = address;
 		this.description = description;
 		this.rating = rating;
+	}
+
+	
+
+	public OfferDTO(Long id, String name, String address, String description,  double rating,
+			double price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.rating = rating;
+		this.price = price;
 	}
 
 
@@ -99,6 +117,28 @@ public class OfferDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+
+	
+	public double getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+
+	
+	public List<AdditionalService> getAdditionalServices() {
+		return additionalServices;
+	}
+
+
+	public void setAdditionalServices(List<AdditionalService> additionalServices) {
+		this.additionalServices = additionalServices;
 	}
 
 

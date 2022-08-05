@@ -15,6 +15,7 @@ import UserEditPage from './components/UserEditPage';
 import AdminPage from './components/AdminPage';
 import AdminRoutes from './utils/AdminRoutes';
 import UnauthorizedPage from './components/UnauthorizedPage';
+import ReservationPage from './components/ReservationPage';
 
 function App() {
   return (
@@ -27,6 +28,12 @@ function App() {
           <Route index element = {<AccommodationPage/>}/>
           <Route path=":id" element = {<AccommodationPage/>}/>
         </Route>
+   
+        <Route path="reservation">
+          <Route index element = {<ReservationPage/>}/>
+          <Route path=":id" element = {<ReservationPage/>}/>
+        </Route>
+        
         <Route path="boat">
           <Route index element = {<BoatPage/>}/>
           <Route path=":id" element = {<BoatPage/>}/>

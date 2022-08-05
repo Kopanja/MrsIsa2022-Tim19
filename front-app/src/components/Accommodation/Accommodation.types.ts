@@ -5,6 +5,7 @@ export interface Accommodation {
     roomNumber : number;
     numberOfPeople : number;
     contentImages : string[];
+    additionalServices : any[];
 
   }
 

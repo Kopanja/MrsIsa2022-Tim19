@@ -5,6 +5,8 @@ export interface OfferData {
     rating: number;
     offerType : string;
     description: string;
+    price : number;
+    additionalServices : any[];
   }
 
   export interface Props {

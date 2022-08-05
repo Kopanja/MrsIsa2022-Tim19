@@ -132,6 +132,7 @@ public class OfferController {
 
 		try {
 			if (user != null) {
+				System.out.println(reservationDTO);
 				offerService.createReservation(id, user, reservationDTO);
 			}
 
@@ -268,6 +269,12 @@ public class OfferController {
 		}
 		System.out.println("Ovde");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	}
+	
+	@GetMapping("/by-id/{id}")
+	public ResponseEntity<?> getOfferInfo(@PathVariable Long id) {
+
+		return new ResponseEntity<>(offerService.getOfferById(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/image/{folder}/{imageName}")

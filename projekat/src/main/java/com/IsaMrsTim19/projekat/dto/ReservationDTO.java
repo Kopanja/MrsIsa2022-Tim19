@@ -51,6 +51,12 @@ public class ReservationDTO {
 	public void setAdditionalServicesIds(List<Long> additionalServicesIds) {
 		this.additionalServicesIds = additionalServicesIds;
 	}
+
+	@Override
+	public String toString() {
+		return "ReservationDTO [dateFrom=" + dateFrom + ", dateTo=" + dateTo + ", additionalServicesIds="
+				+ additionalServicesIds + "]";
+	}
 	
 	
 	

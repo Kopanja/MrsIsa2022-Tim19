@@ -32,7 +32,7 @@ const BoatPage = () => {
           AuthAxios
           .get(`/boat/id/${id}`)
           .then((res) => {
-            console.log(res.data);
+           
             setBoat(res.data);
           })
           .catch((err) => {
@@ -42,7 +42,7 @@ const BoatPage = () => {
           AuthAxios
           .get(`/offer/${id}/unavailable-dates`)
           .then((res) => {
-            console.log(res.data);
+            
             setUnavailableDates(res.data);
           })
           .catch((err) => {
@@ -147,7 +147,7 @@ const BoatPage = () => {
                   <div className='container-column pricing-container'>
                     <p className='about-title'>Pricing</p>
                     <div className='container-row space-evenly'>
-                      <p className='info-text'>250$</p>
+                      <p className='info-text'>{boat?.offerDTO?.price}</p>
                       <p className='info-text'>per day</p>
                     </div>
                     <div className='container-row'>
