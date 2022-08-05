@@ -202,6 +202,10 @@ public class OfferService {
 			throw new Exception("The offer is not available then");
 		}
 
+		if ((reservation.getDateFrom().after(reservation.getDateTo())
+				&& reservation.getDateTo().before(offer.getAvaliableUntil()))) {
+			throw new Exception("Start Date needs to be before End Date");
+		}
 		if (!this.isOfferAvailable(reservation, offer)) {
 			throw new Exception("A reservation already exist in that time");
 		}

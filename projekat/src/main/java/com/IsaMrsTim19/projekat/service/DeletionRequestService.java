@@ -1,5 +1,6 @@
 package com.IsaMrsTim19.projekat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,29 @@ public class DeletionRequestService {
 		}
 		return req;
 	}
+	
+	public List<DeletionRequestDTO> findAllDTO(){
+		List<DeletionRequestDTO> dtos = new ArrayList<DeletionRequestDTO>();
+		List<DeletionRequest> req = delReqRepo.findAll();
+		if(req == null) {
+			return null;
+		}
+		
+		for(DeletionRequest r : req) {
+			dtos.add(this.toDto(r));
+		}
+		return dtos;
+	}
 	public void deleteUser(Long id) {
 		DeletionRequest request = delReqRepo.findById(id).orElse(null);
 		userService.delete(request.getUser());
 		delReqRepo.delete(request);
 		
 		
+	}
+	
+	private DeletionRequestDTO toDto(DeletionRequest req) {
+		return new DeletionRequestDTO(req.getId(), req.getRequestText(), req.getUser().getUsername(), req.getUser().getRole().getRole());
 	}
 	
 	

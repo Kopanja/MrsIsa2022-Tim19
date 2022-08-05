@@ -1,0 +1,18 @@
+.deletionRequestList{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 20px 20px 20px;
+    gap: 25px;
+    
+}
+
+
+.deletionRequestItem{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0 20px 20px 20px;
+    gap: 25px;
+    
+}

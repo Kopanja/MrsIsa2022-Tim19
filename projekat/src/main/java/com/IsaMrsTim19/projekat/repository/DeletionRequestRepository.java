@@ -14,6 +14,6 @@ public interface DeletionRequestRepository extends Neo4jRepository<DeletionReque
 	@Query("MATCH (n:DeletionRequest)-[r:FROM_USER]->(u:User) WHERE id(n) = $id RETURN n,r,u")
 	public Optional<DeletionRequest> findById(Long id);
 	
-	@Query("MATCH (n:DeletionRequest) RETURN n")
+	@Query("MATCH (n:DeletionRequest)-[r:FROM_USER]->(u:User)-[r2:HAS_ROLE]->(ro:Role) RETURN n,r,u,r2,ro")
 	public List<DeletionRequest> findAll();
 }

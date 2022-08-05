@@ -263,7 +263,7 @@ public class OfferController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Doslo je do greske");
+			System.out.println("Greska u OfferController - getProfileImage");
 
 		}
 		System.out.println("Ovde");

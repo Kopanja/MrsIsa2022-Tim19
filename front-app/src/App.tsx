@@ -13,14 +13,16 @@ import OwnerRegistrationPage from './components/OwnerRegistrationPage';
 import UserPage from './components/UserPage';
 import UserEditPage from './components/UserEditPage';
 import AdminPage from './components/AdminPage';
+import AdminRoutes from './utils/AdminRoutes';
+import UnauthorizedPage from './components/UnauthorizedPage';
 
 function App() {
   return (
     <div className="App">
      <BrowserRouter>
-      <Routes>
-        
+      <Routes>  
         <Route path="/" element = {<HomePage/>}/>
+        <Route path="/unauthorized" element = {<UnauthorizedPage/>}/>
         <Route path="accommodation">
           <Route index element = {<AccommodationPage/>}/>
           <Route path=":id" element = {<AccommodationPage/>}/>
@@ -49,9 +51,14 @@ function App() {
         <Route path="owner-registration">
           <Route index element = {<OwnerRegistrationPage/>}/>
         </Route>
-        <Route path="admin">
-          <Route index element = {<AdminPage/>}/>
+
+        <Route element = {<AdminRoutes/>}>
+          <Route path="admin">
+            <Route index element = {<AdminPage/>}/>
+          </Route>
         </Route>
+
+
         <Route path="user-page">
           <Route index element = {<UserPage/>}/>
           <Route path=":email" element = {<UserPage/>}/>

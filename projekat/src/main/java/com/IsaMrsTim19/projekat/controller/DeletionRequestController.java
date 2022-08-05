@@ -29,14 +29,16 @@ public class DeletionRequestController {
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<?> getAll(){
-		List<DeletionRequest> req = null;
+		List<DeletionRequestDTO> req = null;
 		try {
-			req = delReqService.findAll();
+			req = delReqService.findAllDTO();
+			
 			
 		
 		}catch (Exception e){
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+		System.out.println(req);
 		
 		return new ResponseEntity<>(req, HttpStatus.OK);
 	}

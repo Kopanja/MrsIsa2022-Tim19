@@ -18,6 +18,13 @@ MERGE (uAccom)-[:HAS_ROLE]->(owner)
 CREATE (client1:User:Client {email : "handtclient1@gmail.com", active : true, firstname : "Jelena", lastname : "Tucic", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (client1)-[:HAS_ROLE]->(client)
 
+//email pass: password?3
+CREATE (client3:User:Client {email : "handtclient3@gmail.com", active : true, firstname : "Client3", lastname : "Tucic", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+MERGE (client3)-[:HAS_ROLE]->(client)
+
+
+MERGE(:DeletionRequest {requestText : "Zeleo bih da obrisem nalog jer mi ne treba vise"})-[:FROM_USER]->(client3)
+
 
 
 CREATE (boatOwner:User:Owner {email : "handtclient2@gmail.com", active : true, firstname : "Boat", lastname : "Owner", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import AuthAxios from '../services/AuthAxios';
+import "../css/deletionRequest.css"
 const DeletionRequestComponent = () => {
     const [deletionRequests, setDeletionRequests] = useState<any[]>([]);
     useEffect(() => {
@@ -22,11 +23,14 @@ const DeletionRequestComponent = () => {
           });
       }
   return (
-    <div>
+    <div className='deletionRequestList'>
         {deletionRequests.map((request, index) => (
-        <div key={index}>
+        <div className='deletionRequestItem' key={index}>
             <h1>{index + 1}</h1>
-            <h2>{request.requestText}</h2>
+            <h2>{request.userName}</h2>
+            <h2>{request.userRole}</h2>
+            <h3>{request.requestText}</h3>
+            
         <button onClick={() => {onDeleteClick(request.id)}}>Delete</button>
         </div>
         
