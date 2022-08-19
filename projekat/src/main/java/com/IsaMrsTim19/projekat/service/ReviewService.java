@@ -68,7 +68,7 @@ public class ReviewService {
 		String subject = "You Have A New Review";
 		String body = "Review rating: " + review.getRating() + "\n";
 		body += "Review text: " + review.getReviewText();
-		
+		System.out.println(owner.getEmail());
 		emailService.sendEmail(owner.getEmail(), subject, body);
 		
 		return newOfferRating;

@@ -35,6 +35,7 @@ public class ReviewController {
 			Offer offer = offerService.findOfferByReviewId(id);
 			System.out.println("b");
 			double newRating = reviewService.acceptReview(id, offer);
+			System.out.println("Review Accepted");
 			offerService.updateRating(offer,newRating);
 			
 		} catch (Exception e) {

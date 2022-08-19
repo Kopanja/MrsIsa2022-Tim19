@@ -33,6 +33,10 @@ MERGE (boatOwner)-[:HAS_ROLE]->(owner)
 CREATE (ad:User {email : "kopanja023@gmail.com", active : true, firstname : "Marko", lastname : "Kopanja", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (ad)-[:HAS_ROLE]->(admi)
 
+
+//CREATE (ad:User {email : "handtadmi@gmail.com", active : true, firstname : "Marko", lastname : "Kopanja", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+//MERGE (ad)-[:HAS_ROLE]->(admi)
+
 CREATE (bike:AdditionalService {name : "Bycicle", type : "Accommodation", price : 20})
 CREATE (spa:AdditionalService {name : "Spa", type : "Accommodation", price : 25})
 CREATE (garadge:AdditionalService {name : "Parking Garadge", type : "Accommodation", price : 10})
