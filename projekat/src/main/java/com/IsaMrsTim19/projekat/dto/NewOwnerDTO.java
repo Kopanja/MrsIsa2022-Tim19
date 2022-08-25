@@ -50,6 +50,11 @@ public class NewOwnerDTO {
 	public void setRequestDescription(String requestDescription) {
 		this.requestDescription = requestDescription;
 	}
+	@Override
+	public String toString() {
+		return "NewOwnerDTO [userDto=" + userDto + ", password=" + password + ", ownerType=" + ownerType
+				+ ", requestDescription=" + requestDescription + "]";
+	}
 	
 	
 	

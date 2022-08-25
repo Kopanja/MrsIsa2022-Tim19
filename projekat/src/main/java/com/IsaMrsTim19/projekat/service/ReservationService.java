@@ -87,8 +87,8 @@ public class ReservationService {
 	}
 	
 	public Reservation toEntity(ReservationDTO dto) throws ParseException {
-		 Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDateFrom());
-		 Date dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDateTo());
+		 Date dateFrom = new SimpleDateFormat("MM/dd/yyyy").parse(dto.getDateFrom());
+		 Date dateTo = new SimpleDateFormat("MM/dd/yyyy").parse(dto.getDateTo());
 		 
 		 Calendar cal = Calendar.getInstance(); 
 		 
@@ -102,7 +102,9 @@ public class ReservationService {
 		 cal.add(Calendar.HOUR_OF_DAY, 12);     
 		 dateTo = cal.getTime();	 
 		 
+		 System.out.println("Datum dto od: " + dto.getDateFrom());
 		 System.out.println("Datum od: " + dateFrom);
+		 System.out.println("Datum dto do: " + dto.getDateTo());
 		 System.out.println("Datum do: " + dateTo);
 		 
 		 

@@ -30,7 +30,7 @@ public class OwnerApplicationController {
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
-	@RequestMapping(value = "/{id}/accept", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/accept", method = RequestMethod.PUT)
 	public ResponseEntity<?> acceptApplication(@PathVariable Long id) {
 		
 		ownerAppService.acceptApplication(id);

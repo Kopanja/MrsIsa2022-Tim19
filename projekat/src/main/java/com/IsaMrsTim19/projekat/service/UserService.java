@@ -118,6 +118,13 @@ public class UserService {
 		if(user == null) {
 			throw new Exception("User was not found");
 		}
+		
+		return user;
+	}
+	
+	
+	public User doesUserExist(String email) {
+		User user = userRepo.findByEmail(email).orElse(null);
 		return user;
 	}
 	

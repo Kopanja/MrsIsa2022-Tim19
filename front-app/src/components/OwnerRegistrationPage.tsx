@@ -1,7 +1,7 @@
 import React from 'react'
-import { useEffect, useState } from "react";
-import { RegistrationData } from './types/RegistrationData.types';
-import { validateLocaleAndSetLanguage } from 'typescript';
+import { useState } from "react";
+//import { RegistrationData } from './types/RegistrationData.types';
+//import { validateLocaleAndSetLanguage } from 'typescript';
 import {useNavigate} from 'react-router-dom';
 import AuthAxios from '../services/AuthAxios';
 import "../css/registrationPage.css";
@@ -14,6 +14,7 @@ const OwnerRegistrationPage = () => {
     const [lastname, setLastName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [ownerType, setOwnerType] = useState<string>("");
+    const [requestDescription, setRequestDescription] = useState<string>("");
     const [password1, setPassword1] = useState<string>("");
     const [password2, setPassword2] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -27,8 +28,8 @@ const OwnerRegistrationPage = () => {
 
 
     const validate = () => {
-      const emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      const phoneReg = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+      const emailReg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+      const phoneReg = /^(\+\d{1,2}\s?)?1?-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
       if (emailReg.test(email) === false) {
           setEmailError("Email is invalid!")
           return false;
@@ -76,7 +77,7 @@ const OwnerRegistrationPage = () => {
       setResponseError(undefined);
       if(validate()){
         //Treba da se promeni
-          let registerData = {client : {firstname : firstname, lastname : lastname, email : email, phoneNumber : phoneNumber}, password : password1};
+          let registerData = {userDto : {firstname : firstname, lastname : lastname, email : email, phoneNumber : phoneNumber}, password : password1, ownerType : ownerType, requestDescription : requestDescription};
           AuthAxios.post("/auth/register-owner", registerData).then((response) => {
               console.log(response)
               navigate(`/`);
@@ -140,7 +141,10 @@ const OwnerRegistrationPage = () => {
               Address:
           </label>
           <input className='inputs-css' name='address' type="text"></input>
-         
+          <label >
+            Why do you wish to create your profile?
+        </label>
+        <input  name='reason' className='input-box' required value={requestDescription} onChange={(e) => {setRequestDescription(e.target.value)}} type="text"></input>
           <input className='owner-button ptxt' type="submit" value="Submit" />
           </div>
       </form>

@@ -81,8 +81,8 @@ public class AuthenticationService {
 	
 	public User registerClient(NewClientDTO newUserDTO) throws Exception {
 		
-	
-		if(userService.findByEmail(newUserDTO.getClient().getEmail()) != null) {
+		
+		if(userService.doesUserExist(newUserDTO.getClient().getEmail()) != null) {
 			throw new Exception();
 		}
 		
@@ -106,7 +106,7 @@ public class AuthenticationService {
 	
 	public User registerOwner(NewOwnerDTO newUserDTO) throws Exception {
 		
-		if(userService.findByEmail(newUserDTO.getUserDto().getEmail()) != null) {
+		if(userService.doesUserExist(newUserDTO.getUserDto().getEmail()) != null) {
 			throw new Exception();
 		}
 		

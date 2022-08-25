@@ -79,6 +79,7 @@ public class AuthenticationController {
 	@PostMapping(value = "/register-owner")
 	public ResponseEntity<?> registerOwner(@RequestBody NewOwnerDTO newUserDTO, HttpServletResponse response)
 			{
+		System.out.println(newUserDTO);
 		User newUser;
 		try {
 			newUser = authService.registerOwner(newUserDTO);

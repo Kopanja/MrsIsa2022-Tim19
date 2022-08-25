@@ -21,7 +21,7 @@ const UserEditPage = () => {
     const { emailPath } = useParams();
     useEffect(() => {
         if(emailPath){
-        console.log(email);
+        
       
         AuthAxios
           .get(`/user/${emailPath}`)

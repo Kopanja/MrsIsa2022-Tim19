@@ -7,7 +7,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import locationIcon from "../resources/pin-location.svg";
 import dateFromIcon from "../resources/date-from-icon.svg";
 import dateToIcon from "../resources/date-to-icon.svg";

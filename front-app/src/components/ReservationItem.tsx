@@ -21,7 +21,7 @@ const ReservationItem: React.FC<{reservation:ReservationData}> = ({ reservation 
             console.log(err.response.data);
           });
         }
-      }, []);
+      }, [reservation]);
 
     const cancelReservation = () => {
         AuthAxios
