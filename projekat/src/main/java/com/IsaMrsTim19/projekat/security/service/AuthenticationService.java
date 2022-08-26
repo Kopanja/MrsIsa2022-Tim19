@@ -3,6 +3,7 @@ package com.IsaMrsTim19.projekat.security.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.IsaMrsTim19.projekat.dto.AdminActivationDTO;
 import com.IsaMrsTim19.projekat.dto.LoggedInUserDTO;
 import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
@@ -136,6 +139,51 @@ public class AuthenticationService {
 		userService.save(user);
 		verTokenService.delete(t);
 		return true;
+	}
+
+
+
+	public User registerAdmin(UserDTO newUserDTO) throws Exception {
+		if(userService.doesUserExist(newUserDTO.getEmail()) != null) {
+			
+			throw new Exception();
+		}
+		
+		String generatedPassword = generateRandomPassword(5);
+		String hashedPassword = passwordEncoder.encode(generatedPassword);
+		System.out.println("Generated password: " + generatedPassword);
+		System.out.println("Hashed password: " + hashedPassword);
+		User user = userService.createAdmin(newUserDTO, hashedPassword);
+		if(user != null) {
+			emailService.sendEmail(user.getEmail(), "You became an administrator", "Your generated password is: " + generatedPassword + " ;Activation Link: http://localhost:8080/api/auth/activate-admin");
+
+		}
+		
+		return user;
+	}
+	
+	private static String generateRandomPassword(int len) {
+		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
+          +"jklmnopqrstuvwxyz!@#$%&";
+		Random rnd = new Random();
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+			sb.append(chars.charAt(rnd.nextInt(chars.length())));
+		return sb.toString();
+	}
+
+
+
+	public UserDTO activateAdmin(AdminActivationDTO adminActivationDto) throws Exception {
+		User user = userService.findByEmail(adminActivationDto.getLoginDTO().getEmail());
+		if(!passwordEncoder.matches(adminActivationDto.getLoginDTO().getPassword(), user.getPassword())) {
+			throw new Exception("Bad Credentials");
+		}
+		String hashedPassword = passwordEncoder.encode(adminActivationDto.getNewPassword());
+		user.setPassword(hashedPassword);
+		user.setActive(true);
+		user = userService.save(user);
+		return userService.toDTO(user);
 	}
 	
 }

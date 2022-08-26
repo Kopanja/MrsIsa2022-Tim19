@@ -16,6 +16,7 @@ import AdminPage from './components/AdminPage';
 import AdminRoutes from './utils/AdminRoutes';
 import UnauthorizedPage from './components/UnauthorizedPage';
 import ReservationPage from './components/ReservationPage';
+import AdminActivationPage from './components/AdminActivationPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Routes>  
         <Route path="/" element = {<HomePage/>}/>
         <Route path="/unauthorized" element = {<UnauthorizedPage/>}/>
+        <Route path="/activate-admin-account" element = {<AdminActivationPage/>}/>
         <Route path="accommodation">
           <Route index element = {<AccommodationPage/>}/>
           <Route path=":id" element = {<AccommodationPage/>}/>

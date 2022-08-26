@@ -13,6 +13,7 @@ import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
 import com.IsaMrsTim19.projekat.dto.OfferDTO;
 import com.IsaMrsTim19.projekat.dto.UserDTO;
+import com.IsaMrsTim19.projekat.model.Admin;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
@@ -136,6 +137,22 @@ public class UserService {
 	public void delete(User user) {
 		userRepo.delete(user);
 		
+	}
+
+	
+
+	public User createAdmin(UserDTO newUserDTO, String password) {
+		Admin user = new Admin();
+		user.setActive(false);
+		user.setEmail(newUserDTO.getEmail());
+		user.setFirstname(newUserDTO.getFirstname());
+		user.setLastname(newUserDTO.getLastname());
+		user.setPhoneNumber(newUserDTO.getPhoneNumber());
+		user.setPassword(password);
+		Role role = roleRepo.findByRole("ADMIN");
+		user.setRole(role);
+		userRepo.save(user);
+		return user;
 	}
 
 	

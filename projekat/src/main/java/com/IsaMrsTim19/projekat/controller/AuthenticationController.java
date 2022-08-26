@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.IsaMrsTim19.projekat.dto.AdminActivationDTO;
 import com.IsaMrsTim19.projekat.dto.LoggedInUserDTO;
 import com.IsaMrsTim19.projekat.dto.LoginDTO;
 import com.IsaMrsTim19.projekat.dto.NewClientDTO;
 import com.IsaMrsTim19.projekat.dto.NewOwnerDTO;
+import com.IsaMrsTim19.projekat.dto.UserDTO;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.User;
 import com.IsaMrsTim19.projekat.security.service.AuthenticationService;
@@ -95,7 +97,32 @@ public class AuthenticationController {
 
 	}
 	
+
 	
+	@RequestMapping(value = "/activate-admin", method = RequestMethod.GET)
+	public void adminActivation(HttpServletResponse response) {
+		
+		response.setHeader("Location", "http://localhost:3000/activate-admin-account");
+		response.setStatus(302);  
+
+	}
+	
+	@PostMapping(value = "/change-admin-password")
+	public ResponseEntity<?> changeAdminPassword(@RequestBody AdminActivationDTO adminActivationDto, HttpServletResponse response)
+			{
+		System.out.println(adminActivationDto);
+		UserDTO dto = null;
+		try {
+			
+			dto = authService.activateAdmin(adminActivationDto);
+		}catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		return new ResponseEntity<UserDTO>(dto,HttpStatus.OK);
+
+	}
 	
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDto, HttpServletResponse response)
