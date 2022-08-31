@@ -14,6 +14,11 @@ public class Client extends User {
 	
 	@Relationship(type="MADE_REVIEW", direction=Direction.OUTGOING)
 	private List<Review> reviews;
+	
+	@Relationship(type="HAS_LOYALTY", direction=Direction.OUTGOING)
+	private ClientLoyalty loyalty;
+	
+	private int loyaltyPoints;
 
 	public Client() {
 		super();
@@ -38,6 +43,22 @@ public class Client extends User {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public ClientLoyalty getLoyalty() {
+		return loyalty;
+	}
+
+	public void setLoyalty(ClientLoyalty loyalty) {
+		this.loyalty = loyalty;
+	}
+
+	public int getLoyaltyPoints() {
+		return loyaltyPoints;
+	}
+
+	public void setLoyaltyPoints(int loyaltyPoints) {
+		this.loyaltyPoints = loyaltyPoints;
 	}
 	
 	

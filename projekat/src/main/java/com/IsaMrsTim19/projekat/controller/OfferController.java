@@ -50,6 +50,21 @@ public class OfferController {
 
 	}
 
+	
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@RequestMapping(value = "/delete/{offerId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteOffer(@PathVariable Long offerId) {
+		try {
+			 offerService.delete(offerId);
+		}catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>("Offer deleted", HttpStatus.OK);
+
+	}
+	
+	
 	@RequestMapping(value = "/{pageNum}", method = RequestMethod.GET)
 	public ResponseEntity<OfferListByPageDTO> getAllOffers(@PathVariable Integer pageNum) {
 

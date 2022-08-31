@@ -26,6 +26,7 @@ import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.FishingTour;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
+import com.IsaMrsTim19.projekat.model.ProfitMargin;
 import com.IsaMrsTim19.projekat.model.Promotion;
 import com.IsaMrsTim19.projekat.model.Reservation;
 import com.IsaMrsTim19.projekat.model.Review;
@@ -57,6 +58,9 @@ public class OfferService {
 
 	@Autowired
 	ReviewService reviewService;
+	
+	@Autowired
+	ProfitMarginService profitMarginService;
 
 	public List<Offer> getAllOffers() {
 		this.getNumberOfPages();
@@ -227,7 +231,7 @@ public class OfferService {
 			offer.getReservations().add(reservation);
 		}
 
-		// treba racunanje cene
+		
 		double basePrice = offer.getPrice();
 		Long numberOfNights = reservationService.getNumberOfDays(reservation);
 		System.out.println("Number of Nights: " + numberOfNights);
@@ -243,6 +247,17 @@ public class OfferService {
 		}
 
 		reservation.setPrice(basePrice);
+		reservation.setDateCreated(new Date());
+		
+		ProfitMargin profitMargin = profitMarginService.findActive();
+		
+		reservation.setProfitMargin(profitMargin);
+		
+		double appProfit = basePrice*profitMargin.getPercentage();
+		reservation.setAppProfit(appProfit);
+		reservation.setOwnerProfit(basePrice - appProfit);
+		
+		
 		reservationService.save(reservation);
 		System.out.println(reservation);
 		offerRepo.save(offer);
@@ -494,6 +509,10 @@ public class OfferService {
 		offer.setRating(newRating);
 		offerRepo.save(offer);
 		
+	}
+
+	public void delete(Long offerId) {
+		offerRepo.delete(this.findById(offerId));	
 	}
 
 }

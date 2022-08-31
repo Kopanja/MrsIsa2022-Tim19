@@ -1,6 +1,5 @@
 import React from 'react'
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import TokenService from '../services/TokenService';
 import {useNavigate} from 'react-router-dom';
 import AuthAxios from '../services/AuthAxios';

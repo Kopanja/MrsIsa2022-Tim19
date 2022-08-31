@@ -13,6 +13,11 @@ public class Owner extends User {
 	
 	@Relationship(type="HAS_OFFER", direction=Direction.OUTGOING)
 	private List<Offer> offers;
+	
+	@Relationship(type="HAS_LOYALTY", direction=Direction.OUTGOING)
+	private OwnerLoyalty loyalty;
+	
+	private int loyaltyPoints;
 
 	public Owner() {
 		super();
@@ -38,6 +43,22 @@ public class Owner extends User {
 
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
+	}
+
+	public OwnerLoyalty getLoyalty() {
+		return loyalty;
+	}
+
+	public void setLoyalty(OwnerLoyalty loyalty) {
+		this.loyalty = loyalty;
+	}
+
+	public int getLoyaltyPoints() {
+		return loyaltyPoints;
+	}
+
+	public void setLoyaltyPoints(int loyaltyPoints) {
+		this.loyaltyPoints = loyaltyPoints;
 	}
 	
 	

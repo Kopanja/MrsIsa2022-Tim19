@@ -11,17 +11,30 @@ CREATE (admi: Role {role : "ADMIN"})
 CREATE (client: Role {role : "CLIENT"})
 CREATE (owner: Role {role : "OWNER"})
 
+CREATE (profitMargin:ProfitMargin {active : true, percentage : 0.15})
+
+CREATE (clientLoyalty1: ClientLoyalty {name : "REGULAR", benefit : 0})
+CREATE (clientLoyalty2: ClientLoyalty {name : "SILVER", benefit : 0.05})
+CREATE (clientLoyalty3: ClientLoyalty {name : "GOLD", benefit : 0.1})
+
+CREATE (ownerLoyalty1: OwnerLoyalty {name : "REGULAR", benefit : 0})
+CREATE (ownerLoyalty2: OwnerLoyalty {name : "SILVER", benefit : 0.05})
+CREATE (ownerLoyalty3: OwnerLoyalty {name : "GOLD", benefit : 0.1})
+
 //email pass: password?1
 CREATE (uAccom:User:Owner {email : "accomowner@gmail.com", active : true, firstname : "Nikola", lastname : "Pasic", phoneNumber : "+3816432123", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (uAccom)-[:HAS_ROLE]->(owner)
+MERGE (uAccom)-[:HAS_LOYALTY]->(ownerLoyalty3)
+
 
 CREATE (client1:User:Client {email : "handtclient1@gmail.com", active : true, firstname : "Jelena", lastname : "Tucic", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (client1)-[:HAS_ROLE]->(client)
+MERGE (client1)-[:HAS_LOYALTY]->(clientLoyalty3)
 
 //email pass: password?3
 CREATE (client3:User:Client {email : "handtclient3@gmail.com", active : true, firstname : "Client3", lastname : "Tucic", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (client3)-[:HAS_ROLE]->(client)
-
+MERGE (client3)-[:HAS_LOYALTY]->(clientLoyalty1)
 
 MERGE(:DeletionRequest {requestText : "Zeleo bih da obrisem nalog jer mi ne treba vise"})-[:FROM_USER]->(client3)
 
@@ -29,6 +42,8 @@ MERGE(:DeletionRequest {requestText : "Zeleo bih da obrisem nalog jer mi ne treb
 
 CREATE (boatOwner:User:Owner {email : "handtclient2@gmail.com", active : true, firstname : "Boat", lastname : "Owner", phoneNumber : "+38162335223", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (boatOwner)-[:HAS_ROLE]->(owner)
+MERGE (boatOwner)-[:HAS_LOYALTY]->(ownerLoyalty2)
+
 
 CREATE (ad:User {email : "kopanja023@gmail.com", active : true, firstname : "Marko", lastname : "Kopanja", phoneNumber : "+38162440790", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (ad)-[:HAS_ROLE]->(admi)

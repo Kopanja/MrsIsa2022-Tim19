@@ -1,11 +1,15 @@
 package com.IsaMrsTim19.projekat.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.neo4j.core.convert.ConvertWith;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.Relationship.Direction;
+
 import com.IsaMrsTim19.projekat.util.DateTimeStringConverter;
 
 @Node
@@ -21,12 +25,23 @@ public class Reservation {
 	@ConvertWith(converter =  DateTimeStringConverter.class)
 	private Date dateTo;
 	
+	@ConvertWith(converter =  DateTimeStringConverter.class)
+	private Date dateCreated;
+	
+	@Relationship(type="HAS_PROFIT_MARGIN", direction=Direction.OUTGOING)
+	private ProfitMargin profitMargin;
+	
 	private boolean isComplete;
 	
 	private boolean isCanceled;
 	
 	private double price;
+	
+	private double ownerProfit;
+	
+	private double appProfit;
 
+	
 	
 	
 	
@@ -114,6 +129,46 @@ public class Reservation {
 
 	public void setCanceled(boolean isCanceled) {
 		this.isCanceled = isCanceled;
+	}
+
+	
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public double getOwnerProfit() {
+		return ownerProfit;
+	}
+
+
+	public void setOwnerProfit(double ownerProfit) {
+		this.ownerProfit = ownerProfit;
+	}
+
+
+	public double getAppProfit() {
+		return appProfit;
+	}
+
+
+	public void setAppProfit(double appProfit) {
+		this.appProfit = appProfit;
+	}
+
+	
+	public ProfitMargin getProfitMargin() {
+		return profitMargin;
+	}
+
+
+	public void setProfitMargin(ProfitMargin profitMargin) {
+		this.profitMargin = profitMargin;
 	}
 
 
