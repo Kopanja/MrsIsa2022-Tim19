@@ -24,6 +24,11 @@ public class ClientService {
 	public Client findClientByReviewId(Long id) {
 		return clientRepo.findClientByReviewId(id);
 	}
+
+
+	public Client findById(Long id) {
+		return clientRepo.findById(id).orElse(null);
+	}
 	
 
 

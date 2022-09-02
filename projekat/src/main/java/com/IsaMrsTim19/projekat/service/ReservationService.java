@@ -72,6 +72,24 @@ public class ReservationService {
 		return reservationRepo.getReservationsByClientId(clientId);
 	}
 	
+	
+	public boolean doesClientHaveCancelledReservationAtSameStartDate(Long clientId, Long offerId, ReservationDTO reservationDTO) throws ParseException {
+		List<Reservation> reservations = reservationRepo.getCancelledReservationsBetweenClientAndOffer(clientId, offerId);
+		System.out.println(reservations);
+		Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(reservationDTO.getDateFrom());
+		Calendar c1 = getCalendarWithoutTime(dateFrom);
+		
+		System.out.println(dateFrom);
+		for(Reservation r : reservations) {
+			if(getCalendarWithoutTime(r.getDateFrom()).equals(c1)){
+				return true;
+			}
+		}
+		
+		
+		return false;
+	}
+	
 	public void cancelReservation(Long reservationId) throws Exception {
 		Reservation reservation = reservationRepo.findById(reservationId).orElse(null);
 		if(reservation == null) {
@@ -83,12 +101,18 @@ public class ReservationService {
 		if(nowCalendar.after(startCalendar)) {
 			throw new Exception("You cant cancel the reservation when its 3 days or less away");
 		}
-		reservationRepo.delete(reservation);
+		reservation.setCanceled(true);
+		reservationRepo.save(reservation);
 	}
 	
 	public Reservation toEntity(ReservationDTO dto) throws ParseException {
-		 Date dateFrom = new SimpleDateFormat("MM/dd/yyyy").parse(dto.getDateFrom());
-		 Date dateTo = new SimpleDateFormat("MM/dd/yyyy").parse(dto.getDateTo());
+		// Date dateFrom = new SimpleDateFormat("MM/dd/yyyy").parse(dto.getDateFrom());
+		// Date dateTo = new SimpleDateFormat("MM/dd/yyyy").parse(dto.getDateTo());
+		 
+		 
+		 Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDateFrom());
+		 Date dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(dto.getDateTo());
+		 
 		 
 		 Calendar cal = Calendar.getInstance(); 
 		 

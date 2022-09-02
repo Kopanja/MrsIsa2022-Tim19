@@ -21,6 +21,10 @@ import WriteReviewComponent from '../WriteReviewComponent';
 import OfferReviewlist from '../OfferReviewlist';
 import {useNavigate} from 'react-router-dom';
 import checkMark from "../../resources/check-mark.png"
+import TokenService from '../../services/TokenService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AccommodationPage = () => {
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState<Accommodation>();
@@ -70,7 +74,8 @@ const AccommodationPage = () => {
     console.log(selectedAditionalServices);
   };
 
-
+  const notifySuccess = () => {toast.success("You have successfuly made a reservation!")};
+  const notifyError = (msg : string) => {toast.error(msg)};
   const calculatePrice = () => {
     let totalPrice = 0;
       if(startDate !== null && endDate !== null && startDate !== undefined && endDate !== undefined){
@@ -102,10 +107,12 @@ const AccommodationPage = () => {
       .post(`/offer/${id}/make-reservation`, {dateFrom : startDate?.toLocaleDateString(), dateTo : endDate?.toLocaleDateString(), additionalServicesIds : selectedAditionalServices})
       .then((res) => {
         console.log(res.data);
+        notifySuccess();
         
       })
       .catch((err) => {
         console.log(err.response.data);
+        notifyError(err.response.data);
       });
   }
   return (
@@ -199,28 +206,35 @@ const AccommodationPage = () => {
                         <p className='info-text'>{accommodation?.offerDTO?.price}</p>
                         <p className='info-text'>per night</p>
                       </div>
-                      <div className='container-row'>
-                      <img src={dateFromIcon} alt = "date to Icon"></img>
-                      <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
-                      </div>
-                      <div className='container-row'>
-                        <img src={dateToIcon} alt = "date to Icon"></img>
-                        <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
-                      </div>
-                      {accommodation?.additionalServices.map((as, index) => (
-                          <div className='container-row' key={index}>
-                            {as.price > 0 && 
-                            <div className='container-row'>
-                            <p className='info-text'>{as.name}</p>
-                       
-                            <input type="checkbox" onClick={() => additionalServiceChecked(as)}></input>
+                      {TokenService.getUser() !== null ?
+                      <div>
+                        <div className='container-row'>
+                        <img src={dateFromIcon} alt = "date to Icon"></img>
+                        <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
+                        </div>
+                        <div className='container-row'>
+                          <img src={dateToIcon} alt = "date to Icon"></img>
+                          <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
+                        </div>
+                        {accommodation?.additionalServices.map((as, index) => (
+                            <div className='container-row' key={index}>
+                              {as.price > 0 && 
+                              <div className='container-row'>
+                              <p className='info-text'>{as.name}</p>
+                        
+                              <input type="checkbox" onClick={() => additionalServiceChecked(as)}></input>
+                              </div>
+                            }
                             </div>
-                          }
-                          </div>
-                        ))}
-                      <p>Total price: {calculatePrice()}</p>
-                      <button onClick={reserveButtonClick}>Reserve</button>
-         
+                          ))}
+                        <p>Total price: {calculatePrice()}</p>
+                        <button onClick={reserveButtonClick}>Reserve</button>
+                        <ToastContainer />
+                      </div>
+                       : <div>
+                          <p>Sign in to be able to make reservation</p>
+                        </div>
+                        }
                     </div>
                   </div>
               </div>

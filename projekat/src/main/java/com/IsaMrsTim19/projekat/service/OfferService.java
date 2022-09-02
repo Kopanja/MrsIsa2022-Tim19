@@ -168,11 +168,15 @@ public class OfferService {
 		List<Reservation> reservations = offer.getReservations();
 		List<Date> unavailableDates = new ArrayList<Date>();
 		List<Date> resDates;
+		
 		for (Reservation r : reservations) {
-			resDates = reservationService.getAllReservationDates(r);
-			for (Date d : resDates) {
-				unavailableDates.add(d);
+			if(!r.isCanceled()) {
+				resDates = reservationService.getAllReservationDates(r);
+				for (Date d : resDates) {
+					unavailableDates.add(d);
+				}
 			}
+			
 		}
 		return unavailableDates;
 	}
@@ -215,6 +219,11 @@ public class OfferService {
 		if (!this.isOfferAvailable(reservation, offer)) {
 			throw new Exception("A reservation already exist in that time");
 		}
+		
+		if(reservationService.doesClientHaveCancelledReservationAtSameStartDate(client.getId(), offerId, reservationDTO)) {
+			throw new Exception("You can't make this reservation because you already cancelled a reservation for this offer at this date");
+		}
+		
 		List<Reservation> clientReservations = reservationService.getReservationsByClientId(client.getId());
 		if (clientReservations != null) {
 			clientReservations.add(reservation);
@@ -457,6 +466,8 @@ public class OfferService {
 	@Transactional
 	public void createReview(Long offerId, Client client, ReviewDTO reviewDto) throws Exception {
 		Offer offer = offerRepo.findById(offerId).orElse(null);
+		client = clientService.findById(client.getId());
+		
 		if (offer == null) {
 			throw new Exception("Something went wrong");
 		}

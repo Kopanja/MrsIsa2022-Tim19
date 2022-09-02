@@ -11,7 +11,8 @@ const ReservationItem: React.FC<{reservation:ReservationData}> = ({ reservation 
     
     useEffect(() => {
         if(reservation){
-            console.log(reservation.complete)
+            //console.log(reservation.complete);
+            console.log(reservation.canceled + " " + reservation.id);
         AuthAxios
           .get(`/offer/reservation/${reservation.id}`)
           .then((res) => {
@@ -41,8 +42,12 @@ const ReservationItem: React.FC<{reservation:ReservationData}> = ({ reservation 
         <h1>{offer?.name}</h1>
         <p>Starts: {(moment(reservation.dateFrom)).format("DD-MM-yyyy hh:mm")}</p>
         <p>Ends: {(moment(reservation.dateTo)).format("DD-MM-yyyy hh:mm")}</p>
-        {!reservation.complete &&
+        {!reservation.complete && !reservation.canceled &&
             <button onClick={()=>cancelReservation()}>Cancel Reservation</button>
+            
+        }
+        {reservation.canceled &&
+            <p>You have canceled this reservation</p>
             
         }
          {!reservation.complete &&

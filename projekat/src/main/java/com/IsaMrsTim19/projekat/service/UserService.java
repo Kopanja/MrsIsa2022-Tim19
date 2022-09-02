@@ -66,6 +66,7 @@ public class UserService {
 	
 	
 	public User updateUser(UserDTO dto) {
+	
 		User user = userRepo.findById(dto.getId()).orElse(null);
 		user.setFirstname(dto.getFirstname());
 		user.setLastname(dto.getLastname());

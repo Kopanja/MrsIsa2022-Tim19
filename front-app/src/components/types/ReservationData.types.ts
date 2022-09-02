@@ -4,6 +4,7 @@ export interface ReservationData {
     dateTo: string;
     price: string;
     complete : boolean;
+    canceled : boolean;
   }
 
 export interface Props {

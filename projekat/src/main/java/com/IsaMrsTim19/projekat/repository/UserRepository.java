@@ -13,8 +13,6 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
 	@Query("MATCH(u:User)-[r:HAS_ROLE]->(ro:Role) WHERE u.email = $email RETURN u,r,ro")
 	Optional<User> findByEmail(String email);
-	
-	@Query("MATCH(u:User) WHERE id(u) = $id RETURN u")
-	Optional<User> findById(Long id);
+
 	
 }
