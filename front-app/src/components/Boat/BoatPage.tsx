@@ -17,7 +17,12 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import dateFromIcon from "../../resources/date-from-icon.svg";
 import dateToIcon from "../../resources/date-to-icon.svg";
-
+import TokenService from '../../services/TokenService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import WriteReviewComponent from '../WriteReviewComponent';
+import OfferReviewlist from '../OfferReviewlist';
+import Navbar from '../Navbar';
 
 const BoatPage = () => {
     const [boat, setBoat] = useState<Boat>();
@@ -26,14 +31,16 @@ const BoatPage = () => {
     const [endDate, setEndDate] = useState<Date|null>();
     const [startDate, setStartDate] = useState<Date|null>();
     const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
-
+    const [selectedAditionalServices, setSelectedAditionalServices] = useState<number[]>([]);
     useEffect(() => {
         if (id) {
           AuthAxios
           .get(`/boat/id/${id}`)
           .then((res) => {
            
+            console.log(res.data);
             setBoat(res.data);
+            
           })
           .catch((err) => {
             console.log(err);
@@ -52,19 +59,67 @@ const BoatPage = () => {
       }, [id])
 
       const reserveButtonClick = () => {
+        console.log(startDate);
+        console.log(endDate);
         AuthAxios
-          .post(`/offer/${id}/make-reservation`, {dateFrom : startDate, dateTo : endDate, additionalServicesIds : []})
+          .post(`/offer/${id}/make-reservation`, {dateFrom : startDate?.toLocaleDateString(), dateTo : endDate?.toLocaleDateString(), additionalServicesIds : selectedAditionalServices})
           .then((res) => {
             console.log(res.data);
+            notifySuccess();
             
           })
           .catch((err) => {
             console.log(err.response.data);
+            notifyError(err.response.data);
           });
       }
+
+      const calculatePrice = () => {
+        let totalPrice = 0;
+          if(startDate !== null && endDate !== null && startDate !== undefined && endDate !== undefined){
+            if(startDate < endDate && boat?.offerDTO?.price){
+              console.log(endDate.getDate() - startDate.getDate());
+              let diff = Math.abs(startDate.getTime() - endDate.getTime());
+              let numOfNights = Math.ceil(diff / (1000 * 3600 * 24)); 
+            
+              totalPrice = numOfNights*boat?.offerDTO?.price;
+              
+              if(boat.offerDTO.additionalServices){
+                boat.offerDTO.additionalServices.map((as,index) => {
+                  if(selectedAditionalServices.includes(as.id)){
+                    totalPrice = totalPrice + as.price*numOfNights;
+                  }
+                })
+              }
+             
+    
+              return totalPrice;
+    
+    
+            }
+          }
+          return totalPrice;
+      }
+      const additionalServiceChecked = (as : any) => {
+        if(selectedAditionalServices.includes(as.id)){
+          let newState = [...selectedAditionalServices];
+          var index = newState.indexOf(as.id);
+          newState.splice(index, 1);
+          setSelectedAditionalServices(newState);
+        }else{
+          let newState = [...selectedAditionalServices];
+          newState.push(as.id);
+          setSelectedAditionalServices(newState);
+        }
+        
+        console.log(selectedAditionalServices);
+      };
+    
+      const notifySuccess = () => {toast.success("You have successfuly made a reservation!")};
+      const notifyError = (msg : string) => {toast.error(msg)};
   return (
     <div>
-      
+    <Navbar></Navbar>
         
     {viewImages? 
         <div>
@@ -79,7 +134,6 @@ const BoatPage = () => {
         </div>
     : 
           <div>
-            <img src={logo} className="logo" alt="altImg" />
             <div className='main-div'>
             <div className='images-container'>
               <div className='container-row'>
@@ -144,25 +198,46 @@ const BoatPage = () => {
                 </div>
                 
                 <div className='container-column right-info-container'>
-                  <div className='container-column pricing-container'>
-                    <p className='about-title'>Pricing</p>
-                    <div className='container-row space-evenly'>
-                      <p className='info-text'>{boat?.offerDTO?.price}</p>
-                      <p className='info-text'>per day</p>
+                    <div className='container-column pricing-container'>
+                      <p className='about-title'>Pricing</p>
+                      <div className='container-row space-evenly'>
+                        <p className='info-text'>{boat?.offerDTO?.price}</p>
+                        <p className='info-text'>per night</p>
+                      </div>
+                      {TokenService.getUser() !== null ?
+                      <div>
+                        <div className='container-row'>
+                        <img src={dateFromIcon} alt = "date to Icon"></img>
+                        <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
+                        </div>
+                        <div className='container-row'>
+                          <img src={dateToIcon} alt = "date to Icon"></img>
+                          <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
+                        </div>
+                        {boat?.additionalServices && boat?.additionalServices.map((as, index) => (
+                            <div className='container-row' key={index}>
+                              {as.price > 0 && 
+                              <div className='container-row'>
+                              <p className='info-text'>{as.name}</p>
+                        
+                              <input type="checkbox" onClick={() => additionalServiceChecked(as)}></input>
+                              </div>
+                            }
+                            </div>
+                          ))}
+                        <p>Total price: {calculatePrice()}</p>
+                        <button onClick={reserveButtonClick}>Reserve</button>
+                        <ToastContainer />
+                      </div>
+                       : <div>
+                          <p>Sign in to be able to make reservation</p>
+                        </div>
+                        }
                     </div>
-                    <div className='container-row'>
-                      <img src={dateFromIcon} alt = "date to Icon"></img>
-                      <DatePicker excludeDates={unavailableDates} className='noBorder searchBarItem' selected={startDate} onChange={(date) => setStartDate(date)} placeholderText= "Date From" />
-                      </div>
-                      <div className='container-row'>
-                        <img src={dateToIcon} alt = "date to Icon"></img>
-                        <DatePicker excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
-                      </div>
-                      <button onClick={reserveButtonClick}>Reserve</button>
-
                   </div>
-                </div>
             </div>
+            <OfferReviewlist id = {Number(id)}></OfferReviewlist>
+              <WriteReviewComponent id ={Number(id)}></WriteReviewComponent>
             </div>
             </div>
           }

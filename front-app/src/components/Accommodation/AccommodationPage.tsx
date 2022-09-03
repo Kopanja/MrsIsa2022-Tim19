@@ -86,11 +86,14 @@ const AccommodationPage = () => {
         
           totalPrice = numOfNights*accommodation?.offerDTO?.price;
           
-          accommodation.offerDTO.additionalServices.map((as,index) => {
-            if(selectedAditionalServices.includes(as.id)){
-              totalPrice = totalPrice + as.price*numOfNights;
-            }
-          })
+          if(accommodation.offerDTO.additionalServices){
+            accommodation.offerDTO.additionalServices.map((as,index) => {
+              if(selectedAditionalServices.includes(as.id)){
+                totalPrice = totalPrice + as.price*numOfNights;
+              }
+            })
+          }
+          
 
           return totalPrice;
 
@@ -216,7 +219,7 @@ const AccommodationPage = () => {
                           <img src={dateToIcon} alt = "date to Icon"></img>
                           <DatePicker minDate={new Date()} excludeDates={unavailableDates} className='noBorder searchBarItem' selected={endDate} onChange={(date) => setEndDate(date)} placeholderText= "Date To" />
                         </div>
-                        {accommodation?.additionalServices.map((as, index) => (
+                        {accommodation?.additionalServices && accommodation?.additionalServices.map((as, index) => (
                             <div className='container-row' key={index}>
                               {as.price > 0 && 
                               <div className='container-row'>

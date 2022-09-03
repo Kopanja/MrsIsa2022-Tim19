@@ -51,7 +51,7 @@ public class BoatService {
 	
 	public OfferDTO toDTO(Boat offer) {
 		String address = offer.getAddress() + ", " + offer.getCity().getName();
-		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating());
+		return new OfferDTO(offer.getId(),offer.getName(),address,offer.getDescription(),offer.getRating(), offer.getPrice());
 	}
 	
 	private List<String> getNavEquipement(Boat boat){
@@ -67,6 +67,7 @@ public class BoatService {
 		System.out.println(obj);
 		BoatDTO boatDTO = new BoatDTO();
 		OfferDTO offerDTO = this.toDTO(obj);
+		System.out.println(offerDTO);
 		boatDTO.setOfferDTO(offerDTO);
 		boatDTO.setCapacity(obj.getNumOfPeople());
 		boatDTO.setLength(obj.getLength());

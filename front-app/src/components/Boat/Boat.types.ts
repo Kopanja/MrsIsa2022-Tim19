@@ -9,6 +9,7 @@ export interface Boat {
     capacity : number;
     contentImages : string[];
     equipment : string[];
+    additionalServices : any[];
 
   }
 
