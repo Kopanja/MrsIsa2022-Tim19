@@ -34,6 +34,7 @@ const AccommodationPage = () => {
   const [startDate, setStartDate] = useState<Date|null>();
   const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
   const [selectedAditionalServices, setSelectedAditionalServices] = useState<number[]>([]);
+  const [isClientSubscribed, setIsClientSubscribed] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) {
@@ -42,6 +43,7 @@ const AccommodationPage = () => {
       .then((res) => {
         console.log(res.data);
         setAccommodation(res.data);
+        isSubscribed();
       })
       .catch((err) => {
         console.log(err);
@@ -74,7 +76,7 @@ const AccommodationPage = () => {
     console.log(selectedAditionalServices);
   };
 
-  const notifySuccess = () => {toast.success("You have successfuly made a reservation!")};
+  const notifySuccess = (msg : string) => {toast.success(msg)};
   const notifyError = (msg : string) => {toast.error(msg)};
   const calculatePrice = () => {
     let totalPrice = 0;
@@ -104,19 +106,67 @@ const AccommodationPage = () => {
   }
 
   const reserveButtonClick = () => {
-    console.log(startDate);
-    console.log(endDate);
     AuthAxios
       .post(`/offer/${id}/make-reservation`, {dateFrom : startDate?.toLocaleDateString(), dateTo : endDate?.toLocaleDateString(), additionalServicesIds : selectedAditionalServices})
       .then((res) => {
         console.log(res.data);
-        notifySuccess();
+        notifySuccess("You have successfuly made a reservation!");
         
       })
       .catch((err) => {
         console.log(err.response.data);
         notifyError(err.response.data);
       });
+  }
+
+  const isSubscribed = () => {
+   
+    AuthAxios
+      .get(`/offer/${id}/is-subscribed`)
+      .then((res) => {
+        console.log(res.data);
+        setIsClientSubscribed(res.data);
+        
+        
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        notifyError(err.response.data);
+       
+      });
+      
+      
+  }
+
+  const subscribe = () => {
+    AuthAxios
+      .post(`/offer/${id}/subscribe`)
+      .then((res) => {
+        console.log(res.data);
+        notifySuccess(res.data);
+        
+        
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        notifyError(err.response.data);
+       
+      });     
+  }
+  const unsubscribe = () => {
+    AuthAxios
+      .post(`/offer/${id}/unsubscribe`)
+      .then((res) => {
+        console.log(res.data);
+        notifySuccess(res.data);
+        
+        
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        notifyError(err.response.data);
+       
+      });     
   }
   return (
     <div>
@@ -150,6 +200,13 @@ const AccommodationPage = () => {
              <div className='images-container just-fl-start'>
                   <div className='container-column m-width'>
                     <h1 className='home-text'>{accommodation?.offerDTO.name}</h1>
+                    {TokenService.getUser() && TokenService.getRole() === "CLIENT" && <div>{isClientSubscribed ?
+                    <button onClick={unsubscribe}>Unsubscribe</button>
+                    :
+                    <button onClick={subscribe}>Subscribe</button>
+                    }
+                    </div>
+                  }
                     <div className='container-row gap'>
                     <div className='container-row'>
                         <img className='traveler-icon' src={traveler}></img>
@@ -209,7 +266,7 @@ const AccommodationPage = () => {
                         <p className='info-text'>{accommodation?.offerDTO?.price}</p>
                         <p className='info-text'>per night</p>
                       </div>
-                      {TokenService.getUser() !== null ?
+                      {TokenService.getUser() !== null && TokenService.getRole() === "CLIENT" ?
                       <div>
                         <div className='container-row'>
                         <img src={dateFromIcon} alt = "date to Icon"></img>
@@ -235,14 +292,16 @@ const AccommodationPage = () => {
                         <ToastContainer />
                       </div>
                        : <div>
-                          <p>Sign in to be able to make reservation</p>
+                          <p>Sign in to a client account to be able to make reservation</p>
                         </div>
                         }
                     </div>
                   </div>
               </div>
               <OfferReviewlist id = {Number(id)}></OfferReviewlist>
+              {TokenService.getUser() !== null && TokenService.getRole() === "CLIENT" &&
               <WriteReviewComponent id ={Number(id)}></WriteReviewComponent>
+              }
               </div>
               
               </div>

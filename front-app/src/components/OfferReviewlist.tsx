@@ -19,7 +19,9 @@ const OfferReviewlist: React.FC<{id:number}> = ({id}) => {
         }
       }, [id]);
   return (
-    <div>{reviews.map((review, index) => (
+    <div>
+      <h1>Reviews:</h1>
+      {reviews.map((review, index) => (
         <div key={index}>
         <h2>Rating: {review.rating}</h2>
         <p>Review: {review.reviewText}</p>

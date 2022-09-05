@@ -526,4 +526,15 @@ public class OfferService {
 		offerRepo.delete(this.findById(offerId));	
 	}
 
+	public boolean isUserSubscribed(Long id, Client user) {
+
+		Offer offer = offerRepo.findById(id).orElse(null);
+		for(Client c : offer.getSubscribers()) {
+			
+		}
+		
+		return offerRepo.isUserSubscribed(id, user.getId());
+		
+	}
+
 }

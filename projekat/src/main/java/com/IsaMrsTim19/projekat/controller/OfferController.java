@@ -261,6 +261,29 @@ public class OfferController {
 		return new ResponseEntity<>("Unsubscribed", HttpStatus.OK);
 
 	}
+	
+	@PreAuthorize("hasAnyAuthority('CLIENT')")
+	@RequestMapping(value = "/{id}/is-subscribed", method = RequestMethod.GET)
+	public ResponseEntity<?> isUserSubscrubied(@PathVariable Long id) {
+
+		Client user = null;
+		boolean isSubscribed = false;
+		try {
+			user = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			return new ResponseEntity<>("You have to be logedin", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			isSubscribed = offerService.isUserSubscribed(id, user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		System.out.println(isSubscribed);
+		System.out.println(user.getEmail());
+		return new ResponseEntity<>(isSubscribed, HttpStatus.OK);
+
+	}
 
 	@GetMapping("/{id}/thumbnail")
 	public ResponseEntity<?> getProfileImage(@PathVariable Long id) {
