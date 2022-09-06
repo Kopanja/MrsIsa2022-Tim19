@@ -36,6 +36,22 @@ public class ReservationService {
 		return  TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
 	}
 	
+	public List<Reservation> getPastReservations(String dateFrom, String dateTo) throws ParseException{
+		List<Reservation> reservations = reservationRepo.findAll();
+		 Date dateFromDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateFrom);
+		 Date dateToDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateTo);
+		 List<Reservation> foundReservations = new ArrayList<Reservation>();
+		for(Reservation r : reservations) {
+			Date startDate = r.getDateFrom();
+			Date endDate = r.getDateTo();
+			if(dateFromDate.before(startDate) && dateToDate.after(endDate) && !r.isCanceled()) {
+				foundReservations.add(r);
+			}
+		}
+		
+		return foundReservations;
+	}
+	
 	public List<Date> getAllReservationDates(Reservation r){
 		List<Date> resDates = new ArrayList<Date>();
 		Calendar calendar;

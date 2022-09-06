@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AuthAxios from '../services/AuthAxios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TokenService from '../services/TokenService';
 const PromotionList : React.FC<{offerId : number}> = ({offerId}) => {
     const[promotions, setPromotion] = useState<any[]>([]);
 
@@ -52,18 +53,25 @@ const PromotionList : React.FC<{offerId : number}> = ({offerId}) => {
     
   return (
     <div>
-        <h1>Active Promotions</h1>
-        {promotions.map((promotion,index) => (
-        <div key={index}>
-        <h3>Start Date: </h3>
-        <p>{dateConverter(promotion.dateFrom).toLocaleDateString()}</p>
-        <h3>End Date: </h3>
-        <p>{dateConverter(promotion.dateTo).toLocaleDateString()}</p>
-        <h3>Price: {promotion.price}</h3>
-        <h3>Id: {promotion.id}</h3>
-        <button onClick={() =>reservePromotion(promotion.id)}>Reserve Promotion</button>
+        {
+            promotions.length > 0 &&
+            <div>
+                <h1>Active Promotions</h1>
+                {promotions.map((promotion,index) => (
+                <div key={index}>
+                <h3>Start Date: </h3>
+                <p>{dateConverter(promotion.dateFrom).toLocaleDateString()}</p>
+                <h3>End Date: </h3>
+                <p>{dateConverter(promotion.dateTo).toLocaleDateString()}</p>
+                <h3>Price: {promotion.price}</h3>
+                <h3>Id: {promotion.id}</h3>
+                {TokenService.getUser() && TokenService.getRole() === "CLIENT" && <button onClick={() =>reservePromotion(promotion.id)}>Reserve Promotion</button>}
+                
         </div>
-      ))}</div>
+      ))}
+            </div>
+        }
+        </div>
   )
 }
 

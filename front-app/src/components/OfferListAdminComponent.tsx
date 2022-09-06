@@ -5,7 +5,8 @@ import Pagination from "./Pagination";
 import "../css/offerList.css";
 import { OfferData } from "./OfferListItem/OfferListItem.types";
 import AuthAxios from '../services/AuthAxios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type OfferType = "offer" | "accommodation" | "boat" | "fishingTour";
 const OfferListAdminComponent = () => {
@@ -15,7 +16,9 @@ const OfferListAdminComponent = () => {
     const [numOfPages, setNumOfPages] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [offerType, setOfferType] = useState<OfferType>("offer");
-  
+
+
+
     useEffect(() => {
       AuthAxios
         .get(`/${offerType}/${currentPage}`)

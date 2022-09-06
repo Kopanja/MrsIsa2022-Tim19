@@ -23,7 +23,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import WriteReviewComponent from '../WriteReviewComponent';
 import OfferReviewlist from '../OfferReviewlist';
 import Navbar from '../Navbar';
-
+import PromotionCreaton from '../PromotionCreaton';
+import PromotionList from '../PromotionList';
 const BoatPage = () => {
     const [boat, setBoat] = useState<Boat>();
     const [viewImages, setViewImages ] = useState<boolean>(false);
@@ -291,7 +292,10 @@ const BoatPage = () => {
                           <p>Sign in to be able to make reservation</p>
                         </div>
                         }
+                        
                     </div>
+                    <PromotionList offerId={Number(id)}></PromotionList>
+                        <PromotionCreaton additionalServices={boat?.additionalServices} offerId = {Number(id)}></PromotionCreaton>
                   </div>
             </div>
             <OfferReviewlist id = {Number(id)}></OfferReviewlist>

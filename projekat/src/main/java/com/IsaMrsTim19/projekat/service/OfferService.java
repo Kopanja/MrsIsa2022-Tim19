@@ -245,7 +245,10 @@ public class OfferService {
 		Long numberOfNights = reservationService.getNumberOfDays(reservation);
 		System.out.println("Number of Nights: " + numberOfNights);
 		basePrice = basePrice * numberOfNights;
-
+		
+		double clientLoyaltyBeneffit = clientService.getLoyaltyBeneffit(client.getId())*basePrice;
+		basePrice = basePrice-clientLoyaltyBeneffit;
+		
 		for (AdditionalService a : offer.getAdditionalServices()) {
 			for (Long id : reservationDTO.getAdditionalServicesIds()) {
 				if (a.getId().equals(id)) {
@@ -259,10 +262,14 @@ public class OfferService {
 		reservation.setDateCreated(new Date());
 		
 		ProfitMargin profitMargin = profitMarginService.findActive();
+		Owner owner = ownerService.findOwnerByOfferId(offerId);
+		
+		double ownerLoyaltyBeneffit = ownerService.getLoyaltyBeneffit(owner.getId())*basePrice;
+		
 		
 		reservation.setProfitMargin(profitMargin);
 		
-		double appProfit = basePrice*profitMargin.getPercentage();
+		double appProfit = basePrice*profitMargin.getPercentage() - ownerLoyaltyBeneffit;
 		reservation.setAppProfit(appProfit);
 		reservation.setOwnerProfit(basePrice - appProfit);
 		
@@ -466,6 +473,12 @@ public class OfferService {
 	@Transactional
 	public void createReview(Long offerId, Client client, ReviewDTO reviewDto) throws Exception {
 		Offer offer = offerRepo.findById(offerId).orElse(null);
+		System.out.println("T");
+		System.out.println(offerRepo.doesClientHaveCompletedReservation(offerId, client.getId()));
+		System.out.println("F");
+		if(!offerRepo.doesClientHaveCompletedReservation(offerId, client.getId())) {
+			throw new Exception("You need to have booked the offer in order to leave a review!");
+		}
 		client = clientService.findById(client.getId());
 		
 		if (offer == null) {
@@ -522,8 +535,25 @@ public class OfferService {
 		
 	}
 
-	public void delete(Long offerId) {
+	public void delete(Long offerId) throws Exception {
+		if(this.offerHasReservation(offerId)) {
+			throw new Exception("This Offer has an upcoming reservation");
+		}
 		offerRepo.delete(this.findById(offerId));	
+	}
+
+	private boolean offerHasReservation(Long offerId) {
+		Offer offer = offerRepo.findById(offerId).orElse(null);
+		if(offer != null) {
+			List<Reservation> reservations = offer.getReservations();
+			for(Reservation r : reservations) {
+				if(r.getDateTo().after(new Date())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	public boolean isUserSubscribed(Long id, Client user) {

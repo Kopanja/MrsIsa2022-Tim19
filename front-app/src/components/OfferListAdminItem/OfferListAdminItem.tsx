@@ -4,16 +4,23 @@ import StarRatings from "react-star-ratings";
 import { Props } from "../OfferListItem/OfferListItem.types";
 import {useNavigate} from 'react-router-dom';
 import AuthAxios from '../../services/AuthAxios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const OfferListAdminItem: React.FC<Props> = ({ offer }) => {
   const navigate = useNavigate();
+
+  const notifySuccess = (msg : string) => {toast.success(msg)};
+    const notifyError = (msg : string) => {toast.error(msg)};  
+  
 
   const onDeleteClick = () => {
     AuthAxios.delete("/offer/delete/" + offer.id).then((response) => {
       console.log(response)
+      notifySuccess("Successfully deleted");
                      
   }).catch((error) => {
       console.log(error.response.data);
-     
+      notifyError(error.response.data);
 
       
   })

@@ -12,7 +12,7 @@ import com.IsaMrsTim19.projekat.model.Promotion;
 @Repository
 public interface PromotionRepository extends Neo4jRepository<Promotion, Long> {
 
-	@Query("MATCH (n:Offer)-[re:HAS_PROMOTION]->(p:Promotion)-[r:HAS_SERVICE]->(as:AdditionalService) WHERE id(n) = $offerId RETURN re,p,r,as")
+	@Query("MATCH (n:Offer)-[re:HAS_PROMOTION]->(p:Promotion) WHERE id(n) = $offerId RETURN collect(re),p")
 	List<Promotion> getPromotionsForOffer(Long offerId);
 
 }

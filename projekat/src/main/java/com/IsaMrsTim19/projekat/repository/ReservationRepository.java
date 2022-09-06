@@ -21,5 +21,8 @@ public interface ReservationRepository  extends Neo4jRepository<Reservation, Lon
 	
 	@Query("MATCH (n:Client)-[:MADE_RESERVATION]->(r:Reservation)<-[:HAS_RESERVATION]-(o:Offer) WHERE id(n) = $clientId AND id(o) = $offerId AND r.isCanceled = true RETURN r")
 	List<Reservation> getCancelledReservationsBetweenClientAndOffer(Long clientId, Long offerId); 
+	
+	@Query("MATCH (n:Reservation) WHERE n.dateFrom >=  dateTime($dateFrom) RETURN n")
+	List<Reservation> getPastReservations(String dateFrom, String dateTo); 
 
 }

@@ -8,6 +8,10 @@ import Navbar from './Navbar'
 import { useState } from 'react'
 import AuthAxios from '../services/AuthAxios';
 import OfferListAdminComponent from './OfferListAdminComponent'
+import FinancialReportComponent from './FinancialReportComponent'
+import ProffitMarginComponent from './ProffitMarginComponent'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AdminPage = () => {
 
   const [deletionRequestSelected, setDeletionRequestSelected] = useState<boolean>(false);
@@ -16,6 +20,7 @@ const AdminPage = () => {
   const [adminRegistrationSelected, setAdminRegistrationSelected] = useState<boolean>(false);
   const [offersSelected, setOffersSelected] = useState<boolean>(false);
 
+ 
   const onDeletionRequestClick = () => {
     setDeletionRequestSelected(true);
     setAdminRegistrationSelected(false);
@@ -71,6 +76,7 @@ const AdminPage = () => {
   return (
     <div className='adminBody'>
     <Navbar></Navbar>
+    <ToastContainer></ToastContainer>
      <div className='admin-container-row'>
         <div className='admin-container-column container-style' onClick={onDeletionRequestClick}>
             <p className='about-title'>Deletion Requests</p> 
@@ -90,6 +96,7 @@ const AdminPage = () => {
         <div className='admin-container-column container-style'  onClick={updateProfitMargin}>
             <p className='about-title'>Update profit margin</p> 
         </div>  
+       
     </div>
 
 
@@ -128,8 +135,9 @@ const AdminPage = () => {
       <OfferListAdminComponent/>
     </div>
     }
-
-    
+    <h2>Profit Margin</h2>
+    <ProffitMarginComponent></ProffitMarginComponent>
+    <FinancialReportComponent></FinancialReportComponent>
     </div>
   )
 }

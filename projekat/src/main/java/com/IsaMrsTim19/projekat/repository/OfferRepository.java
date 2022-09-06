@@ -34,6 +34,12 @@ public interface OfferRepository extends Neo4jRepository<Offer, Long> {
 	@Query("MATCH (n:Offer) WHERE id(n) = $offerId WITH n MATCH (c:Client) WHERE id(c) = $clientId RETURN EXISTS ((n)-[:HAS_SUBSCRIBER]->(c))")
 	public boolean isUserSubscribed(Long offerId, Long clientId);
 
+	
 	@Query("MATCH (n:Offer)<-[re:HAS_OFFER]-(o:Owner) WHERE o.email = $email RETURN n")
 	public List<Offer> getOfferByOwnerId(String email);
+
+	@Query("MATCH (n:Offer) WHERE id(n) = $offerId WITH n MATCH (c:Client) WHERE id(c) = $id \r\n"
+			+ "RETURN \r\n"
+			+ "EXISTS ((n)-[:HAS_RESERVATION]->(:Reservation{isComplete : true})<-[:MADE_RESERVATION]-(c))")
+	public boolean doesClientHaveCompletedReservation(Long offerId, Long id);
 }

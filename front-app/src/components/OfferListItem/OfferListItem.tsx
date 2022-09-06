@@ -6,6 +6,8 @@ import {useNavigate} from 'react-router-dom';
 
 const OfferListItem: React.FC<Props> = ({ offer }) => {
   const navigate = useNavigate();
+
+
   return (
     <div className="offerListItem">
       <img className="image-style" src = {`http://localhost:8080/api/offer/${offer.id}/thumbnail`} alt="altHeee" />
@@ -30,7 +32,7 @@ const OfferListItem: React.FC<Props> = ({ offer }) => {
 
         <p className="text">{offer.description}</p>
 
-        <button className="viewOfferButton">View Offer</button>
+        <button className="viewOfferButton"  onClick={()=>navigate(`/${offer.offerType}/${offer.id}`)}>View Offer</button>
       </div>
     </div>
   );

@@ -3,20 +3,22 @@ import { useEffect, useState } from "react";
 import "../css/writeReviewComponent.css"
 import StarRatings from "react-star-ratings";
 import AuthAxios from '../services/AuthAxios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const WriteReviewComponent: React.FC<{id:number}> = ({id}) => {
 
     const [reviewText, setReviewText] = useState<string>("");
     const [rating, setRating] = useState<number>(0);
-
+    const notifySuccess = (msg : string) => {toast.success(msg)};
+    const notifyError = (msg : string) => {toast.error(msg)};
     const onSubmit = (event : any) =>{
-        console.log("AAAAAAAAAAAA")
         if(rating > 0){
-            console.log("VVVVVVVVVVVVVVVVVVVV")
+            
             AuthAxios.post(`/offer/${id}/create-review`, {reviewText : reviewText, rating : rating}).then((res) => {
-                console.log(res.data);   
+                notifySuccess("Your review has been submited!"); 
               })
               .catch((err) => {
-                console.log(err);
+                notifyError(err.response.data);
               });
              
         }
