@@ -15,6 +15,11 @@ Pokretanje:
 5.Kopirati sadrzaj MRS_ISA_SCRIPT.txt i pokrenuti query
 
 
+BEK
+
+U application.properties za password e-maila staviti "wdkujzeiyuzvphxb"(cim postavim projekat na public, neko uspeva nekako da koristi moj mejl za spamovanje)
+
+
 
 //front
 
