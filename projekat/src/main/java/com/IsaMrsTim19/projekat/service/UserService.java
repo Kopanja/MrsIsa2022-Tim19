@@ -72,9 +72,9 @@ public class UserService {
 		user.setLastname(dto.getLastname());
 		user.setEmail(dto.getEmail());
 		user.setPhoneNumber(dto.getPhoneNumber());
-		if(user.getRole() == null) {
-			user.setRole(roleRepo.findByRole("CLIENT"));
-		}
+		//if(user.getRole() == null) {
+		//	user.setRole(roleRepo.findByRole("CLIENT"));
+		//}
 		user = userRepo.save(user);
 		
 		return user;

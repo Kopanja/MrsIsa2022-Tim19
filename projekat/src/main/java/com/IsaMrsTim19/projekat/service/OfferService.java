@@ -202,7 +202,7 @@ public class OfferService {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 		Reservation reservation = reservationService.toEntity(reservationDTO);
-
+		client = clientService.findById(client.getId());
 		if (offer == null) {
 			throw new Exception("Something went wrong");
 		}
@@ -299,7 +299,7 @@ public class OfferService {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
 		Promotion promotion = promotionService.findById(promotionId);
-
+		client = clientService.findById(client.getId());
 		if (offer == null || promotion == null) {
 			throw new Exception("Something went wrong");
 		}
@@ -365,7 +365,7 @@ public class OfferService {
 	public void subscribe(Long offerId, Client client) throws Exception {
 
 		Offer offer = offerRepo.findById(offerId).orElse(null);
-
+		client = clientService.findById(client.getId());
 		if (offer == null) {
 			throw new Exception("Something went wrong");
 		}
@@ -412,7 +412,7 @@ public class OfferService {
 		}
 
 		Promotion promotion = promotionService.toEntity(promotionDto);
-
+		System.out.println(promotion);
 		if (!(promotion.getDateFrom().after(offer.getAvaliableFrom())
 				&& promotion.getDateTo().before(offer.getAvaliableUntil()))) {
 			throw new Exception("The offer is not available then");
@@ -423,7 +423,7 @@ public class OfferService {
 		if (!this.isOfferAvailable(reservation, offer)) {
 			throw new Exception("A reservation already exist in that time");
 		}
-		promotionService.save(promotion);
+		promotion = promotionService.save(promotion);
 
 		if (offer.getPromotions() != null) {
 			offer.getPromotions().add(promotion);
@@ -439,7 +439,7 @@ public class OfferService {
 	private void notifySubscribers(Offer offer, Promotion promotion) {
 		String subject = "There is a new promotion for: " + offer.getName();
 		String body = "There is a new promotion for: " + offer.getName() + "\n";
-		body += "It start at: " + promotion.getDateFrom() + " and ends: " + promotion.getDateTo();
+		body += "It start at: " + promotion.getDateFrom() + " and ends: " + promotion.getDateTo() + " with the price of: " + promotion.getPrice();
 		for (Client client : offer.getSubscribers()) {
 			emailService.sendEmail(client.getEmail(), subject, body);
 		}
@@ -528,12 +528,22 @@ public class OfferService {
 
 	public boolean isUserSubscribed(Long id, Client user) {
 
-		Offer offer = offerRepo.findById(id).orElse(null);
-		for(Client c : offer.getSubscribers()) {
-			
-		}
+		
 		
 		return offerRepo.isUserSubscribed(id, user.getId());
+		
+	}
+
+	public List<OfferDTO> getOfferByOwnerId(String email) {
+		List<OfferDTO> dtos = new ArrayList<OfferDTO>();
+		for(Offer o : offerRepo.getOfferByOwnerId(email)) {
+			dtos.add(this.toDTO(o));
+		}
+		return dtos;
+	}
+
+	public List<Promotion> getPromotionsForOffer(Long offerId) {
+		return promotionService.getPromotionsForOffer(offerId);
 		
 	}
 

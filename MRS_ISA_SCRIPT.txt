@@ -22,7 +22,7 @@ CREATE (ownerLoyalty2: OwnerLoyalty {name : "SILVER", benefit : 0.05})
 CREATE (ownerLoyalty3: OwnerLoyalty {name : "GOLD", benefit : 0.1})
 
 //email pass: password?1
-CREATE (uAccom:User:Owner {email : "accomowner@gmail.com", active : true, firstname : "Nikola", lastname : "Pasic", phoneNumber : "+3816432123", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
+CREATE (uAccom:User:Owner {email : "accomowner@gmail.com", active : true, firstname : "Nikola", lastname : "Pasic", phoneNumber : "+38164212212", password : "$2a$10$1tLtceUPxsH5QcrXxptRZ.IxwuiAf5iTuuh0kvbbzXiY09Q659xAq"})
 MERGE (uAccom)-[:HAS_ROLE]->(owner)
 MERGE (uAccom)-[:HAS_LOYALTY]->(ownerLoyalty3)
 
@@ -68,11 +68,11 @@ CREATE (rods:FishingEquipment {name : "Rods", icon : "rod.png"})
 CREATE (lures:FishingEquipment {name : "Lures", icon : "lure.png"})
 CREATE (net:FishingEquipment {name : "Fishing Net", icon : "net.png"})
 
-CREATE (res1:Reservation {dateFrom : dateTime("2022-05-21T16:00"), dateTo : dateTime("2022-05-24T12:00"), price : 12000, isComplete : true})
-CREATE (res2:Reservation {dateFrom : dateTime("2022-06-01T16:00"), dateTo : dateTime("2022-06-05T12:00"), price : 18000, isComplete : true})
-CREATE (res3:Reservation {dateFrom : dateTime("2022-06-13T16:00"), dateTo : dateTime("2022-06-17T12:00"), price : 17000, isComplete : true})
-CREATE (res4:Reservation {dateFrom : dateTime("2022-06-24T16:00"), dateTo : dateTime("2022-06-30T12:00"), price : 18000, isComplete : false})
-CREATE (res5:Reservation {dateFrom : dateTime("2022-06-27T16:00"), dateTo : dateTime("2022-07-01T12:00"), price : 17000, isComplete : false})
+CREATE (res1:Reservation {dateFrom : dateTime("2022-05-21T16:00"), dateTo : dateTime("2022-05-24T12:00"), price : 12000, isComplete : true, isCanceled : false})
+CREATE (res2:Reservation {dateFrom : dateTime("2022-06-01T16:00"), dateTo : dateTime("2022-06-05T12:00"), price : 18000, isComplete : true, isCanceled : false})
+CREATE (res3:Reservation {dateFrom : dateTime("2022-06-13T16:00"), dateTo : dateTime("2022-06-17T12:00"), price : 17000, isComplete : true, isCanceled : false})
+CREATE (res4:Reservation {dateFrom : dateTime("2022-06-24T16:00"), dateTo : dateTime("2022-06-30T12:00"), price : 18000, isComplete : false, isCanceled : false})
+CREATE (res5:Reservation {dateFrom : dateTime("2022-06-27T16:00"), dateTo : dateTime("2022-07-01T12:00"), price : 17000, isComplete : false, isCanceled : false})
 
 CREATE (rev1:Review {rating : 4.0, isAccepted: true, reviewText : "It was awsome"})
 CREATE (rev2:Review {rating : 3.0, isAccepted: false, reviewText : "Not bad"})

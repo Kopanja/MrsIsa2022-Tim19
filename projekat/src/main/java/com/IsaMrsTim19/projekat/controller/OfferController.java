@@ -33,6 +33,7 @@ import com.IsaMrsTim19.projekat.dto.ReviewDTO;
 import com.IsaMrsTim19.projekat.model.Client;
 import com.IsaMrsTim19.projekat.model.Offer;
 import com.IsaMrsTim19.projekat.model.Owner;
+import com.IsaMrsTim19.projekat.model.Promotion;
 import com.IsaMrsTim19.projekat.service.OfferService;
 
 @RestController
@@ -95,6 +96,20 @@ public class OfferController {
 		}
 		
 		return new ResponseEntity<>(offerService.toDTO(offer), HttpStatus.OK);
+
+	}
+	
+	@PreAuthorize("hasAnyAuthority('OWNER')")
+	@RequestMapping(value = "/owner-offers/{email}", method = RequestMethod.GET)
+	public ResponseEntity<?> getOfferByOwner(@PathVariable String email) {
+		 List<OfferDTO> offers = null;
+		try {
+			 offers = offerService.getOfferByOwnerId(email);
+		}catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(offers, HttpStatus.OK);
 
 	}
 	
@@ -238,6 +253,21 @@ public class OfferController {
 		}
 
 		return new ResponseEntity<>("Subscribed", HttpStatus.OK);
+
+	}
+	
+	//@PreAuthorize("hasAnyAuthority()")
+	@RequestMapping(value = "/{offerId}/promotion", method = RequestMethod.GET)
+	public ResponseEntity<?> getPromotionsForOffer(@PathVariable Long offerId) {
+
+		List<Promotion> promotions = null;
+		try {
+			promotions = offerService.getPromotionsForOffer(offerId);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(promotions, HttpStatus.OK);
 
 	}
 

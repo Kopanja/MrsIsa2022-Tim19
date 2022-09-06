@@ -87,10 +87,7 @@ const UserEditPage = () => {
     <div>
     <form onSubmit={onSubmit}>
         <div>
-            <label>
-                Email: 
-            </label>
-            <input name='email' required value={email} onChange={(e) => {setEmail(e.target.value)}} type="text"></input>
+            <p>Email: {email}</p>
             <span className="text-danger">{emailError}</span>
             
         </div>

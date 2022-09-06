@@ -13,7 +13,7 @@ const UserReservationList: React.FC<{email:string}> = ({ email}) => {
         AuthAxios
           .get(`/user/${email}/reservations`)
           .then((res) => {
-            //console.log(res.data);
+            console.log(res.data);
             setReservations(res.data);
           })
           .catch((err) => {

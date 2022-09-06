@@ -11,6 +11,7 @@ import UserSubscriptionList from './UserSubscriptionList';
 import Navbar from './Navbar';
 import UserReservationList from './UserReservationList';
 import UserReviewList from './UserReviewList';
+import OwnerOfferList from './OwnerOfferList';
 
 const UserPage = () => {
     const navigate = useNavigate();
@@ -42,29 +43,37 @@ const UserPage = () => {
         <h1>Last Name: {user?.lastname}</h1>
         <h1>Email: {user?.email}</h1>
         <h1>Phone Number: {user?.phoneNumber}</h1>
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
-        <button onClick={()=>{onEditClick()}}>Edit Profile Information</button>     
-        }
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
+          
+        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && 
+         <div>
+          {
+            TokenService.getRole() === "CLIENT" ?
+            <div>
+            <button onClick={()=>{onEditClick()}}>Edit Profile Information</button> 
             <h1>Saved Subscriptions</h1> 
-        }
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <UserSubscriptionList email = {email}></UserSubscriptionList>
-        }
-
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <h1>Reservation History</h1> 
-        }
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <UserReservationList email = {email}></UserReservationList>
-        }
-
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <h1>Review History</h1> 
-        }
-        {user !== undefined && email !== undefined && user.email == TokenService.getUser().email && TokenService.getRole() === "CLIENT" &&
             <UserReviewList email = {email}></UserReviewList>
+            </div> :
+            <div>
+            {
+              TokenService.getRole() === "OWNER" && 
+              <div>
+              <h1>I AM OWNER</h1> 
+              <button onClick={()=>{onEditClick()}}>Edit Profile Information</button> 
+              <OwnerOfferList email = {email}></OwnerOfferList>
+              
+              </div>
+            }
+            </div>
+          }
+          </div> 
+          
+          
         }
+       
         
         
     </div>

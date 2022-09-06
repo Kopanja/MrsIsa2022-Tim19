@@ -24,6 +24,8 @@ import checkMark from "../../resources/check-mark.png"
 import TokenService from '../../services/TokenService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PromotionCreaton from '../PromotionCreaton';
+import PromotionList from '../PromotionList';
 
 const AccommodationPage = () => {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const AccommodationPage = () => {
   const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
   const [selectedAditionalServices, setSelectedAditionalServices] = useState<number[]>([]);
   const [isClientSubscribed, setIsClientSubscribed] = useState<boolean>(false);
+  
 
   useEffect(() => {
     if (id) {
@@ -57,7 +60,11 @@ const AccommodationPage = () => {
       .catch((err) => {
         console.log(err);
       });
+
+     
     }
+
+    
     
   }, [id])
 
@@ -295,6 +302,8 @@ const AccommodationPage = () => {
                           <p>Sign in to a client account to be able to make reservation</p>
                         </div>
                         }
+                        <PromotionList offerId={Number(id)}></PromotionList>
+                        <PromotionCreaton additionalServices={accommodation?.additionalServices} offerId = {Number(id)}></PromotionCreaton>
                     </div>
                   </div>
               </div>

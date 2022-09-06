@@ -32,8 +32,8 @@ const FishingTourPage = () => {
     const [startDate, setStartDate] = useState<Date|null>();
     const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
     const [selectedAditionalServices, setSelectedAditionalServices] = useState<number[]>([]);
-
-    const notifySuccess = () => {toast.success("You have successfuly made a reservation!")};
+    const [isClientSubscribed, setIsClientSubscribed] = useState<boolean>(false);
+    const notifySuccess = (msg:string) => {toast.success(msg)};
     const notifyError = (msg : string) => {toast.error(msg)};
     useEffect(() => {
         if (id) {
@@ -42,6 +42,7 @@ const FishingTourPage = () => {
           .then((res) => {
             console.log(res.data);
             setFishingTour(res.data);
+            isSubscribed();
           })
           .catch((err) => {
             console.log(err);
@@ -66,7 +67,7 @@ const FishingTourPage = () => {
           .post(`/offer/${id}/make-reservation`, {dateFrom : startDate?.toLocaleDateString(), dateTo : endDate?.toLocaleDateString(), additionalServicesIds : selectedAditionalServices})
           .then((res) => {
             console.log(res.data);
-            notifySuccess();
+            notifySuccess("You have successfully made a reservation!");
             
           })
           .catch((err) => {
@@ -116,6 +117,54 @@ const FishingTourPage = () => {
         
         console.log(selectedAditionalServices);
       };
+      const isSubscribed = () => {
+   
+        AuthAxios
+          .get(`/offer/${id}/is-subscribed`)
+          .then((res) => {
+            console.log(res.data);
+            setIsClientSubscribed(res.data);
+            
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            notifyError(err.response.data);
+           
+          });
+          
+          
+      }
+      const subscribe = () => {
+        AuthAxios
+          .post(`/offer/${id}/subscribe`)
+          .then((res) => {
+            console.log(res.data);
+            notifySuccess(res.data);
+            
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            notifyError(err.response.data);
+           
+          });     
+      }
+      const unsubscribe = () => {
+        AuthAxios
+          .post(`/offer/${id}/unsubscribe`)
+          .then((res) => {
+            console.log(res.data);
+            notifySuccess(res.data);
+            
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            notifyError(err.response.data);
+           
+          });     
+      }
   return (
     
             <div>
@@ -149,6 +198,13 @@ const FishingTourPage = () => {
                    <div className='images-container just-fl-start'>
                         <div className='container-column m-width'>
                           <h1 className='home-text'>{fishingTour?.offerDTO.name}</h1>
+                          {TokenService.getUser() && TokenService.getRole() === "CLIENT" && <div>{isClientSubscribed ?
+                            <button onClick={unsubscribe}>Unsubscribe</button>
+                            :
+                            <button onClick={subscribe}>Subscribe</button>
+                            }
+                          </div>
+                          }
                           <div className='container-row gap'>
                           <div className='container-row'>
                               <img className='traveler-icon' src={traveler}></img>
@@ -184,7 +240,7 @@ const FishingTourPage = () => {
                                 <p className='info-text'>{fishingTour?.offerDTO?.price}</p>
                                 <p className='info-text'>per night</p>
                               </div>
-                              {TokenService.getUser() !== null ?
+                              {TokenService.getUser() !== null && TokenService.getRole() === "CLIENT" ?
                               <div>
                                 <div className='container-row'>
                                 <img src={dateFromIcon} alt = "date to Icon"></img>

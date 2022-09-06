@@ -32,6 +32,7 @@ const BoatPage = () => {
     const [startDate, setStartDate] = useState<Date|null>();
     const [unavailableDates, setUnavailableDates] =  useState<Date[]>([]);
     const [selectedAditionalServices, setSelectedAditionalServices] = useState<number[]>([]);
+    const [isClientSubscribed, setIsClientSubscribed] = useState<boolean>(false);
     useEffect(() => {
         if (id) {
           AuthAxios
@@ -40,6 +41,7 @@ const BoatPage = () => {
            
             console.log(res.data);
             setBoat(res.data);
+            isSubscribed();
             
           })
           .catch((err) => {
@@ -65,7 +67,7 @@ const BoatPage = () => {
           .post(`/offer/${id}/make-reservation`, {dateFrom : startDate?.toLocaleDateString(), dateTo : endDate?.toLocaleDateString(), additionalServicesIds : selectedAditionalServices})
           .then((res) => {
             console.log(res.data);
-            notifySuccess();
+            notifySuccess("You have successfully made a reservation!");
             
           })
           .catch((err) => {
@@ -115,8 +117,57 @@ const BoatPage = () => {
         console.log(selectedAditionalServices);
       };
     
-      const notifySuccess = () => {toast.success("You have successfuly made a reservation!")};
+      const notifySuccess = (msg : string) => {toast.success(msg)};
       const notifyError = (msg : string) => {toast.error(msg)};
+
+      const isSubscribed = () => {
+   
+        AuthAxios
+          .get(`/offer/${id}/is-subscribed`)
+          .then((res) => {
+            console.log(res.data);
+            setIsClientSubscribed(res.data);
+            
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            notifyError(err.response.data);
+           
+          });
+          
+          
+      }
+      const subscribe = () => {
+        AuthAxios
+          .post(`/offer/${id}/subscribe`)
+          .then((res) => {
+            console.log(res.data);
+            notifySuccess(res.data);
+            
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            notifyError(err.response.data);
+           
+          });     
+      }
+      const unsubscribe = () => {
+        AuthAxios
+          .post(`/offer/${id}/unsubscribe`)
+          .then((res) => {
+            console.log(res.data);
+            notifySuccess(res.data);
+            
+            
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+            notifyError(err.response.data);
+           
+          });     
+      }
   return (
     <div>
     <Navbar></Navbar>
@@ -149,6 +200,13 @@ const BoatPage = () => {
            <div className='images-container just-fl-start'>
                 <div className='container-column m-width'>
                   <h1 className='home-text'>{boat?.offerDTO.name}</h1>
+                  {TokenService.getUser() && TokenService.getRole() === "CLIENT" && <div>{isClientSubscribed ?
+                    <button onClick={unsubscribe}>Unsubscribe</button>
+                    :
+                    <button onClick={subscribe}>Subscribe</button>
+                    }
+                    </div>
+                  }
                   <div className='container-row gap'>
                   <div className='container-row'>
                       <img className='traveler-icon' src={traveler}></img>
@@ -204,7 +262,7 @@ const BoatPage = () => {
                         <p className='info-text'>{boat?.offerDTO?.price}</p>
                         <p className='info-text'>per night</p>
                       </div>
-                      {TokenService.getUser() !== null ?
+                      {TokenService.getUser() !== null && TokenService.getRole() === "CLIENT" ?
                       <div>
                         <div className='container-row'>
                         <img src={dateFromIcon} alt = "date to Icon"></img>

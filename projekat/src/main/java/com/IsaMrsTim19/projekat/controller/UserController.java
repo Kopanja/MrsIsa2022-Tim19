@@ -66,18 +66,18 @@ public class UserController {
 
 	}
 	
-	@PreAuthorize("hasAnyAuthority('CLIENT')")
+	@PreAuthorize("hasAnyAuthority('CLIENT', 'OWNER')")
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@RequestBody UserDTO dto) {
 		System.out.println(dto);
 		
-		User user;
+		User user = null;
 		
 		try {
 			user = userService.updateUser(dto);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<>(userService.toDTO(user), HttpStatus.OK);
